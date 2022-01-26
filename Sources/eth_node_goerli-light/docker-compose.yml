@@ -1,0 +1,20 @@
+services:
+  gethnode:
+    image:
+      ethereum/client-go
+    volumes:
+      - ./data/goerli-test:/root/.ethereum/goerli
+    ports:
+      - "30303:30303"
+      - "8545:8545"
+    stdin_open: true
+    tty: true
+    command: --goerli --http.addr 0.0.0.0 --http --http.api eth,net,web3 
+volumes:
+  ethereum:
+version: '3.5'
+
+ -syncmode light -goerli -http.vhosts '*'  -http.corsdomain '*' -http.addr 0.0.0.0  -http -http.api eth,net,web3
+
+
+
