@@ -9,7 +9,7 @@ services:
       - "8545:8545"
     stdin_open: true
     tty: true
-    command: --syncmode 'light' --goerli --http.vhosts '*'  --http.corsdomain '*' --http.addr 0.0.0.0  --http --http.api eth,net,web3
+    command: --syncmode 'snap' --goerli --http.vhosts '*'  --http.corsdomain '*' --http.addr 0.0.0.0  --http --http.api eth,net,web3
 volumes:
   ethereum:
 version: '3.5'
