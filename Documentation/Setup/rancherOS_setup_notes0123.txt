@@ -1,0 +1,98 @@
+prepare bootable rancherOS stick with RUFUS or UNETBOOTIN
+If the server is a baremetal machine, and rather old, you'll need to
+check following configurations:
+- legacy boot should be enabled in BIOS
+- usb booting should be enabled in BIOS
+- use an USB 2.0 Stick or older
+
+boot from stick, normally frantically pressing F12 will get you to the
+boot menu, alternatively, change the boot order in bios.
+don't forget that changing bios boot order will affect boot behavior
+until you change it back, don't leave the stick in.
+
+wait for rancher to be ready, it'll show two cows
+
+sudo passwd rancher [NEWPASSWORD]
+
+this user is temporary
+
+find rancherOS machine IP-Address by looking for the "rancher" host,
+this can be in your router.
+alternatively, check for the ip on the machine.
+
+go to another machine in your network.
+SSH from putty to the machine, use the password and user you just set
+(RANCHER, PASSWORD)
+
+from this point on, i will be assuming you are using another machine
++ putty.
+no direct access to rancherOS needed for now.
+
+we need a minimal cloud-config to set up the installation
+we will use vim since nano is not preinstalled
+before we do that though, you'll need to create a pub/priv keypair.
+you may use puttygen for that.
+save the private key, remember the password.
+copy the public key.
+
+type: vi cloud-config.yml
+press: i
+paste this:
+
+--------->FROM HERE
+#cloud-config
+ssh_authorized_keys:
+  - ssh-rsa AANON3NzaC1yc2THISISANEXAMPLEQSzfY80/KfhHPAg9tS8RivnaRZANDMETHODICALLYKNOCKINGPEOPLE'SHATSOFF—THEN,IACCOUNTITHIGHTIMETOGETTOSEAASSOONASICANXlgDlebLadTdM+0N5Pyqe2ClhY/J30/J9ADONTEVENTRYllOfT/tjvPaqL3q2IWsNeU9CNOTAREALKEYZqKw2i4Z9WzaDq2F8AFz+Nga4B9tCMgKMQg7JpIjC6AIcoNTnI601Oly1VUTHECAKEISALIEtHHpMTmpyH35fF/1vwz6fvEAwXhyzBL33TH4CKERZ7w+OU181 rsa-key-20220122
+---------> TO HERE (EXCLUDING OF COURSE THESE COMMENTS)
+
+BE CAREFUL, YOU WANT TO PASTE THE PUBLIC KEY IN YOUR CLIPBOARD INTO THE
+"SSH_AUTHORIZED_KEYS" SECTION, NOT USE THIS ONE.
+
+save with :x  
+  
+then:
+sudo ros install -c cloud-config.yml -d /dev/sda
+
+this will run the installation
+
+it will reboot
+
+now to make future access easier with putty:
+
+type in the rancherOS machine IP into putty.
+be sure that this IP does not change, if possible, change your
+router settings to always assign the same IP to the rancher machine.
+
+in SSH -> AUTH-Settings, add your private key
+
+save this putty session with a name, so everytime you load it will
+also load your SSH -> AUTH SETTINGS and IP ADDRESS.
+
+log in via putty-ssh 
+enter private key password
+
+
+if you want to login via password in the future
+(this is not recommended by rancher)
+use: sudo passwd rancher PASSSWORD
+
+now you can log in
+next, change the console to debian console to be able to use apt-get and nano instead of vim, if you hate me now, idc.
+if you prefer vim, you probably have enough know-how to ignore this whole tutorial anyway.
+
+
+sudo ros console list
+sudo ros console switch debian
+
+proceed
+
+
+run 
+sudo apt-get update && sudo apt-get upgrade
+
+sudo apt-get install nano
+
+configure
+port forwarding from ext 2222 to 22
+
+now people can access this rancher instance via SSH to 2222 and your external IP

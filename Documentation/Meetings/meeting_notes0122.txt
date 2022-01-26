@@ -1,0 +1,51 @@
+INBOX is a cryptographic p2p messaging app
+idea: trade nfts like INBOX chat
+it's cryptographically encrypted with the private key of the wallet
+
+do not use ipfs - confidentiality not provided
+
+NFTs X executions, Xtime eg. 100 executions, 100 mins
+---> over 1 min time, 1min will be burned, nft stays
+
+NFTs X time, X NFTs ---> cg says too much packs instead, makes sense
+
+NFT encrypted attribute
+
+generate access token / execution token via smart contract interaction -> NFT smart contract
+"createAccessToken" checks if the user has enough capacity with his NFTs
+(whats the max runtime of the user, does he have a fitting nft) 
+cannot create new access token as long as he has an open access token
+every service/customer needs own wallet
+you can use/burn the accessToken (aT) or withdraw it.
+block withsrawal of aT while service running.
+reserve "colleteral" tax for blocking []
+roadmap distribute tokens based on earnings at the end of Xtime
+
+-> testNFTtype 
+-> set up rpi3 with our pdf distiller, provide christian with root ssh
+
+blockaccesstoken for nft runtime
+
+which blockchain/layer
+ETH.L1.distiller [config defines NFT price]
+ETH.L2.distiller [config defines NFT price]
+ETH.TestNet 	 [config defines NFT price]
+
+testNFT -> ourService
+prodNFT -> cloud
+
+---> TRUFFLE setup https://www.youtube.com/watch?v=LHZC9wX3r0I&t=818s
+
+dev setup, github repo bis ende der woche
+beliebiges NFT bauen und damit interagieren
+deploy in ETH testnet
+deploy in LVL2 Chain (Polygon)
+
+OpenSea
+
+Bought domains:
+CryptNG.eth
+cryptng.com
+crypt-ng.com
+cryptng.app
+
