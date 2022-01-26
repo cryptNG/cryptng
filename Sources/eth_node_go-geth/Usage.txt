@@ -1,0 +1,21 @@
+After "up"ing the desired node, it will automagically start looking
+for peers via the discovery protocol (looking for peers on TCP/UDP 30303).
+
+you can use the interactive GETH console by executing following command:
+
+ docker exec -it [CONTAINER_NAME] geth attach http://127.0.0.1:8545
+
+
+where [CONTAINER_NAME] can be one of these values or the corresponding container-id:
+
+eth_node_goerli-superfast_gethnode_1
+eth_node_goerli-fast_gethnode_1
+eth_node_goerli-full_gethnode_1
+eth_node_goerli-light_gethnode_1
+
+INSIDE the node-container you can run following commands:
+
+> net.listening 
+-> Prints TRUE if the server is listening for incoming connections.
+> net.peerCount
+-> Prints the number of peers that are connected to the node
