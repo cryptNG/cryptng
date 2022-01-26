@@ -36,32 +36,36 @@ Value: http://hub.cryptng.app:8545
 ### SUPERCHARGE GIT ###
 if you want to use git via container without actually installing it on your machine, follow these steps:
 
-nano ~/.profile
+`nano ~/.profile`
 
 paste following lines:
 
-function git () {
-    (docker run -ti --rm -v ${HOME}:/root -v $(pwd):/git alpine/git "$@")
-}
+`function git () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/git alpine/git "$@")}`
 
 save, run 
-source ~/.profile
+`source ~/.profile`
+
+use like so:
+
+`git pull`
 
 congratulations, you can now git via docker.
 
 ### SUPERDEVELOP IN TRUFFLE ###
 if you want to use truffle via container without actually installing it on your machine, follow these steps:
 
-nano ~/.profile
+`nano ~/.profile`
 
 paste following lines:
 
-function truffle () {
-(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite truffle "$@")
-}
+`function truffle () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite truffle "$@")}`
 
 save, run 
-source ~/.profile
+`source ~/.profile`
+
+use like so:
+
+`truffle init`
 
 congratulations, you can now use truffle via docker.
 
