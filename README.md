@@ -13,7 +13,7 @@ CryptNG Main project repository
 How to interact with these nodes:
 
 Ideally, import the Postman collection that is included in the
-"Documentation" folder.
+"Sources/eth_jsonrpc_client_postman" folder.
 
 Set up 2 Environments in Postman.
 
