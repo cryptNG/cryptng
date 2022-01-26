@@ -1,0 +1,13 @@
+version: "3"
+services:
+    truffle_suite:
+        container_name: truffle_suite
+        build:
+            context: ./docker/truffle-suite
+                # volumes
+        volumes:
+            - ".:/workspace"
+        # command: >
+        #     bash
+        stdin_open: true # docker run -i
+        tty: true # docker run -t
