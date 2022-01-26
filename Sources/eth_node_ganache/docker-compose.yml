@@ -4,7 +4,7 @@
 node:
   image: trufflesuite/ganache-cli:latest
   ports:
-    - "8545:8545"
+    - "8546:8545"
   volumes:
     - ./ganache_data:/ganache_data
   entrypoint:

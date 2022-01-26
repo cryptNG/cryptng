@@ -1,3 +1,6 @@
+IMPORTANT:
+Running a "fast", "snap", or "full" NODE requires ~1TB of disk space.
+
 After "up"ing the desired node, it will automagically start looking
 for peers via the discovery protocol (looking for peers on TCP/UDP 30303).
 
