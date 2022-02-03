@@ -30,3 +30,5 @@ blockscout:
     - ETHEREUM_JSONRPC_VARIANT=ganache
     - ETHEREUM_JSONRPC_HTTP_URL=http://localhost:8545
     - ETHEREUM_JSONRPC_WS_URL=ws://localhost:8545
+  depends:
+    - ganache
