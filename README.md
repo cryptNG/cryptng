@@ -91,3 +91,28 @@ use like so:
 congratulations, you can now use npm via docker.
 
 thanks to @cgreinke for pointing out that npm can be used like the truffle alias
+
+### NODE OR NO NODE ###
+if you want to use node via container without actually installing it on your machine, follow these steps:
+
+`nano ~/.profile`
+
+paste following lines:
+
+`function node () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite node "$@")}`
+
+save, run 
+`source ~/.profile`
+
+use like so:
+
+`node -v`
+
+congratulations, you can now use node via docker.
+
+
+
+### Make it work in vscode ###
+
+to use vscode console with our alias setups (truffle npm node etc)
+call "source ~/.profile" from the vscode terminal

@@ -1,7 +1,7 @@
 #https://github.com/trufflesuite/ganache
 #https://github.com/digitaldonkey/ganache-cli-docker-compose
 
-node:
+ganache:
   image: trufflesuite/ganache-cli:latest
   ports:
     - "8546:8545"
@@ -21,3 +21,12 @@ node:
     - --debug
 # ENTRYPOINT ["node", "./build/cli.node.js"]
 # ENTRYPOINT ["node", "/app/ganache-core.docker.cli.js"]
+blockscout:
+  image: onthertech/blockscout
+  ports:
+    - "4000:4000"
+  environment:
+    - COIN=ETH
+    - ETHEREUM_JSONRPC_VARIANT=ganache
+    - ETHEREUM_JSONRPC_HTTP_URL=http://localhost:8545
+    - ETHEREUM_JSONRPC_WS_URL=ws://localhost:8545
