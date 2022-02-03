@@ -70,3 +70,24 @@ use like so:
 congratulations, you can now use truffle via docker.
 
 btw, i'd like some kudos for this one, it took me a hella lot of time to get this working, thaaaankkk you.
+
+
+### NPM TASTES LIKE TRUFFLES ###
+if you want to use npm via container without actually installing it on your machine, follow these steps:
+
+`nano ~/.profile`
+
+paste following lines:
+
+`function npm () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite npm "$@")}`
+
+save, run 
+`source ~/.profile`
+
+use like so:
+
+`npm -v`
+
+congratulations, you can now use npm via docker.
+
+thanks to @cgreinke for pointing out that npm can be used like the truffle alias
