@@ -1,0 +1,5 @@
+
+node:
+  image: onthertech/blockscout
+  ports:
+    - "4000:4000"
