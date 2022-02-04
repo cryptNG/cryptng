@@ -114,8 +114,76 @@ use like so:
 congratulations, you can now use node via docker.
 
 
+### Ember as a ghost ###
+
+
+if you want to use ember via container without actually installing it on your machine, follow these steps:
+
+`nano ~/.profile`
+
+paste following lines:
+
+`function ember () {(docker run -ti --rm -v ${HOME}:/myapp -v $(pwd):/app danlynn/ember-cli:3.27.0 ember "$@")}`
+
+save, run 
+`source ~/.profile`
+
+use like so:
+
+`node -v`
+
+congratulations, you can now use ember via docker.
+
+### Shipping yarn in containers ###
+
+
+if you want to use yarn via container without actually installing it on your machine, follow these steps:
+
+`nano ~/.profile`
+
+paste following lines:
+
+`function yarn () {(docker run -ti --rm -v ${HOME}:/myapp -v $(pwd):/app danlynn/ember-cli:3.27.0 yarn "$@")}`
+
+save, run 
+`source ~/.profile`
+
+use like so:
+
+`node -v`
+
+congratulations, you can now use yarn via docker.
+
+
 
 ### Make it work in vscode ###
 
 to use vscode console with our alias setups (truffle npm node etc)
 call "source ~/.profile" from the vscode terminal
+
+
+### All-in-one copypaste job ###
+
+just for you lazies out there.
+
+`#-----------------mapped docker aliases----------------`
+
+`#----------git---------`
+`function git () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/git alpine/git "$@")}`
+
+`#----------truffle---------`
+`function truffle () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite truffle "$@")}`
+
+`#----------npm---------`
+`function npm () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite npm "$@")}`
+
+`#----------node---------`
+`function node () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite node "$@")}`
+
+`#----------ember---------`
+`function ember () {(docker run -ti --rm -v ${HOME}:/myapp -v $(pwd):/app danlynn/ember-cli:3.27.0 ember "$@")}`
+
+`#----------yarn---------`
+`function yarn () {(docker run -ti --rm -v ${HOME}:/myapp -v $(pwd):/app danlynn/ember-cli:3.27.0 yarn "$@")}`
+
+`#-----------------/mapped docker aliases----------------`
