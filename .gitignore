@@ -340,3 +340,4 @@ ASALocalRun/
 .mfractor/
 /documentation/workshops/*/*/build/
 /documentation/workshops/workshop_030222/test_contract/build/contracts
+/documentation/workshops/workshop_1_030222/Tooling/postgres-data
