@@ -41,20 +41,14 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
-    _development: {
+    development: {
      host: "192.168.0.7",     // Ganache (RANCHER) CG
      port: 8545,            // Standard Ethereum port (default: none)
      network_id: "5777",       // Any network (default: none)
      //confirmations: 1,
      //provider: () => new HDWalletProvider('one teo three four five six seven tight nine ten eleven twelve', `http://192.168.0.1:8545`),
-    },
-    development: {
-      host: "127.0.0.1",     // Ganache (RANCHER) CG
-      port: 7545,            // Standard Ethereum port (default: none)
-      network_id: "5777",       // Any network (default: none)
-      //confirmations: 1,
-      //provider: () => new HDWalletProvider('one teo three four five six seven tight nine ten eleven twelve', `http://192.168.0.1:8545`),
-     }
+    }
+   
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port

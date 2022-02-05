@@ -1,0 +1,31 @@
+git alias for truffle:
+
+alias truffle="docker run -ti --rm -v $(pwd):/app cryptng/truffle-suite truffle"
+
+
+run this like so:
+"truffle init"
+this will execute truffle init inside the container, the output will be in the current directory
+
+alternatively, to keep the alias persistent between reboots run
+
+nano ~/.profile
+
+scroll to the bottom and paste following lines:
+#### paste following
+
+function truffle () {
+(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite truffle "$@")
+}
+
+#### 
+
+save, exit and run following command:
+
+source ~/.profile
+
+if you encounter an error like this:
+docker: Error response from daemon: OCI runtime create failed: container_linux.go:380: starting container process caused: exec: "-r": executable file not found in $PATH: unknown.
+
+you can safely ignore it.
+the "truffle" command works now.
