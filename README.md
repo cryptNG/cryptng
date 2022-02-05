@@ -1,9 +1,6 @@
 # cryptng
 CryptNG Main project repository
 
-## AVAILABLE LOCAL DOCKER SERVICES ##
-TBD
-
 ## OUR SETUP ##
 Please be aware that we use the latest ranger on a bare-metal machine to host our docker infrastructure.
 We also develop using WSL2 with docker inside WSL2.
