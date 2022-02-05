@@ -59,6 +59,7 @@ If you feel that we helped you out, made your life easier and are an enrichment 
 please feel free to donate some tez or eth to our cause!
 
 TEZ WALLET ADDRESS: `tz1aBUHyZDATRGrLEvYBgzXWMy1GyZeoZiW2`
+
 ETH WALLET ADDRESS: `0xE18aaD87eEB259FF842FFc8136574Dd539Ab05e3`
 
 Thank you for your support, the coffe and your love!
