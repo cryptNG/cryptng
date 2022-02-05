@@ -65,9 +65,9 @@ ETH WALLET ADDRESS: `0xE18aaD87eEB259FF842FFc8136574Dd539Ab05e3`
 Thank you for your support, the coffe and your love!
 
 
-## SUPER COOL HACKS ##
+## DEVELOP ON THE NEXT LEVEL ##
 
-### SUPERCHARGE GIT ###
+### GIT CAN HAVE THE SMALLEST FINGERPRINT ###
 if you want to use git via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -85,7 +85,7 @@ use like so:
 
 congratulations, you can now git via docker.
 
-### SUPERDEVELOP IN TRUFFLE ###
+### TRUFFLE IS NOT JUST A FUNGHUS ###
 if you want to use truffle via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -106,7 +106,7 @@ congratulations, you can now use truffle via docker.
 btw, i'd like some kudos for this one, it took me a hella lot of time to get this working, thaaaankkk you.
 
 
-### NPM TASTES LIKE TRUFFLES ###
+### NPM SHALL NOT LITTER ###
 if you want to use npm via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -126,7 +126,7 @@ congratulations, you can now use npm via docker.
 
 thanks to @cgreinke for pointing out that npm can be used like the truffle alias
 
-### NODE OR NO NODE ###
+### NODE (THIS IMAGE HAS SO MANY USES!) ###
 if you want to use node via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -145,7 +145,7 @@ use like so:
 congratulations, you can now use node via docker.
 
 
-### Ember as a ghost ###
+### FULL EMBER.JS, NO COMMITMENTS ###
 
 
 if you want to use ember via container without actually installing it on your machine, follow these steps:
@@ -170,7 +170,7 @@ congratulations, you can now use ember via docker.
 
 `function embers () {(docker run -ti --rm -p 4200:4200 -p 7020:7020 -p 7357:7357  -v ${HOME}:/root -v $(pwd):/myapp danlynn/ember-cli:4.1.1 ember serve "$@")}`
 
-### Shipping yarn in containers ###
+### SPINNING UP YARN ###
 
 
 if you want to use yarn via container without actually installing it on your machine, follow these steps:
