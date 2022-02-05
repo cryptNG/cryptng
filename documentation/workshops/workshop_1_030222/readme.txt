@@ -1,6 +1,12 @@
 The workshop takes place in Berlin, Germany.
 It starts on the 3rd of January and ends on the 8th.
 
+NOTE:
+Most commits will be by me (YITC).
+This does not mean i'm working on this alone.
+During this workshop, we decided to use my machine for most of the stuff.
+That's all.
+
 Agenda:
 - Prepare Local development Blockchain
 - Prepare Smart Contract development environment

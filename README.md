@@ -229,6 +229,7 @@ just for you lazies out there.
 `function yarn () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/myapp danlynn/ember-cli:4.1.1 yarn "$@")}`
 
 `#----------ember-serve---------`
+(calling command is just 'embers')
 
 `function embers () {(docker run -ti --rm -p 4200:4200 -p 7020:7020 -p 7357:7357  -v ${HOME}:/root -v $(pwd):/myapp danlynn/ember-cli:4.1.1 ember serve "$@")}`
 
