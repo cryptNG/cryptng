@@ -1,0 +1,18 @@
+version: "3"
+services:
+  esplora:
+    build:
+      context: ./docker/esplora
+    ports:
+      - "8545:8545"
+    environment:
+      - API_URL=http://192.168.0.7:8545
+    entrypoint:
+      - npm
+      - run
+      - dev-server
+    ports:
+      - 4000:5000 # JSON-RPC
+      - 4001:5001 # JSON-RPC
+      
+      

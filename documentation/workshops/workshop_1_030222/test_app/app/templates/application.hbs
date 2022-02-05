@@ -1,8 +1,8 @@
 {{page-title "Myapp"}}
-
- <button type="button"  {{on 'click' (fn this.connect)}}>Connect</button> 
- <button type="button"  {{on 'click' (fn this.sendmoney)}}>Send ETH</button> 
- <button type="button"  {{on 'click' (fn this.mint)}}>Mint</button> 
- <button type="button"  {{on 'click' (fn this.getcontractbalance)}}>GetBalance</button> 
-
+<div class="flexi">
+ <button type="button" class="right"  {{on 'click' (fn this.connect)}}>Connect</button> 
+ <button type="button" class="right" {{on 'click' (fn this.sendmoney)}}>Send ETH</button> 
+ <button type="button" class="right" {{on 'click' (fn this.mint)}}>Mint</button> 
+ <button type="button" class="right" {{on 'click' (fn this.getcontractbalance)}}>GetBalance</button> 
+</div>
 {{outlet}}
