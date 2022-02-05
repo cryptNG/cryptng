@@ -3,29 +3,21 @@ services:
   blockscout:
     build:
       context: ./docker/blockscout
-     environment:
-       - NETWORK=TEST
-       - SUBNETWORK=test-1
-       - ETHEREUM_JSONRPC_HTTP_URL=http://ganache:8545
-       - ETHEREUM_JSONRPC_TRACE_URL=http://ganache:8545
-       #- ETHEREUM_JSONRPC_WS_URL=http://localhost:8546
-       - ETHEREUM_JSONRPC_VARIANT=ganache
-       - DATABASE_URL=postgresql://postgres:test@postgres:5432/blockscout?ssl=false
-     ports:
-       - 4000:4000 # JSON-RPC
-     depends_on:
-       - "postgres"
-  postgres:
-    image: postgres
     environment:
-      #POSTGRES_HOST_AUTH_METHOD: trust
-      POSTGRES_DB: blockscout
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: test
+      - NETWORK=TEST
+      - SUBNETWORK=test-1
+      - ETHEREUM_JSONRPC_HTTP_URL=http://ganache:8545
+      - ETHEREUM_JSONRPC_TRACE_URL=http://ganache:8545
+      #- ETHEREUM_JSONRPC_WS_URL=http://localhost:8546
+      - ETHEREUM_JSONRPC_VARIANT=ganache
+      - DATABASE_URL=postgresql://postgres:test@postgres:5432/blockscout?ssl=false
+    command: /bin/sh -c "mix do ecto.create, ecto.migrate; mix phx.server"
     ports:
-      - 5432:5432
-   # volumes:
-   #   - ./Tooling/postgres-data:/var/lib/postgresql/data
+      - 4000:4000 # JSON-RPC
+    depends_on:
+      - "postgres"
+      - "ganache"
+
 
 
 # blockscout needs postgress
