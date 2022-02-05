@@ -518,10 +518,10 @@ export default class ApplicationController extends Controller {
             let amount = window.web3.utils.numberToHex(window.web3.utils.toWei('1', 'ether'));
 
 
-
+            const nonce = await web3.eth.getTransactionCount(acc, 'latest');
 
             const transactionParameters = {
-                nonce: '0x00', // ignored by MetaMask
+                nonce: nonce+'', // ignored by MetaMask
                 gasPrice: currentGasPrice, // customizable by user during MetaMask confirmation.
                 gas: estimatedGasSpending,//'0x5208', //gas limit must be 21000. // customizable by user during MetaMask confirmation, is the gas
                 to: player1_address, // Required except during contract publications.

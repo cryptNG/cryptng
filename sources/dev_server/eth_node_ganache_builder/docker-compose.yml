@@ -29,6 +29,7 @@ services:
        - 4000:4000 # JSON-RPC
      depends_on:
        - "postgres"
+       - "ganache"
   postgres:
     image: postgres
     environment:
@@ -40,5 +41,7 @@ services:
       - 5432:5432
    # volumes:
    #   - ./Tooling/postgres-data:/var/lib/postgresql/data
+     depends_on:
+       - "ganache"
       
       
