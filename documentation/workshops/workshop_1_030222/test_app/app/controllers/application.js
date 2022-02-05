@@ -428,7 +428,7 @@ export default class ApplicationController extends Controller {
           
       let contract = new lweb3.eth.Contract(abi, contract_address);
 
-      let res = await contract.methods.balanceOf('0x3e508fcfc8748a5cc22eb186991adf03e867367e').call({from: '0x3e508fcfc8748a5cc22eb186991adf03e867367e'});
+      let res = await contract.methods.balanceOf(acc).call({from: acc});
     console.log(res);
 }
 
