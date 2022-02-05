@@ -24,9 +24,19 @@ contract cryptngTesttoken is Context, ERC165, IERC721, IERC721Metadata, Ownable 
      _symbol = "cnx";
  }
 
-    function mint(address _to) public {
+
+
+    function mint(address _to) public payable {
+    require(_isSaleActive, "Sale is currently not active");
+    require(msg.value >= (_mintPriceGwei * 1000000000), "Amount of ether sent not correct.");
+
         _mint(_to, _owners.length);     
     }
+
+
+    uint256 private _mintPriceGwei = 1000000; //0.001ETH
+    
+    bool private _isSaleActive = true;
 
     // Token name
     string private _name;
@@ -50,6 +60,22 @@ contract cryptngTesttoken is Context, ERC165, IERC721, IERC721Metadata, Ownable 
     mapping(address => mapping(address => bool)) private _operatorApprovals;
 
  
+
+ 
+    function setIsSaleActive() public onlyOwner
+    {
+       _isSaleActive = true;
+    }
+    function setIsSaleInactive() public onlyOwner
+    {
+       _isSaleActive = false;
+    }
+
+       function adaptMarketPrice(uint256 newPriceGwei) public onlyOwner
+    {
+        _mintPriceGwei = newPriceGwei;
+    }
+
 
     /**
      * @dev See {IERC165-supportsInterface}.
@@ -303,6 +329,7 @@ contract cryptngTesttoken is Context, ERC165, IERC721, IERC721Metadata, Ownable 
         emit Transfer(address(0), to, tokenId);
     }
 
+    
     /**
      * @dev Destroys `tokenId`.
      * The approval is cleared when the token is burned.
