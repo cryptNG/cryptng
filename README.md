@@ -85,7 +85,7 @@ use like so:
 
 congratulations, you can now git via docker.
 
-### TRUFFLE IS NOT JUST A FUNGHUS ###
+### TRUFFLE IS NOT JUST A FUNGUS ###
 if you want to use truffle via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
