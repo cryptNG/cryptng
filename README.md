@@ -52,6 +52,18 @@ Set a variable "ENVIRONMENT"
 Value: http://hub.cryptng.app:8545
 
 
+### HELP US OUT ###
+
+We're pouring a lot of our free time, efforts and, coincidentally, also money into this project.
+If you feel that we helped you out, made your life easier and are an enrichment to your life/worklife in any way,
+please feel free to donate some tez or eth to our cause!
+
+TEZ WALLET ADDRESS: `tz1aBUHyZDATRGrLEvYBgzXWMy1GyZeoZiW2`
+ETH WALLET ADDRESS: `0xE18aaD87eEB259FF842FFc8136574Dd539Ab05e3`
+
+Thank you for your support, the coffe and your love!
+
+
 ## SUPER COOL HACKS ##
 
 ### SUPERCHARGE GIT ###
@@ -214,17 +226,6 @@ just for you lazies out there.
 
 `#-----------------/mapped docker aliases----------------`
 
-
-### HELP US OUT ###
-
-We're pouring a lot of our free time, efforts and, coincidentally, also money into this project.
-If you feel that we helped you out, made your life easier and are an enrichment to your life/worklife in any way,
-please feel free to donate some tez or eth to our cause!
-
-TEZ WALLET ADDRESS: `tz1aBUHyZDATRGrLEvYBgzXWMy1GyZeoZiW2`
-ETH WALLET ADDRESS: `0xE18aaD87eEB259FF842FFc8136574Dd539Ab05e3`
-
-Thank you for your support, the coffe and your love!
 
 
 ### FAQs ###
