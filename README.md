@@ -161,7 +161,7 @@ save, run
 
 use like so:
 
-`node -v`
+`ember -v`
 
 congratulations, you can now use ember via docker.
 
@@ -169,6 +169,11 @@ congratulations, you can now use ember via docker.
 
 
 `function embers () {(docker run -ti --rm -p 4200:4200 -p 7020:7020 -p 7357:7357  -v ${HOME}:/root -v $(pwd):/myapp danlynn/ember-cli:4.1.1 ember serve "$@")}`
+
+
+use like so:
+
+`embers`
 
 ### SPINNING UP YARN ###
 
@@ -186,7 +191,7 @@ save, run
 
 use like so:
 
-`node -v`
+`yarn -v`
 
 congratulations, you can now use yarn via docker.
 
@@ -196,44 +201,6 @@ congratulations, you can now use yarn via docker.
 
 to use vscode console with our alias setups (truffle npm node etc)
 call "source ~/.profile" from the vscode terminal
-
-
-### All-in-one copypaste job ###
-
-just for you lazies out there.
-
-`#-----------------mapped docker aliases----------------`
-
-`#----------git---------`
-
-`function git () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/git alpine/git "$@")}`
-
-`#----------truffle---------`
-
-`function truffle () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite truffle "$@")}`
-
-`#----------npm---------`
-
-`function npm () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite npm "$@")}`
-
-`#----------node---------`
-
-`function node () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite node "$@")}`
-
-`#----------ember---------`
-
-`function ember () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/myapp danlynn/ember-cli:4.1.1 ember "$@")}`
-
-`#----------yarn---------`
-
-`function yarn () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/myapp danlynn/ember-cli:4.1.1 yarn "$@")}`
-
-`#----------ember-serve---------`
-(calling command is just 'embers')
-
-`function embers () {(docker run -ti --rm -p 4200:4200 -p 7020:7020 -p 7357:7357  -v ${HOME}:/root -v $(pwd):/myapp danlynn/ember-cli:4.1.1 ember serve "$@")}`
-
-`#-----------------/mapped docker aliases----------------`
 
 
 
