@@ -26,13 +26,6 @@ contract cryptngTesttoken is Context, ERC165, IERC721, IERC721Metadata, Ownable 
 
 
 
-    function mint(address _to) public payable {
-    require(_isSaleActive, "Sale is currently not active");
-    require(msg.value >= (_mintPriceGwei * 1000000000), "Amount of ether sent not correct.");
-
-        _mint(_to, _owners.length);     
-    }
-
 
     uint256 private _mintPriceGwei = 1000000; //0.001ETH
     
@@ -46,11 +39,23 @@ contract cryptngTesttoken is Context, ERC165, IERC721, IERC721Metadata, Ownable 
 
     // Mapping from token ID to owner address
     address[] private _owners;
-
-
     
     // Mapping token id to token balance / num of executions
-    mapping(int => int) private _tokenAbalance;
+    uint256[] private _tokenBalance;
+
+ 
+    // Mapping from token ID to minutes since contract creation
+    // if there is any value, the ticket exists and is in use
+    //if a ticket is not fully burned e.g. when the executing customer service dies
+    //it will stay open like this and await the next service time until consumed
+    //consumed ticket = 0
+    uint256[] private _executionTickets;
+    
+    //max amt of executions before a ticket is burned.
+    //if a ticket is not fully burned e.g. when the executing customer service dies
+    //it will stay open like this and await the next service time until consumed
+    uint256 _executionBatchSize = 10;
+
 
 
     // Mapping from token ID to approved address
@@ -60,6 +65,72 @@ contract cryptngTesttoken is Context, ERC165, IERC721, IERC721Metadata, Ownable 
     mapping(address => mapping(address => bool)) private _operatorApprovals;
 
  
+    //Client (Customer) calls our service (outside blockchain) to prepare for executionTokenRequest
+    //in this, the client provides a secret (random) e.g. string X123
+    //Our service encrypts the secret and returns an encrypted service-secret
+    //The client requests an executionticket from the smart contract
+    //the request contains the service secret
+    //we know the wallet has an nft, allowance, and has no existing executionticket
+    //so we create a ticket and store the secret on the blockchain
+    //The client calls our service with the executionTicket, provides the original client secret
+    //in this case, X123 alongside the executionTicket
+    //Our service can validate with the blockchain that it encrypted this string and knows
+    //the client is not an impostor.
+    //In case the client of the customer fails to hold the client secret,
+    //e.g. crashes and looses the information because it is not persisted/cached
+    //the client can burn the rest of his ticket, loosing the small amount of executions 
+    //that were granted
+
+
+    function requestExecutionTicket(uint256 serviceSecret) public returns (uint256)
+    {
+     int tokenIdUnverified = _getTokenWithEnoughBalance(_msgSender());
+        require(tokenIdUnverified > -1,'You have no tokens with enough balance');
+        uint256 tokenId = uint256(tokenIdUnverified);
+        _executionTickets[tokenId] = serviceSecret;
+         return tokenId;
+    }
+
+  function _getTokenWithEnoughBalance(address _sender) private view returns (int)
+    {
+        for (uint256 i = 0; i < _owners.length; i++)
+        {
+                if(_owners[i] == _sender)
+                {
+                    if(_tokenBalance[i] > _executionBatchSize)
+                    {
+                        return int(i);
+                    }
+                }
+        }
+        return -1;
+    }
+
+
+    function burnExecutionTicket(uint256 ticketId) public
+    {
+    require(_isTicketHolder(_msgSender(),ticketId),"You can't just burn other peoples things");
+
+        _executionTickets[ticketId] = 0;
+        _tokenBalance[ticketId] =  _tokenBalance[ticketId] - _executionBatchSize;
+    }
+
+    //tbd: is approvedTicketHolder
+    //that includes: adding approved addresses, removing them
+    //owner can be part of the list to make checks easier
+    function _isTicketHolder(address _sender,uint256 ticketId) private view returns (bool)
+    {
+       return _sender == _owners[ticketId];
+    }
+
+    
+
+    function mint(address _to) public payable {
+    require(_isSaleActive, "Sale is currently not active");
+    require(msg.value >= (_mintPriceGwei * 1000000000), "Amount of ether sent not correct.");
+
+        _mint(_to, _owners.length);     
+    }
 
  
     function setIsSaleActive() public onlyOwner
@@ -325,8 +396,15 @@ contract cryptngTesttoken is Context, ERC165, IERC721, IERC721Metadata, Ownable 
         
          
         _owners.push(to);
+        _tokenBalance.push(1000);
+        _executionTickets.push(0);
 
         emit Transfer(address(0), to, tokenId);
+    }
+
+    function getTokenBalance(uint256 tokenId) public view returns(uint256){
+        require(_tokenBalance.length > tokenId,"This token does not exist");
+        return _tokenBalance[tokenId];
     }
 
     
