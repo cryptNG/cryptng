@@ -81,6 +81,40 @@ contract cryptngTesttoken is Context, ERC165, IERC721, IERC721Metadata, Ownable 
     //the client can burn the rest of his ticket, loosing the small amount of executions 
     //that were granted
 
+    function getTokens(address owner) public view returns (uint256[] memory)
+    {
+        uint256 tokenamt = balanceOf(owner);
+        uint256[] memory tokens = new uint256[](tokenamt);
+        uint256 tokenlistpos = 0;
+            for (uint256 i = 0; i < _owners.length; i++)
+            {
+                    if(_owners[i] == owner)
+                    {
+                    tokens[tokenlistpos] = i;
+                    tokenlistpos++;
+                    }
+            }
+            return tokens;
+    }
+
+
+
+    function getTicketId(uint256 tokenId) public view returns (uint256)
+    {
+    require(_owners.length > tokenId,"Token does not exist");
+    require(_ticketExists(tokenId),"Ticket does not exist");
+
+    return tokenId;
+    }
+
+    function _ticketExists(uint256 tokenId) internal view returns (bool)
+    {
+    return _executionTickets[tokenId] != 0;
+    }
+    function getTicketForToken(uint256 tokenId) public view returns (uint256)
+    {
+    return _executionTickets[tokenId];
+    }
 
     function requestExecutionTicket(uint256 serviceSecret) public returns (uint256)
     {
@@ -137,10 +171,15 @@ contract cryptngTesttoken is Context, ERC165, IERC721, IERC721Metadata, Ownable 
     {
        _isSaleActive = true;
     }
+
+    //if we have high demand and need to expand infrastructure
+    //we stop selling nfts for this period
     function setIsSaleInactive() public onlyOwner
     {
        _isSaleActive = false;
     }
+
+    
 
        function adaptMarketPrice(uint256 newPriceGwei) public onlyOwner
     {
@@ -406,6 +445,8 @@ contract cryptngTesttoken is Context, ERC165, IERC721, IERC721Metadata, Ownable 
         require(_tokenBalance.length > tokenId,"This token does not exist");
         return _tokenBalance[tokenId];
     }
+
+
 
     
     /**
