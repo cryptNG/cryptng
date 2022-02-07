@@ -7,7 +7,7 @@ module.exports = function (deployer) {
    deployer.deploy(Token);
    //config.network contains the current network that the process is started with
    //its magically set by truffle
-   if (config.network == "develop") return;
+  // if (config.network == "develop") return;
 try
 {
   
@@ -17,14 +17,14 @@ try
    //whenever a migration deploys a new contract.
    //this matches the logic we implemented in the emberjs application to detect a newly migrated contract
    
-   //create symlink from $HOME/test_app like so:
+   //create symlink from $HOME/cryptng like so:
    //from the path of your ember application root to your home/emberapplication root
 
-   //ln -s sources/cryptng/documentation/workshops/workshop_1_030222/test_app/ ${HOME}/test_app
+   //ln -s ~/sources/cryptng ${HOME}/cryptng
 
-   //we link test_app from our home to the full path, then use the container root (which looks at our home path
+   //we link cryptng from our home to the full path, then use the container root (which looks at our home path
    //which was set up in the aliases section of our documentation)
-   //to go to test_app, which will lead to the symlink
+   //to go to cryptng, which will lead to the symlink
    //this works because truffle-container root is mapped to $HOME of the host
    
    //NOTE, do not remove the try catch.
@@ -38,8 +38,10 @@ try
    //blocks is inevitably our current smart contract address 
    //this is not production relevant!
 
+
+   //this also generates the abi file to be consumed by nethereum code generator
    var fs = require('fs')
-   fs.readFile('/root/test_app/app/controllers/application.js', 'utf8', function (err,emberfile) {
+   fs.readFile('/root/sources/cryptng/documentation/workshops/workshop_1_030222/test_app/app/controllers/application.js', 'utf8', function (err,emberfile) {
    if (err) {
      return console.log(err);
    }
@@ -52,17 +54,28 @@ try
    var tokenAbi = JSON.stringify(JSON.parse(tokenfile).abi);
    //replaces between var 'abi =' and '#end'
    
+
+
+   //this writes the token abi to the csharp-client-project to be consumed by nethereum code generator
+   fs.writeFile('/root/sources/cryptng/documentation/workshops/workshop_1_030222/testcontract_client/cryptngTesttoken.abi', tokenAbi, 'utf8', function (err) {
+    if (err) return console.log(err);
+ });
+ //now call nethereum autogen
+ //executeCommand('source ~/.profile && ngc generate from-abi -abi /root/sources/cryptng/documentation/workshops/workshop_1_030222/testcontract_client/cryptngTesttoken.abi -o /root/sources/cryptng/documentation/workshops/workshop_1_030222/testcontract_client/. -ns CryptNG.Autogen');
+
    
    const regex = /var abi = ([\s\S]*);\/\/#end/
    matches = regex.exec(emberfile);
    emberfile = emberfile.replace(matches[1],tokenAbi);
    
    
-   fs.writeFile('/root/test_app/app/controllers/application.js', emberfile, 'utf8', function (err) {
+   fs.writeFile('/root/sources/cryptng/documentation/workshops/workshop_1_030222/test_app/app/controllers/application.js', emberfile, 'utf8', function (err) {
       if (err) return console.log(err);
    });
    });
    });
+
+
    
 }
 catch(err)
@@ -71,4 +84,34 @@ catch(err)
 }
 
 
+};
+
+
+
+
+
+// THIS IS TO CALL NETHEREUM AUTOGENERATOR AUTOMAGICALLY
+const { exec } = require('child_process');
+
+var executeCommand = (cmd, successCallback, errorCallback) => {
+  exec(cmd, (error, stdout, stderr) => {
+    if (error) {
+     // console.log(`error: ${error.message}`);
+      if (errorCallback) {
+        errorCallback(error.message);
+      }
+      return;
+    }
+    if (stderr) {
+      //console.log(`stderr: ${stderr}`);
+      if (errorCallback) {
+        errorCallback(stderr);
+      }
+      return;
+    }
+    //console.log(`stdout: ${stdout}`);
+    if (successCallback) {
+      successCallback(stdout);
+    }
+  });
 };

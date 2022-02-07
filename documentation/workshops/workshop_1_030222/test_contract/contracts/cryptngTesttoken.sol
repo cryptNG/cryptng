@@ -46,6 +46,9 @@ contract cryptngTesttoken is
     // Mapping token id to token balance / num of executions
     uint256[] private _tokenBalance;
 
+    
+    event CreatedExecutionTicket(address indexed from, uint256 indexed ticketId, uint256 indexed tokenId);
+
     // Mapping from token ID to minutes since contract creation
     // if there is any value, the ticket exists and is in use
     //if a ticket is not fully burned e.g. when the executing customer service dies
@@ -162,7 +165,6 @@ contract cryptngTesttoken is
 
     function createExecutionTicket(uint256 serviceSecret)
         public
-        returns (uint256)
     {
         int256 tokenIdUnverified = _getTokenWithEnoughBalance(_msgSender());
         require(
@@ -172,7 +174,10 @@ contract cryptngTesttoken is
         uint256 tokenId = uint256(tokenIdUnverified);
 
         _executionTickets[tokenId] = serviceSecret;
-        return tokenId;
+        
+        //tokenId is the same as ticketId, this is just to make it easier to understand
+        emit CreatedExecutionTicket(_msgSender(),tokenId, tokenId);
+        
     }
 
     function _getTokenWithEnoughBalance(address _sender)

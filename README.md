@@ -23,6 +23,7 @@ You can find our Dockerfiles in their respective directories within
 | cryptng/debase-ginocunp | https://hub.docker.com/repository/docker/cryptng/debase-ginocunp | debian image with git, node 16x, curl, npm |
 | cryptng/btc_esplora_explorer | https://hub.docker.com/repository/docker/cryptng/btc_esplora_explorer | btc blockchain explorer |
 | eth_expedition_explorer | https://hub.docker.com/repository/docker/cryptng/eth_expedition_explorer | minimal eth blockchain explorer |
+| cryptng/dotnet-nethereum-codegen | https://hub.docker.com/repository/docker/cryptng/dotnet-nethereum-codegen | dotnet6 base image with nethereum codegen from 6th feb 22 |
 
 
 ## AVAILABLE SERVICES AND PORTS ##
@@ -89,7 +90,7 @@ if you want to use truffle via container without actually installing it on your 
 
 paste following lines:
 
-`function truffle () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite truffle "$@")}`
+`function truffle () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app -p 9545:9545 cryptng/truffle-suite truffle "$@")}`
 
 save, run 
 `source ~/.profile`
@@ -102,6 +103,10 @@ congratulations, you can now use truffle via docker.
 
 btw, i'd like some kudos for this one, it took me a hella lot of time to get this working, thaaaankkk you.
 
+
+to serve truffle independently:
+
+`function truffled () {(docker run -ti --rm -v $(pwd):/app -p 9545:9545 cryptng/truffle-suite truffle develop "$@")}`
 
 ### NPM SHALL NOT LITTER ###
 if you want to use npm via container without actually installing it on your machine, follow these steps:
@@ -193,6 +198,51 @@ use like so:
 congratulations, you can now use yarn via docker.
 
 
+### CROSS-PLATFORM C# ###
+
+
+if you want to use yarn via container without actually installing it on your machine, follow these steps:
+
+`nano ~/.profile`
+
+paste following lines:
+
+`function dotnet () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app -w /app cryptng/dotnet-nethereum-codegen:latest dotnet "$@")}`
+
+save, run 
+`source ~/.profile`
+
+use like so:
+
+`dotnet --version`
+
+congratulations, you can now use dotnet on linux via docker.
+
+
+
+### NETHEREUM CODEGEN ###
+
+
+
+if you want to use nethereum code generator console via container without actually installing it on your machine, follow these steps:
+
+`nano ~/.profile`
+
+paste following lines:
+
+`function ngc () {(docker run -ti --rm -v $(pwd):/app -w /app cryptng/dotnet-nethereum-codegen:latest /root/.dotnet/tools/Nethereum.Generator.Console "$@")}`
+
+save, run 
+`source ~/.profile`
+
+use like so:
+
+`ngc --version`
+
+congratulations, you can now use nethereum code generator console on linux via docker.
+
+
+
 
 ### Make it work in vscode ###
 
@@ -202,6 +252,13 @@ call "source ~/.profile" from the vscode terminal
 
 
 ## FAQs ##
+
+
+### Why are you not installing stuff on your machines locally? Why aliases? ###
+We work on multiple projects at once, some of them need different versions of packages and tools.
+We would rather like to not see any cross-pollution between packages and tools that we use.
+Since docker packs anything a tool needs neatly together and also manages dependencies independently,
+it's the cleanest way to run stuff without creating lots of rubbish to clean up later.
 
 ### Why did you build blockscout (docker-image) from scratch? ###
 docker images of the latest alpine version (3.14>=) 
