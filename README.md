@@ -90,7 +90,7 @@ if you want to use truffle via container without actually installing it on your 
 
 paste following lines:
 
-`function truffle () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app -p 9545:9545 cryptng/truffle-suite truffle "$@")}`
+`function truffle () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app -p 9545:9545 cryptng/truffle-suite truffle "$@" && sudo chown -R 1000:1000 *))}`
 
 save, run 
 `source ~/.profile`
@@ -106,7 +106,7 @@ btw, i'd like some kudos for this one, it took me a hella lot of time to get thi
 
 to serve truffle independently:
 
-`function truffled () {(docker run -ti --rm -v $(pwd):/app -p 9545:9545 cryptng/truffle-suite truffle develop "$@")}`
+`function truffled () {(docker run -ti --rm -v $(pwd):/app -p 9545:9545 cryptng/truffle-suite truffle develop "$@" && sudo chown -R 1000:1000 *))}`
 
 ### NPM SHALL NOT LITTER ###
 if you want to use npm via container without actually installing it on your machine, follow these steps:
@@ -115,7 +115,7 @@ if you want to use npm via container without actually installing it on your mach
 
 paste following lines:
 
-`function npm () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite npm "$@")}`
+`function npm () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite npm "$@" && sudo chown -R 1000:1000 *))}`
 
 save, run 
 `source ~/.profile`
@@ -135,7 +135,7 @@ if you want to use node via container without actually installing it on your mac
 
 paste following lines:
 
-`function node () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite node "$@")}`
+`function node () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite node "$@" && sudo chown -R 1000:1000 *))}`
 
 save, run 
 `source ~/.profile`
@@ -156,7 +156,7 @@ if you want to use ember via container without actually installing it on your ma
 
 paste following lines:
 
-`function ember () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app danlynn/ember-cli:4.1.1 ember "$@")}`
+`function ember () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app danlynn/ember-cli:4.1.1 ember "$@" && sudo chown -R 1000:1000 *))}`
 
 save, run 
 `source ~/.profile`
@@ -170,7 +170,7 @@ congratulations, you can now use ember via docker.
 --> to serve ember with an extra command
 
 
-`function embers () {(docker run -ti --rm -p 4200:4200 -p 7020:7020 -p 7357:7357  -v ${HOME}:/root -v $(pwd):/myapp danlynn/ember-cli:4.1.1 ember serve "$@")}`
+`function embers () {(docker run -ti --rm -p 4200:4200 -p 7020:7020 -p 7357:7357  -v ${HOME}:/root -v $(pwd):/myapp danlynn/ember-cli:4.1.1 ember serve "$@" && sudo chown -R 1000:1000 *))}`
 
 
 use like so:
@@ -186,7 +186,7 @@ if you want to use yarn via container without actually installing it on your mac
 
 paste following lines:
 
-`function yarn () {(docker run -ti --rm -v ${HOME}:/myapp -v $(pwd):/app danlynn/ember-cli:4.1.1 yarn "$@")}`
+`function yarn () {(docker run -ti --rm -v ${HOME}:/myapp -v $(pwd):/app danlynn/ember-cli:4.1.1 yarn "$@" && sudo chown -R 1000:1000 *))}`
 
 save, run 
 `source ~/.profile`
@@ -207,7 +207,7 @@ if you want to use yarn via container without actually installing it on your mac
 
 paste following lines:
 
-`function dotnet () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app -w /app cryptng/dotnet-nethereum-codegen:latest dotnet "$@")}`
+`function dotnet () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app -w /app cryptng/dotnet-nethereum-codegen:latest dotnet "$@" && sudo chown -R 1000:1000 *))}`
 
 save, run 
 `source ~/.profile`
@@ -230,7 +230,7 @@ if you want to use nethereum code generator console via container without actual
 
 paste following lines:
 
-`function ngc () {(docker run -ti --rm -v $(pwd):/app -w /app cryptng/dotnet-nethereum-codegen:latest /root/.dotnet/tools/Nethereum.Generator.Console "$@")}`
+`function ngc () {(docker run -ti --rm -v $(pwd):/app -w /app cryptng/dotnet-nethereum-codegen:latest /root/.dotnet/tools/Nethereum.Generator.Console "$@" && sudo chown -R 1000:1000 *))}`
 
 save, run 
 `source ~/.profile`
