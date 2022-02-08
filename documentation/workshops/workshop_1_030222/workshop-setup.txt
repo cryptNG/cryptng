@@ -1,0 +1,7 @@
+~~~~~~
+run truffel develop
+move contract and account data into the test_contract_client & test_server application
+run the distiller (test_service)
+
+start test_server
+run test_contract_client

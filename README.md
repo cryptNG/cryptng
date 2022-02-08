@@ -24,6 +24,8 @@ You can find our Dockerfiles in their respective directories within
 | cryptng/btc_esplora_explorer | https://hub.docker.com/repository/docker/cryptng/btc_esplora_explorer | btc blockchain explorer |
 | eth_expedition_explorer | https://hub.docker.com/repository/docker/cryptng/eth_expedition_explorer | minimal eth blockchain explorer |
 | cryptng/dotnet-nethereum-codegen | https://hub.docker.com/repository/docker/cryptng/dotnet-nethereum-codegen | dotnet6 base image with nethereum codegen from 6th feb 22 |
+| cryptng/adojdk11mvn | https://hub.docker.com/repository/docker/cryptng/adojdk11mvn | adoptopenjdk11, maven |
+| cryptng/pdfdistiller | https://hub.docker.com/repository/docker/cryptng/pdfdistiller | java based pdf generation |
 
 
 ## AVAILABLE SERVICES AND PORTS ##

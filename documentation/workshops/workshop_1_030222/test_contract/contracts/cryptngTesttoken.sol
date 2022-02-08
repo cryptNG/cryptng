@@ -49,6 +49,7 @@ contract cryptngTesttoken is
     
     event CreatedExecutionTicket(address indexed from, uint256 indexed ticketId, uint256 indexed tokenId);
 
+    event ExecutionTicketBurned(address indexed from, uint256 indexed ticketId, uint256 indexed tokenId);
     // Mapping from token ID to minutes since contract creation
     // if there is any value, the ticket exists and is in use
     //if a ticket is not fully burned e.g. when the executing customer service dies
@@ -159,6 +160,7 @@ contract cryptngTesttoken is
         //remove this require if this does not affect gasPrice estimation
         require( _executionTickets[ticketId] > 0,"The ticket was already burned");
         _executionTickets[ticketId] = 0;
+        emit CreatedExecutionTicket(_msgSender(),ticketId, ticketId);
     }
 
 

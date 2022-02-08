@@ -1,0 +1,27 @@
+THIS IS OUR LAST DAY FOR THIS WORKSHOP
+
+Work Todo:
+
+
+* Create webpage to use this service conveniently/manually (EMBER PROJECT)
+* Webpage has: connect -> check wallet -> mint + toolbar for transfer, burn, (for us, maybe ->) allow/disallow services
+* CLI-Tool from current test_client (CS-PROJECT)
+* CLI-Tool needs to be able to load wallet maybe generate
+* Service (Server) should have own wallet. (appsettings)
+* Smart Contract allowance so another contract can create executiontickets for somebody else
+* Smart Contract getNextActiveExecutionTicket
+
+
+
+Currently:
+if you forget your executionTicket secret, you'll have to burn your minibatch.
+
+
+
+
+WE HAVE A CryptNG Improvement Proposal:
+
+CIP-001:
+- you can request proof of execution/ proof of document generation
+which is hash of the document, that will be stored on chain in a hash map.
+but it will cost more.
