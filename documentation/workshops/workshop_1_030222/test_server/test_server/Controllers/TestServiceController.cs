@@ -27,6 +27,9 @@ namespace test_server.Controllers
     [Route("[controller]")]
     public class TestServiceController : ControllerBase
     {
+        private static string tempMemoryDirectory = "counters";
+        private static string contractAddress = "0x3f3534D3e107838033dd7D8bd9c3e46730ed219f";
+
 
 
         private readonly ILogger<TestServiceController> _logger;
@@ -34,11 +37,25 @@ namespace test_server.Controllers
         public TestServiceController(ILogger<TestServiceController> logger)
         {
             _logger = logger;
+
+
+            try
+            {
+                if (!Directory.Exists(tempMemoryDirectory)) Directory.CreateDirectory(tempMemoryDirectory);
+            }
+            catch (Exception ex)
+            {
+                if (!Directory.Exists(tempMemoryDirectory))
+                {
+                    Console.WriteLine(ex);
+                    Environment.Exit(-1);
+                }
+            }
         }
 
 
         [HttpGet("order/result")]
-        public ActionResult GetResult(string clientSecret, Int64 ticketId, string requestId)
+        public ActionResult GetResult(string clientSecret, UInt64 ticketId, string requestId)
         {
 
             if (!validateExecutionTicket(ticketId, clientSecret))
@@ -46,12 +63,11 @@ namespace test_server.Controllers
                 return StatusCode(401, "Unauthorized");
             }
 
-
             return StatusCode(200, getResult(requestId));
         }
 
         [HttpGet("order/state")]
-        public ActionResult GetState(string clientSecret, Int64 ticketId, string requestId)
+        public ActionResult GetState(string clientSecret, UInt64 ticketId, string requestId)
         {
 
             if (!validateExecutionTicket(ticketId, clientSecret))
@@ -63,35 +79,134 @@ namespace test_server.Controllers
             return StatusCode(200, getState(requestId));
         }
 
-        [HttpPost("order")]
-        public ActionResult CreateOrder(string clientSecret, Int64 ticketId, [FromBody] executionRequestModel model)
+        
+        private int createOrLoadTempFile(string clientSecret, UInt64 ticketId)
         {
+            if(!System.IO.File.Exists($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
+            {
+                try
+                {
+                    System.IO.File.WriteAllText($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt", "0");
+                   
+                }
+                catch(Exception ex)
+                {
+                    if (!System.IO.File.Exists($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
+                    {
+                        throw new Exception("Cannot access counter file "+ex);
+                    }
+                }
+            }
+            return Convert.ToInt32(System.IO.File.ReadAllText($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"));
+        }
+
+       
+
+        [HttpPost("order")]
+        public ActionResult CreateOrder(string clientSecret, UInt64 ticketId, [FromBody] executionRequestModel model)
+        {
+
             
             if(!validateExecutionTicket(ticketId, clientSecret))
             {
                 return StatusCode(401,"Unauthorized");
             }
-           
 
-            return StatusCode(200, createOrder(model.xmlData, model.xslData));
+
+
+            var result = createOrder(model.xmlData, model.xslData);
+            int counter = createOrLoadTempFile(clientSecret, ticketId) + 1;
+
+            if (counter >= 10)
+            {
+                serviceBurnExecutionTicket(ticketId);
+                deleteCounterFile(clientSecret,ticketId);
+            }
+            else
+            {
+                writeCounterFile(clientSecret,ticketId, counter);
+            }
+            return StatusCode(200, result);
         }
 
+        private void writeCounterFile(string clientSecret, UInt64 ticketId, int counter)
+        {
+            if (System.IO.File.Exists($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
+            {
+                try
+                {
+                    System.IO.File.WriteAllText($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt", counter.ToString());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Could not write counter "+ ex);
+                }
+            }
+        }
+
+        private void deleteCounterFile(string clientSecret, UInt64 ticketId)
+        {
+            try
+            {
+                System.IO.File.Delete($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt");
+            }
+            catch(Exception ex)
+            {
+                if(System.IO.File.Exists($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
+                {
+                    Console.WriteLine("Could not delete counterfile: "+ex.Message);
+                    Console.WriteLine($"FILE: {tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt");
+                }
+            }
+          
+        }
 
 
         [HttpGet("createsecret")]
         public string CreateServiceSecret(string clientSecret)
         {
-            
             return toServiceSecret(clientSecret).ToString();
         }
 
-        private bool validateExecutionTicket(Int64 ticketId, string clientSecret)
-        {var net_localdevelop = "http://localhost:9545";
+        private void serviceBurnExecutionTicket(BigInteger ticketId)
+        {
+            var net_localdevelop = "http://localhost:9545";
             var net_noventdevelopment = "http://192.168.0.7:9545";
             var privateKey = "f973e5765aa921c3e848fe5dfbf696f37029343b597bcaf2d6fe48da67d81734";
             var account = new Account(privateKey, 1337);
             var web3 = new Web3(account, net_localdevelop);
-            var contractAddress = "0x59F79f6CC2B522EEf168A1384ebaE6a1A01B6508";
+            CryptngTesttokenService service = new CryptngTesttokenService(web3, contractAddress);
+
+
+
+            var serviceBurnTicketFunction = new ServiceBurnExecutionTicketsFunction()
+            {
+                TicketId = ticketId
+            };
+
+
+            var burnTicketEvent = service.ContractHandler.GetEvent<ExecutionTicketBurnedEventDTO>();
+            var burnTicketEventFilter = burnTicketEvent.CreateFilterAsync().Result;
+
+            var createTicketReceipt = service.ServiceBurnExecutionTicketsRequestAsync(serviceBurnTicketFunction).Result;
+
+            var burnedTicketLog = burnTicketEvent.GetFilterChangesAsync(burnTicketEventFilter).Result;
+            
+            foreach (var eventLog in burnedTicketLog)
+            {
+                Console.WriteLine("TicketID: " + eventLog.Event.TicketId);
+                Console.WriteLine("TokenId: " + eventLog.Event.TokenId);
+            }
+
+        }
+
+        
+        private bool validateExecutionTicket(UInt64 ticketId, string clientSecret)
+        {   var net_localdevelop = "http://localhost:9545";
+            var net_noventdevelopment = "http://192.168.0.7:9545";
+            var privateKey = "f973e5765aa921c3e848fe5dfbf696f37029343b597bcaf2d6fe48da67d81734";
+            var account = new Account(privateKey, 1337);
+            var web3 = new Web3(account, net_localdevelop);
             CryptngTesttokenService service = new CryptngTesttokenService(web3, contractAddress);
 
 
@@ -123,6 +238,8 @@ namespace test_server.Controllers
 
             System.IO.File.WriteAllBytes("testresult.pdf", data);
             Console.WriteLine("Result written");
+
+
 
             return pdfResult.DataAsBase64;
         }
