@@ -344,3 +344,5 @@ ASALocalRun/
 /documentation/workshops/workshop_1_030222/test_service/distiller
 ./do_not_include
 /do_not_include/*
+/documentation/workshops/workshop_1_030222/test_server/test_server/ApiClient.PdfDestiller.csZone.Identifier
+/documentation/workshops/workshop_1_030222/test_app/yarn.lock
