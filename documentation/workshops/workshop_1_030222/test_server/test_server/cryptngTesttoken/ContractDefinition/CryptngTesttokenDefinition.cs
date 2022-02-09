@@ -350,6 +350,19 @@ namespace CryptNG.Autogen.cryptngTesttoken.ContractDefinition
         public virtual BigInteger TokenId { get; set; }
     }
 
+    public partial class ExecutionTicketBurnedEventDTO : ExecutionTicketBurnedEventDTOBase { }
+
+    [Event("ExecutionTicketBurned")]
+    public class ExecutionTicketBurnedEventDTOBase : IEventDTO
+    {
+        [Parameter("address", "from", 1, true )]
+        public virtual string From { get; set; }
+        [Parameter("uint256", "ticketId", 2, true )]
+        public virtual BigInteger TicketId { get; set; }
+        [Parameter("uint256", "tokenId", 3, true )]
+        public virtual BigInteger TokenId { get; set; }
+    }
+
     public partial class OwnershipTransferredEventDTO : OwnershipTransferredEventDTOBase { }
 
     [Event("OwnershipTransferred")]
