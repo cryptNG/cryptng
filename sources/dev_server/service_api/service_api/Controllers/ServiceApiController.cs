@@ -206,6 +206,7 @@ namespace service_api.Controllers
 
         
         private bool validateExecutionTicket(UInt64 ticketId, string clientSecret)
+        { 
             var privateKey = "f973e5765aa921c3e848fe5dfbf696f37029343b597bcaf2d6fe48da67d81734";
             var account = new Account(privateKey, 1337);
             var web3 = new Web3(account, net_containerDevelop);

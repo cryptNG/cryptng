@@ -41,7 +41,7 @@ try
 
    //this also generates the abi file to be consumed by nethereum code generator
    var fs = require('fs')
-   fs.readFile('/root/sources/cryptng/documentation/workshops/workshop_1_030222/test_app/app/controllers/application.js', 'utf8', function (err,emberfile) {
+   fs.readFile('/root/sources/dev_server/webapp/app/controllers/application.js', 'utf8', function (err,emberfile) {
    if (err) {
      return console.log(err);
    }
@@ -57,7 +57,7 @@ try
 
 
    //this writes the token abi to the csharp-client-project to be consumed by nethereum code generator
-   fs.writeFile('/root/sources/cryptng/documentation/workshops/workshop_1_030222/testcontract_client/ComputingPaymentToken.abi', tokenAbi, 'utf8', function (err) {
+   fs.writeFile('/root/sources/cryptng/sources/dev_client/service_client/ComputingPaymentToken.abi', tokenAbi, 'utf8', function (err) {
     if (err) return console.log(err);
  });
  //now call nethereum autogen
@@ -69,7 +69,7 @@ try
    emberfile = emberfile.replace(matches[1],tokenAbi);
    
    
-   fs.writeFile('/root/sources/cryptng/documentation/workshops/workshop_1_030222/test_app/app/controllers/application.js', emberfile, 'utf8', function (err) {
+   fs.writeFile('/root/sources/dev_server/webapp/app/controllers/application.js', emberfile, 'utf8', function (err) {
       if (err) return console.log(err);
    });
    });
