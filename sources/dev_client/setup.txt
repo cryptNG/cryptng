@@ -21,6 +21,7 @@ use like so:
 congratulations, you can now git via docker.
 
 ### WE USE TRUFFLE WITHOUT INSTALLING IT (WSL) ###
+## THIS USES OUR SELF-BUILT TRUFFLE IMAGE ##
 we want to use truffle via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -42,6 +43,7 @@ btw, i'd like some kudos for this one, it took me a hella lot of time to get thi
 
 
 ### WE USE NPM WITHOUT INSTALLING IT (WSL) ###
+## THIS USES OUR SELF-BUILT TRUFFLE IMAGE ##
 we want to use npm via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -62,6 +64,7 @@ congratulations, you can now use npm via docker.
 thanks to @cgreinke for pointing out that npm can be used like the truffle alias
 
 ### WE USE NODE WITHOUT INSTALLING IT (WSL) ###
+## THIS USES OUR SELF-BUILT TRUFFLE IMAGE ##
 we want to use node via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -128,6 +131,7 @@ congratulations, you can now use yarn via docker.
 
 
 ### USING THESE IN THE VSCODE TERMINAL ###
+## THIS USES OUR SELF-BUILT TRUFFLE IMAGE FOR SOME COMMANDS##
 
 to use vscode console with our alias setups (truffle npm node etc)
 call "source ~/.profile" from the vscode terminal
