@@ -15,10 +15,10 @@ services:
       - "7357:7357"
     volumes:
       - ./root/sources:/sources
+      -  /var/run/docker.sock:/var/run/docker.sock
     entrypoint:
       - docker-compose
       - -f
-      - /root/sources/cryptng/tooling/docker-compose.yml
+      - /root/sources/cryptng/tooling/docker-compose-inception.yml
       - up
-      - -d
  
