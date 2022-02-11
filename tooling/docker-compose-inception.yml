@@ -3,6 +3,8 @@ services:
 #ganache is a blockchain node
   ganache:
     image: cryptng/ganache-cli:latest
+    ports:
+      - "8545"
     entrypoint:
       - ganache
       - -m
@@ -34,6 +36,8 @@ services:
       - ETHEREUM_JSONRPC_VARIANT=ganache
       - DATABASE_URL=postgresql://postgres:test@postgres:5432/blockscout?ssl=false
     command: /bin/sh -c "mix do ecto.create, ecto.migrate; mix phx.server" #ENTRYPOINT! IMPORTANT
+    ports:
+      - "4000" # JSON-RPC
     depends_on:
       - "postgres"
       - "ganache"
@@ -45,6 +49,8 @@ services:
       POSTGRES_DB: blockscout
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: test
+    ports:
+      - "5432"
       
 #the distiller generates pdfs based on xml data & xsl templates.
 #the distiller has no web connection and can only be reached from within
@@ -54,6 +60,8 @@ services:
     #You can mount other libraries. e.g. for generation of qrcodes/barcodes/datamatrix
     volumes:
       - ./distiller/prod/lib/external:/app/BOOT-INF/lib/external
+    ports:
+      - "8080"
     dns: 0.0.0.0
     depends_on:
       - "blockscout" #not a real dependency but a good startup order
@@ -66,6 +74,9 @@ services:
     image: mcr.microsoft.com/dotnet/sdk:6.0
     volumes:
       - ../sources/dev_server/service_api/service_api:/app
+    ports:
+      - "5000"
+      - "5001"
     entrypoint:
       - dotnet
       - run
@@ -83,6 +94,10 @@ services:
     volumes:
       - ../sources/dev_server/webapp:/myapp
       - .bash_history:/root/.bash_history
+    ports:
+      - "4200" 
+      - "7020"
+      - "7357"
     #include in your .bashrc: 
     #export WSL_WINDOWS_HOST=`cat /etc/resolv.conf | grep nameserver | cut -d ' ' -f 2`
     command: bash -c "yarn install && ember server --live-reload-port=7020 --proxy=http://$WSL_WINDOWS_HOST:5000"
