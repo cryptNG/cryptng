@@ -9,3 +9,9 @@ this has to be done every time until we find a way to fix realoding.
 
 dotnet new console  ---> creates a console program
 dotnet run --> runs your program
+
+
+IMPORTANT:
+This is an exemplary implementation.
+If you want to use our actual client library, look for
+cryptng.cpt.distillerclient
