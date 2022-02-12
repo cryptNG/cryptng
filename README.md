@@ -1,5 +1,58 @@
-# cryptng
-CryptNG Main project repository
+
+
+*NOTE: THE CONTENTS OF THIS FILE ARE SUBJECT TO CHANGE AND WILL LIKELY BE COMPLETELY REWRITTEN IN THE NEAR FUTURE.*
+
+#
+
+
+> “Bring something incomprehensible into the world!”  
+― Gilles Deleuze, [A Thousand Plateaus: Capitalism and Schizophrenia]
+
+# enter: CryptNG
+
+*crypt..n'**what**?*
+
+*Crypt***NG** stands for "*Crypt*o **N**ext **G**eneration".
+
+We are a group of IT companies originating from germany, committing to weaving a net of innovation and contribution into the fabric of open-source development .
+
+
+
+
+# integrating payment & trustless computing for everyone!
+
+This particular project is our first collaboration, in this, we aim to create a platform to integrate trustless-computing and payment into any kind of software `&/||` `(and/or)` online service.
+
+We developed a smart contract that will manage service authorizations, payment and usage-management.
+The contract is a base for cloud-computing services that can be easily deployed and managed without needing to implement complex extensions to support blockchain interactions.
+
+# web3 = life 2.0
+
+In the future, we aim to provide widely usable services for web2 & web3 applications, all openly sourced, 100% fairly traded and community driven.
+
+Let us take you by the hand and show you how easy, intuitive and loveable blockchain technology can be,
+how it can enable us to solve old-world problems with new-world ideas.
+
+We don't just want to enhance business,
+we want to enhance life, comfort, usability and digital integration for everyone.
+
+Our future projects are targeting YOUR personal life directly, together, we will shift the public conciousness of web3 to new heights, new levels, enable new possibilities.
+
+Talking about personal improvements, we don't mean the "metaverses" or virtual/augmented realities of our times.
+We're talking actual benefits, for you, me, us, in the flesh.
+
+It just needs commitment, and open-sourced love.
+Trust us, let's become trustless.
+
+
+
+## the essence of data: extract, transform, load. ##
+This is the first project that uses our smart-contract trustless-computing platform to provide online-services.
+The PdfDistiller service retrieves XML & XSL files, uses the XSL Files to transform the XML files into the desired shaped.
+We use technologies that enable us to generate QR Codes, Graphs, Barcodes and Datamatrixes, enabling you to employ our service to enable complex business reporting, product description and data management.
+
+TBD: Process description here
+
 
 ## OUR SETUP ##
 Please be aware that we use the latest ranger on a bare-metal machine to host our docker infrastructure.
@@ -7,6 +60,8 @@ We also develop using WSL2 with docker inside WSL2.
 
 Toolset: Np++, VsCode (+ extensions)
 Nothing else, have fun!
+
+TBD: folder-structure and services within the solution here
 
 ## AVAILABLE DOCKER IMAGES ##
 
