@@ -1,0 +1,108 @@
+version: "3"
+services:
+#ganache is a blockchain node
+  ganache:
+    image: cryptng/ganache-cli:latest
+    ports:
+      - "8545"
+    entrypoint:
+      - ganache
+      - -m
+      - 'minimum symptom minute gloom tragic situate silver mechanic salad amused elite beef'
+      - --networkId
+      - '5777'
+      - --hostname
+      - '0.0.0.0'
+      
+#truffle is a smart-contract development, testing & migration framework
+  truffle:
+    image: cryptng/truffle-suite:latest
+    volumes:
+      - ../sources/dev_server/smart_contract:/app
+    entrypoint:
+      - truffle
+      - migrate
+    depends_on:
+      - "ganache"
+      
+#blockscout is a blockchain explorer
+  blockscout:
+    image: cryptng/blockscout:1.0
+    environment:
+      - NETWORK=TEST
+      - SUBNETWORK=test-1
+      - ETHEREUM_JSONRPC_HTTP_URL=http://ganache:8545
+      - ETHEREUM_JSONRPC_TRACE_URL=http://ganache:8545
+      - ETHEREUM_JSONRPC_VARIANT=ganache
+      - DATABASE_URL=postgresql://postgres:test@postgres:5432/blockscout?ssl=false
+    command: /bin/sh -c "mix do ecto.create, ecto.migrate; mix phx.server" #ENTRYPOINT! IMPORTANT
+    ports:
+      - "4000" # JSON-RPC
+    depends_on:
+      - "postgres"
+      - "ganache"
+      
+#this is needed by blockscout to store data
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: blockscout
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test
+    ports:
+      - "5432"
+      
+#the distiller generates pdfs based on xml data & xsl templates.
+#the distiller has no web connection and can only be reached from within
+#the docker-composed system
+  pdfdistiller:
+    image: cryptng/pdfdistiller:1.4
+    #You can mount other libraries. e.g. for generation of qrcodes/barcodes/datamatrix
+    volumes:
+      - ./distiller/prod/lib/external:/app/BOOT-INF/lib/external
+    ports:
+      - "8080"
+    dns: 0.0.0.0
+    depends_on:
+      - "blockscout" #not a real dependency but a good startup order
+      
+#api https disabled for docker development      
+
+#the api provides a connection to our distiller service
+#and interfaces the customer/blockchain/service/smart-contract interaction
+  api:
+    image: mcr.microsoft.com/dotnet/sdk:6.0
+    volumes:
+      - ../sources/dev_server/service_api/service_api:/app
+    ports:
+      - "5000"
+      - "5001"
+    entrypoint:
+      - dotnet
+      - run
+      - --project
+      - /app
+    depends_on:
+      - "pdfdistiller"
+
+#ember app
+
+  webapp:
+    image: danlynn/ember-cli:3.27.0
+    environment:
+      - CI=true
+    volumes:
+      - ../sources/dev_server/webapp:/myapp
+      - .bash_history:/root/.bash_history
+    ports:
+      - "4200" 
+      - "7020"
+      - "7357"
+    #include in your .bashrc: 
+    #export WSL_WINDOWS_HOST=`cat /etc/resolv.conf | grep nameserver | cut -d ' ' -f 2`
+    command: bash -c "yarn install && ember server --live-reload-port=7020 --proxy=http://$WSL_WINDOWS_HOST:5000"
+
+      
+      
+      
+      

@@ -1,0 +1,10 @@
+version: "3.4"
+services:
+  pdfdistiller:
+    image: cryptng/pdfdistiller:1.4
+#You can mount other libraries. e.g. for generation of qrcodes/barcodes/datamatrix
+    volumes:
+      - ./distiller/prod/lib/external:/app/BOOT-INF/lib/external
+    ports:
+      - "8080:8080"
+    dns: 0.0.0.0
