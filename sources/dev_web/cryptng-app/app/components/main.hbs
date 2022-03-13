@@ -1,9 +1,7 @@
 
 
-<DashBar @connect={{this.connect}}></DashBar>
-{{#if this.showWeb3Bar}}
-<Web3Bar @sendMoney={{this.sendMoney}} @migrate={{this.migrate}} @mint={{this.mint}} @getcontractbalance={{this.getcontractbalance}}></Web3Bar>
-{{/if}}
+<DashBar></DashBar>
+
 <!DOCTYPE HTML>
 <!--
 	Thanks to Dimension by HTML5 UP
@@ -12,6 +10,7 @@
 -->
 <html>
 	<head>
+		
 		<title>Crypto Next Generation</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -19,7 +18,7 @@
 		<noscript><link rel="stylesheet" href="assets/styles/template/noscript.css" /></noscript> 
 	
 	</head>
-	<body class="is-preload">
+	<body class="is-preload page">
 
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -29,26 +28,19 @@
 						<div class="logo">
 							<!--<span class="icon fa-gem"></span>-->
 							<span class="icon">
-							<i class="fab fa-ethereum fa-3x"></i>
+							<i class="icon-ethereum"></i>
 							</span>
 							<!--<span class="image main"><img src="assets/images/tingey-injury-law-firm-DZpc4UY8ZtY-unsplash.jpg" alt="" /></span>-->
 						</div>
 						<div class="content">
 							<div class="inner">
 								<h1>CryptNG</h1>
-								<p>integrating payment & trustless computing for everyone</p><br>
-								<p>come back soon for more info!</p>
+								<p>Minting APP</p><br>
+								<p>Mint your NFT, join our ecosystem!</p>
+								<p>(THIS SERVICE IS CURRENTLY IN DEVELOPMENT)</p>
 							</div>
 						</div>
-						<nav>
-							<ul>
-								<li><a href="#" {{action this.toggleShowPrivacy}} >Privacy & Disclaimer</a></li>
-								<li><a href="https://github.com/crypt-ng/cryptng">GitHub</a></li>
-								<li><a href="https://hub.docker.com/u/cryptng">Docker Hub</a></li>
-								
-								<li><a href="#" {{action this.toggleShowAboutUs}} >More about us</a></li>
-							</ul>
-						</nav>
+						
 					</header>
 
 				<!-- Main -->
@@ -103,9 +95,10 @@
 					</div>
 
 				<!-- Footer -->
-					<footer id="footer">
-						<p class="copyright">&copy; CryptNG / Yavuz IT Consulting / Novent Concepts. Design: <a href="https://html5up.net">HTML5 UP</a> - Filenames contain Copyright holders.</p>
-					</footer>
+				<div class="footer">
+					<p class="copyright">&copy; CryptNG / Yavuz IT Consulting / Novent Concepts. Design inspiration: <a href="https://html5up.net">HTML5 UP</a> / Development: <a href="https://yavuz.support">Yavuz IT Consulting</a>, Novent Concepts</p>
+				</div>
+				
 
 			</div>
 
@@ -113,11 +106,10 @@
 			<div id="bg"></div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+			{{!-- <script src="assets/js/jquery.min.js"></script> --}}
+			{{!-- <script src="assets/js/browser.min.js"></script> --}}
+			{{!-- <script src="assets/js/breakpoints.min.js"></script> --}}
+			{{!-- <script src="assets/js/main.js"></script> --}}
 
 	</body>
 </html>

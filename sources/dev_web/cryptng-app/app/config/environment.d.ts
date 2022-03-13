@@ -8,7 +8,7 @@ declare const config: {
   environment: string;
   modulePrefix: string;
   podModulePrefix: string;
-  locationType: 'history' | 'hash' | 'none' | 'auto';
+  locationType: 'hash';
   rootURL: string;
   APP: Record<string, unknown>;
 };
