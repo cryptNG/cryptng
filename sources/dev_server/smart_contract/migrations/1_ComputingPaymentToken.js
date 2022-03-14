@@ -57,7 +57,7 @@ try
 
 
    //this writes the token abi to the csharp-client-project to be consumed by nethereum code generator
-   fs.writeFile('/root/sources/cryptng/sources/dev_client/service_client/ComputingPaymentToken.abi', tokenAbi, 'utf8', function (err) {
+   fs.writeFile('/root/sources/cryptng/sources/dev_client/service_client_example/ComputingPaymentToken.abi', tokenAbi, 'utf8', function (err) {
     if (err) return console.log(err);
  });
  //now call nethereum autogen

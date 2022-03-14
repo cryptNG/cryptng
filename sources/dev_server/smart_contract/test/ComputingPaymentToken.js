@@ -115,6 +115,8 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         
         await truffleAssertions.passes(token.createExecutionTicket(_tokens[0],secret,{from:accounts[1]}), 'requesting ticket failed');
       
+
+
     });
 
     it('can request ticket for type 2 after mint', async () => {
@@ -137,10 +139,12 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         assert.isTrue(tokens.length == 2,"Token length was not 2, instead was " + tokens.length);
         let totalSupply = await token.totalSupply();
 
-
         let ticketId = await token.getTicketId(_tokens[0]);
-        let ticketSecret = await token.getTicketSecret(ticketId);
-        
+        let ticketSecret = await token.getTicketSecret(_tokens[0],ticketId);
+        console.log('expected: ' + secret);
+        console.log('got: ' + ticketSecret);
+        console.log('tokens0: ' + _tokens[0]);
+        console.log('ticketid: ' + ticketId);
         assert.isTrue(ticketSecret == secret);       
         
     });
@@ -156,8 +160,12 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
 
 
         let ticketId = await token.getTicketId(_tokens[1]);
-        let ticketSecret = await token.getTicketSecret(ticketId);
+        let ticketSecret = await token.getTicketSecret(_tokens[1],ticketId);
         
+        console.log('expected: ' + secret);
+        console.log('got: ' + ticketSecret);
+        console.log('tokens1: ' + _tokens[1]);
+        console.log('ticketid: ' + ticketId);
         assert.isTrue(ticketSecret == secret);       
         
     });
@@ -173,10 +181,10 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         let totalSupply = await token.totalSupply();
 
         //totalSuppy is always +1 on the maximum ticket/token id, which cannot exist
-        await truffleAssertions.reverts(token.getTicketId(totalSupply), 'Token does not exist'); 
+        await truffleAssertions.reverts(token.getTicketId(totalSupply), 'The token does not exist!'); 
 
         let ticketId = await token.getTicketId(_tokens[0]);
-        let ticketSecret = await token.getTicketSecret(ticketId);
+        let ticketSecret = await token.getTicketSecret(_tokens[0],ticketId);
         
         assert.isTrue(ticketSecret == secret);       
         
@@ -195,10 +203,10 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         let totalSupply = await token.totalSupply();
 
         //totalSuppy is always +1 on the maximum ticket/token id, which cannot exist
-        await truffleAssertions.reverts(token.getTicketId(totalSupply), 'Token does not exist'); 
+        await truffleAssertions.reverts(token.getTicketId(totalSupply), 'The token does not exist!'); 
 
         let ticketId = await token.getTicketId(_tokens[1]);
-        let ticketSecret = await token.getTicketSecret(ticketId);
+        let ticketSecret = await token.getTicketSecret(_tokens[1],ticketId);
         
         assert.isTrue(ticketSecret == secret);       
         
@@ -485,7 +493,7 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
     async function createTicketForAccount(account, secret, tokenId)
     {
         let token = await tokenContract.deployed();    
-    await token.createExecutionTicket(tokenId, secret,{from:account});
+        await token.createExecutionTicket(tokenId, secret,{from:account});
     }
     
     async function mintForAccount (type,account)

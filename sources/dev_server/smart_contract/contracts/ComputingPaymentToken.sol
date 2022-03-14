@@ -30,7 +30,7 @@ contract ComputingPaymentToken is ComputingPaymentTokenERC721
    
     mapping(address => bool) _allowedServices;
     
-    event CreatedExecutionTicket(address indexed from, uint256 indexed ticketId, uint256 indexed tokenId);
+    event CreatedExecutionTicket(address indexed from, uint256 indexed tokenId,uint256 indexed ticketId);
 
     
     event GivenTokenAllowance(address indexed to, uint256 indexed tokenId);
@@ -66,6 +66,13 @@ contract ComputingPaymentToken is ComputingPaymentTokenERC721
     //that were granted
 
 
+//TODO: in production, we should expose the variables like maxTokens, executionBatchSize etc. and these methods should be moved to the api
+    function getExecutionBatchSizeByTokenId(uint256 tokenId) public view isService() _tokenHasBeenMinted(tokenId) returns (uint256)
+    {
+        uint16 typeId = getTypeIdFromTokenId(tokenId);
+        return _executionBatchSize[typeId];
+    }
+
     function getTicketId(uint256 tokenId)
         public
         view
@@ -83,11 +90,16 @@ contract ComputingPaymentToken is ComputingPaymentTokenERC721
     //owner can be part of the list to make checks easier
 
     function _ticketExists(uint256 ticketId) internal view returns (bool) {
-        return _executionTickets[ticketId] != 0;
+        return _executionTickets[_getTokenIdByTicketId(ticketId)][ticketId] != 0;
     }
 
-    function getTicketSecret(uint256 ticketId) public view returns (uint256) {
-        return _executionTickets[ticketId];
+    function _getTokenIdByTicketId(uint256 ticketId) internal view returns (uint256)
+    {
+        return ticketId + _maxTokens * _types[ticketId];
+    }
+
+    function getTicketSecret(uint256 tokenId, uint256 ticketId) public view returns (uint256) {
+        return _executionTickets[tokenId][ticketId];
     }
 
 
@@ -136,15 +148,21 @@ contract ComputingPaymentToken is ComputingPaymentTokenERC721
         _;
     }
 
-
-    function serviceBurnExecutionTickets(uint256 tokenId) public isService()
+    function getTokenIdByTicketId(uint256 ticketId) public view isService() returns (uint256)
     {
+        require(_ticketExists(ticketId),"The provided ticket does not exist");
+     
+        return uint256(_getTokenIdByTicketId(ticketId));
 
-        uint256 tokenIndex = getTokenIdIndex(tokenId);
+    }
+
+    function serviceBurnExecutionTickets(uint256 ticketId) public isService()
+    {
+        uint256 tokenId = getTokenIdByTicketId(ticketId);
         //remove this require if this does not affect gasPrice estimation
-        require( _executionTickets[tokenIndex] > 0,"The ticket was already burned");
-        _executionTickets[tokenIndex] = 0;
-        emit ExecutionTicketBurned(_msgSender(),tokenIndex, tokenIndex + _types[tokenIndex] * _maxTokens);
+        require( _executionTickets[tokenId][ticketId] > 0,"The ticket was already burned");
+        _executionTickets[tokenId][ticketId] = 0;
+        emit ExecutionTicketBurned(_msgSender(),tokenId,ticketId);
     }
 
 
@@ -157,10 +175,10 @@ contract ComputingPaymentToken is ComputingPaymentTokenERC721
 
         require(_tokenBalance[tokenIndex] >= _executionBatchSize[getTypeIdFromTokenId(tokenId)], "You have no tokens that have enough balance and no assigned execution ticket");
      
-        _executionTickets[tokenIndex] = serviceSecret;
+        _executionTickets[tokenId][tokenIndex] = serviceSecret;
+
         
-        
-        emit CreatedExecutionTicket(_msgSender(),tokenIndex, tokenIndex + _types[tokenIndex] * _maxTokens );
+        emit CreatedExecutionTicket(_msgSender(),tokenId,tokenIndex);
         
     }
 
@@ -173,7 +191,7 @@ contract ComputingPaymentToken is ComputingPaymentTokenERC721
         require(_ticketExists(tokenIndex), "The ticket does not exist");
 
         uint16 tokenType = _types[tokenIndex];
-        _executionTickets[tokenIndex] = 0;
+        _executionTickets[tokenId][tokenIndex] = 0;
         _tokenBalance[tokenIndex] = _tokenBalance[tokenIndex] - _executionBatchSize[tokenType];
     }
 

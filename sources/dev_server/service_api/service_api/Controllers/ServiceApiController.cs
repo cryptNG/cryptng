@@ -13,6 +13,8 @@ using Nethereum.Contracts.Extensions;
 using System.Numerics;
 using CryptNG.Autogen.ComputingPaymentToken.ContractDefinition;
 using CryptNG.Autogen.ComputingPaymentToken;
+using CryptNG.Autogen.BasicProofingToken.ContractDefinition;
+using CryptNG.Autogen.BasicProofingToken;
 using ApiClient.PdfDestiller;
 
 public class executionRequestModel
@@ -27,7 +29,7 @@ namespace service_api.Controllers
     [Route("[controller]")]
     public class ServiceApiController : ControllerBase
     {
-        
+
         private const string net_containerDevelop = "http://pdfdistiller:8545";
         private static string tempMemoryDirectory = "counters";
         private static string contractAddress = "0x3f3534D3e107838033dd7D8bd9c3e46730ed219f";
@@ -57,22 +59,41 @@ namespace service_api.Controllers
 
 
         [HttpGet("order/result")]
-        public ActionResult GetResult(string clientSecret, UInt64 ticketId, string requestId)
+        public ActionResult GetResult(BigInteger tokenId, UInt64 ticketId, string clientSecret, string requestId)
         {
 
-            if (!validateExecutionTicket(ticketId, clientSecret))
+            if (!validateExecutionTicket(tokenId, ticketId, clientSecret))
             {
                 return StatusCode(401, "Unauthorized");
             }
 
-            return StatusCode(200, getResult(requestId));
+            var resultData = getResult(requestId);
+
+            if (isProofingToken(tokenId))
+            {
+                byte[] bin = Convert.FromBase64String(resultData);
+                byte[] hashed = createSha256(bin);
+                BigInteger txHash = loadTransactionHashFromRequestId(requestId);
+                createBlockchainProof(new BigInteger(hashed, true), txHash); //BigInteger(byte[], bool IsUnsigned)
+                return StatusCode(200, resultData);
+            }
+
+
+            return StatusCode(200, resultData);
+        }
+
+        private byte[] createSha256(byte[] bin)
+        {
+            var sha512 = SHA256.Create();
+            return sha512.ComputeHash(bin);
+
         }
 
         [HttpGet("order/state")]
-        public ActionResult GetState(string clientSecret, UInt64 ticketId, string requestId)
+        public ActionResult GetState(BigInteger tokenId, UInt64 ticketId, string clientSecret, string requestId)
         {
 
-            if (!validateExecutionTicket(ticketId, clientSecret))
+            if (!validateExecutionTicket(tokenId, ticketId, clientSecret))
             {
                 return StatusCode(401, "Unauthorized");
             }
@@ -81,55 +102,133 @@ namespace service_api.Controllers
             return StatusCode(200, getState(requestId));
         }
 
-        
+        private void storeTransactionHashToRequestId(string requestId, string txHash)
+        {
+
+            try
+            {
+                System.IO.File.WriteAllText($"{tempMemoryDirectory}/{requestId}.txh", txHash);
+
+            }
+            catch (Exception ex)
+            {
+                if (!System.IO.File.Exists($"{tempMemoryDirectory}//{requestId}.txh"))
+                {
+                    throw new Exception("Cannot access counter requestId to txHash mapFile " + ex);
+                }
+            }
+
+        }
+
+        //TYPE 0 does not exist and is due to a mathematical limitation inside the calculations (times 0)
+        readonly int[] _typedExecutionBatchSize = { 0, 1, 2 };
+        readonly BigInteger _maxTokens = 100000000000;
+
+
+        private int getTypeByTokenId(BigInteger tokenId)
+        {
+            return (int)(tokenId / _maxTokens);
+        }
+
+        private int getExecutionBatchSize(BigInteger tokenId)
+        {
+            return _typedExecutionBatchSize[getTypeByTokenId(tokenId)];
+        }
+
+        private bool isProofingToken(BigInteger tokenId)
+        {
+            return _typedExecutionBatchSize[getTypeByTokenId(tokenId)] == TokenTypes.ProofingType;
+        }
+
+        private void createBlockchainProof(BigInteger fileHash, BigInteger txHash)
+        {
+            var privateKey = "f973e5765aa921c3e848fe5dfbf696f37029343b597bcaf2d6fe48da67d81734";
+            var account = new Account(privateKey, 1337);
+            var web3 = new Web3(account, net_containerDevelop);
+            BasicProofingTokenService service = new BasicProofingTokenService(web3, contractAddress);
+
+
+
+            var mintHashMapProofFunc = new MintHashMapProofFunction()
+            {
+                FromHash = fileHash,
+                ToHash = txHash
+            };
+
+
+            //var mintHashMapProofEvent = service.ContractHandler.GetEvent<MintedHashMapProofEventDTO>();
+
+            var result = service.MintHashMapProofRequestAsync(mintHashMapProofFunc).Result;
+        }
+
+        private BigInteger loadTransactionHashFromRequestId(string requestId)
+        {
+            //TODO: Unsigned?
+            return BigInteger.Parse(System.IO.File.ReadAllText($"{tempMemoryDirectory}//{requestId}.txh"));
+        }
+
+        private void deleteTransactionHashToRequestIdMappingFile(string requestId)
+        {
+            System.IO.File.Delete($"{tempMemoryDirectory}//{requestId}.txh");
+        }
+
         private int createOrLoadTempFile(string clientSecret, UInt64 ticketId)
         {
-            if(!System.IO.File.Exists($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
+            if (!System.IO.File.Exists($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
             {
                 try
                 {
                     System.IO.File.WriteAllText($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt", "0");
-                   
+
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     if (!System.IO.File.Exists($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
                     {
-                        throw new Exception("Cannot access counter file "+ex);
+                        throw new Exception("Cannot access counter file " + ex);
                     }
                 }
             }
             return Convert.ToInt32(System.IO.File.ReadAllText($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"));
         }
 
-       
+
 
         [HttpPost("order")]
-        public ActionResult CreateOrder(string clientSecret, UInt64 ticketId, [FromBody] executionRequestModel model)
+        public ActionResult CreateOrder(BigInteger tokenId, UInt64 ticketId, string clientSecret, [FromBody] executionRequestModel model)
         {
 
-            
-            if(!validateExecutionTicket(ticketId, clientSecret))
+
+            if (!validateExecutionTicket(tokenId, ticketId, clientSecret))
             {
-                return StatusCode(401,"Unauthorized");
+                return StatusCode(401, "Unauthorized");
             }
 
 
 
-            var result = createOrder(model.xmlData, model.xslData);
+
+            var requestId = createOrder(model.xmlData, model.xslData);
+            int counterMax = getExecutionBatchSize(tokenId);
+
+
             int counter = createOrLoadTempFile(clientSecret, ticketId) + 1;
 
-            if (counter >= 10)
+            if (counter >= counterMax)
             {
-                serviceBurnExecutionTicket(ticketId);
-                deleteCounterFile(clientSecret,ticketId);
+                var result = serviceBurnExecutionTicket(ticketId);
+                if (isProofingToken(result.tokenId))
+                {
+                    storeTransactionHashToRequestId(requestId, result.txHash);
+                }
+                deleteCounterFile(clientSecret, ticketId);
             }
             else
             {
-                writeCounterFile(clientSecret,ticketId, counter);
+                writeCounterFile(clientSecret, ticketId, counter);
             }
-            return StatusCode(200, result);
+            return StatusCode(200, requestId);
         }
+
 
         private void writeCounterFile(string clientSecret, UInt64 ticketId, int counter)
         {
@@ -141,7 +240,7 @@ namespace service_api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Could not write counter "+ ex);
+                    Console.WriteLine("Could not write counter " + ex);
                 }
             }
         }
@@ -152,15 +251,15 @@ namespace service_api.Controllers
             {
                 System.IO.File.Delete($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                if(System.IO.File.Exists($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
+                if (System.IO.File.Exists($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
                 {
-                    Console.WriteLine("Could not delete counterfile: "+ex.Message);
+                    Console.WriteLine("Could not delete counterfile: " + ex.Message);
                     Console.WriteLine($"FILE: {tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt");
                 }
             }
-          
+
         }
 
 
@@ -170,7 +269,7 @@ namespace service_api.Controllers
             return toServiceSecret(clientSecret).ToString();
         }
 
-        private void serviceBurnExecutionTicket(BigInteger ticketId)
+        private (BigInteger tokenId, string txHash) serviceBurnExecutionTicket(BigInteger ticketId)
         {
             //no need for extra security, the services are contained within docker
             //the distiller is set to dns:0.0.0.0 in the compose
@@ -192,21 +291,29 @@ namespace service_api.Controllers
             var burnTicketEvent = service.ContractHandler.GetEvent<ExecutionTicketBurnedEventDTO>();
             var burnTicketEventFilter = burnTicketEvent.CreateFilterAsync().Result;
 
-            var createTicketReceipt = service.ServiceBurnExecutionTicketsRequestAsync(serviceBurnTicketFunction).Result;
+            var createTicketReceipt = service.ServiceBurnExecutionTicketsRequestAndWaitForReceiptAsync(serviceBurnTicketFunction).Result;
 
             var burnedTicketLog = burnTicketEvent.GetFilterChangesAsync(burnTicketEventFilter).Result;
-            
+
+            BigInteger tokenId = 0;
             foreach (var eventLog in burnedTicketLog)
             {
                 Console.WriteLine("TicketID: " + eventLog.Event.TicketId);
                 Console.WriteLine("TokenId: " + eventLog.Event.TokenId);
-            }
+                if (eventLog.Event.TicketId == ticketId)
+                {
+                    tokenId = eventLog.Event.TokenId;
+                }
 
+            }
+            return (tokenId, createTicketReceipt.TransactionHash);
         }
 
-        
-        private bool validateExecutionTicket(UInt64 ticketId, string clientSecret)
-        { 
+
+
+        //TBD: do we create mapping of executionticket to tokenid
+        private bool validateExecutionTicket(BigInteger tokenId, UInt64 ticketId, string clientSecret)
+        {
             var privateKey = "f973e5765aa921c3e848fe5dfbf696f37029343b597bcaf2d6fe48da67d81734";
             var account = new Account(privateKey, 1337);
             var web3 = new Web3(account, net_containerDevelop);
@@ -216,13 +323,14 @@ namespace service_api.Controllers
 
             var getTicketSecretFunc = new GetTicketSecretFunction()
             {
-                TicketId = ticketId
+                TicketId = ticketId,
+                TokenId = tokenId
             };
 
 
             var tSecret = service.GetTicketSecretQueryAsync(getTicketSecretFunc).Result;
 
-            if(tSecret != toServiceSecret(clientSecret))
+            if (tSecret != toServiceSecret(clientSecret))
             {
                 return false;
             }
@@ -277,7 +385,7 @@ namespace service_api.Controllers
             using (var hmacsha256 = new HMACSHA256(Encoding.UTF8.GetBytes(key)))
             {
                 var hash = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(text));
-                var hexString = "0"+BitConverter.ToString(hash).Replace("-","");
+                var hexString = "0" + BitConverter.ToString(hash).Replace("-", "");
                 val = BigInteger.Parse(
                 hexString,
                 NumberStyles.HexNumber);

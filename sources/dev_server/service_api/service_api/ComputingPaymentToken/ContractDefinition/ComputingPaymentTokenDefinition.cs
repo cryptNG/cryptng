@@ -28,197 +28,6 @@ namespace CryptNG.Autogen.ComputingPaymentToken.ContractDefinition
 
     }
 
-    public partial class OwnerFunction : OwnerFunctionBase { }
-
-    [Function("owner", "address")]
-    public class OwnerFunctionBase : FunctionMessage
-    {
-
-    }
-
-    public partial class RenounceOwnershipFunction : RenounceOwnershipFunctionBase { }
-
-    [Function("renounceOwnership")]
-    public class RenounceOwnershipFunctionBase : FunctionMessage
-    {
-
-    }
-
-    public partial class TransferOwnershipFunction : TransferOwnershipFunctionBase { }
-
-    [Function("transferOwnership")]
-    public class TransferOwnershipFunctionBase : FunctionMessage
-    {
-        [Parameter("address", "newOwner", 1)]
-        public virtual string NewOwner { get; set; }
-    }
-
-    public partial class GetTokensFunction : GetTokensFunctionBase { }
-
-    [Function("getTokens", "uint256[]")]
-    public class GetTokensFunctionBase : FunctionMessage
-    {
-        [Parameter("address", "owner", 1)]
-        public virtual string Owner { get; set; }
-    }
-
-    public partial class GetTicketIdFunction : GetTicketIdFunctionBase { }
-
-    [Function("getTicketId", "uint256")]
-    public class GetTicketIdFunctionBase : FunctionMessage
-    {
-        [Parameter("uint256", "tokenId", 1)]
-        public virtual BigInteger TokenId { get; set; }
-    }
-
-    public partial class GetTicketSecretFunction : GetTicketSecretFunctionBase { }
-
-    [Function("getTicketSecret", "uint256")]
-    public class GetTicketSecretFunctionBase : FunctionMessage
-    {
-        [Parameter("uint256", "ticketId", 1)]
-        public virtual BigInteger TicketId { get; set; }
-    }
-
-    public partial class AssignAllowedServiceFunction : AssignAllowedServiceFunctionBase { }
-
-    [Function("assignAllowedService")]
-    public class AssignAllowedServiceFunctionBase : FunctionMessage
-    {
-        [Parameter("address", "addressToAllow", 1)]
-        public virtual string AddressToAllow { get; set; }
-    }
-
-    public partial class UnassignAllowedServiceFunction : UnassignAllowedServiceFunctionBase { }
-
-    [Function("unassignAllowedService")]
-    public class UnassignAllowedServiceFunctionBase : FunctionMessage
-    {
-        [Parameter("address", "addressToDisallow", 1)]
-        public virtual string AddressToDisallow { get; set; }
-    }
-
-    public partial class ServiceBurnExecutionTicketsFunction : ServiceBurnExecutionTicketsFunctionBase { }
-
-    [Function("serviceBurnExecutionTickets")]
-    public class ServiceBurnExecutionTicketsFunctionBase : FunctionMessage
-    {
-        [Parameter("uint256", "ticketId", 1)]
-        public virtual BigInteger TicketId { get; set; }
-    }
-
-    public partial class CreateExecutionTicketFunction : CreateExecutionTicketFunctionBase { }
-
-    [Function("createExecutionTicket")]
-    public class CreateExecutionTicketFunctionBase : FunctionMessage
-    {
-        [Parameter("uint256", "serviceSecret", 1)]
-        public virtual BigInteger ServiceSecret { get; set; }
-    }
-
-    public partial class BurnExecutionTicketFunction : BurnExecutionTicketFunctionBase { }
-
-    [Function("burnExecutionTicket")]
-    public class BurnExecutionTicketFunctionBase : FunctionMessage
-    {
-        [Parameter("uint256", "ticketId", 1)]
-        public virtual BigInteger TicketId { get; set; }
-    }
-
-    public partial class MintFunction : MintFunctionBase { }
-
-    [Function("mint")]
-    public class MintFunctionBase : FunctionMessage
-    {
-        [Parameter("address", "_to", 1)]
-        public virtual string To { get; set; }
-    }
-
-    public partial class TotalSupplyFunction : TotalSupplyFunctionBase { }
-
-    [Function("totalSupply", "uint256")]
-    public class TotalSupplyFunctionBase : FunctionMessage
-    {
-
-    }
-
-    public partial class SetIsSaleActiveFunction : SetIsSaleActiveFunctionBase { }
-
-    [Function("setIsSaleActive")]
-    public class SetIsSaleActiveFunctionBase : FunctionMessage
-    {
-
-    }
-
-    public partial class SetIsSaleInactiveFunction : SetIsSaleInactiveFunctionBase { }
-
-    [Function("setIsSaleInactive")]
-    public class SetIsSaleInactiveFunctionBase : FunctionMessage
-    {
-
-    }
-
-    public partial class AdaptMarketPriceFunction : AdaptMarketPriceFunctionBase { }
-
-    [Function("adaptMarketPrice")]
-    public class AdaptMarketPriceFunctionBase : FunctionMessage
-    {
-        [Parameter("uint256", "newPriceGwei", 1)]
-        public virtual BigInteger NewPriceGwei { get; set; }
-    }
-
-    public partial class SupportsInterfaceFunction : SupportsInterfaceFunctionBase { }
-
-    [Function("supportsInterface", "bool")]
-    public class SupportsInterfaceFunctionBase : FunctionMessage
-    {
-        [Parameter("bytes4", "interfaceId", 1)]
-        public virtual byte[] InterfaceId { get; set; }
-    }
-
-    public partial class BalanceOfFunction : BalanceOfFunctionBase { }
-
-    [Function("balanceOf", "uint256")]
-    public class BalanceOfFunctionBase : FunctionMessage
-    {
-        [Parameter("address", "owner", 1)]
-        public virtual string Owner { get; set; }
-    }
-
-    public partial class OwnerOfFunction : OwnerOfFunctionBase { }
-
-    [Function("ownerOf", "address")]
-    public class OwnerOfFunctionBase : FunctionMessage
-    {
-        [Parameter("uint256", "tokenId", 1)]
-        public virtual BigInteger TokenId { get; set; }
-    }
-
-    public partial class NameFunction : NameFunctionBase { }
-
-    [Function("name", "string")]
-    public class NameFunctionBase : FunctionMessage
-    {
-
-    }
-
-    public partial class SymbolFunction : SymbolFunctionBase { }
-
-    [Function("symbol", "string")]
-    public class SymbolFunctionBase : FunctionMessage
-    {
-
-    }
-
-    public partial class TokenURIFunction : TokenURIFunctionBase { }
-
-    [Function("tokenURI", "string")]
-    public class TokenURIFunctionBase : FunctionMessage
-    {
-        [Parameter("uint256", "tokenId", 1)]
-        public virtual BigInteger TokenId { get; set; }
-    }
-
     public partial class ApproveFunction : ApproveFunctionBase { }
 
     [Function("approve")]
@@ -230,6 +39,15 @@ namespace CryptNG.Autogen.ComputingPaymentToken.ContractDefinition
         public virtual BigInteger TokenId { get; set; }
     }
 
+    public partial class BalanceOfFunction : BalanceOfFunctionBase { }
+
+    [Function("balanceOf", "uint256")]
+    public class BalanceOfFunctionBase : FunctionMessage
+    {
+        [Parameter("address", "owner", 1)]
+        public virtual string Owner { get; set; }
+    }
+
     public partial class GetApprovedFunction : GetApprovedFunctionBase { }
 
     [Function("getApproved", "address")]
@@ -239,15 +57,13 @@ namespace CryptNG.Autogen.ComputingPaymentToken.ContractDefinition
         public virtual BigInteger TokenId { get; set; }
     }
 
-    public partial class SetApprovalForAllFunction : SetApprovalForAllFunctionBase { }
+    public partial class GetTokensFunction : GetTokensFunctionBase { }
 
-    [Function("setApprovalForAll")]
-    public class SetApprovalForAllFunctionBase : FunctionMessage
+    [Function("getTokens", "uint256[]")]
+    public class GetTokensFunctionBase : FunctionMessage
     {
-        [Parameter("address", "operator", 1)]
-        public virtual string Operator { get; set; }
-        [Parameter("bool", "approved", 2)]
-        public virtual bool Approved { get; set; }
+        [Parameter("address", "owner", 1)]
+        public virtual string Owner { get; set; }
     }
 
     public partial class IsApprovedForAllFunction : IsApprovedForAllFunctionBase { }
@@ -261,17 +77,37 @@ namespace CryptNG.Autogen.ComputingPaymentToken.ContractDefinition
         public virtual string Operator { get; set; }
     }
 
-    public partial class TransferFromFunction : TransferFromFunctionBase { }
+    public partial class NameFunction : NameFunctionBase { }
 
-    [Function("transferFrom")]
-    public class TransferFromFunctionBase : FunctionMessage
+    [Function("name", "string")]
+    public class NameFunctionBase : FunctionMessage
     {
-        [Parameter("address", "from", 1)]
-        public virtual string From { get; set; }
-        [Parameter("address", "to", 2)]
-        public virtual string To { get; set; }
-        [Parameter("uint256", "tokenId", 3)]
+
+    }
+
+    public partial class OwnerFunction : OwnerFunctionBase { }
+
+    [Function("owner", "address")]
+    public class OwnerFunctionBase : FunctionMessage
+    {
+
+    }
+
+    public partial class OwnerOfFunction : OwnerOfFunctionBase { }
+
+    [Function("ownerOf", "address")]
+    public class OwnerOfFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "tokenId", 1)]
         public virtual BigInteger TokenId { get; set; }
+    }
+
+    public partial class RenounceOwnershipFunction : RenounceOwnershipFunctionBase { }
+
+    [Function("renounceOwnership")]
+    public class RenounceOwnershipFunctionBase : FunctionMessage
+    {
+
     }
 
     public partial class SafeTransferFromFunction : SafeTransferFromFunctionBase { }
@@ -300,6 +136,222 @@ namespace CryptNG.Autogen.ComputingPaymentToken.ContractDefinition
         public virtual BigInteger TokenId { get; set; }
         [Parameter("bytes", "_data", 4)]
         public virtual byte[] Data { get; set; }
+    }
+
+    public partial class SetApprovalForAllFunction : SetApprovalForAllFunctionBase { }
+
+    [Function("setApprovalForAll")]
+    public class SetApprovalForAllFunctionBase : FunctionMessage
+    {
+        [Parameter("address", "operator", 1)]
+        public virtual string Operator { get; set; }
+        [Parameter("bool", "approved", 2)]
+        public virtual bool Approved { get; set; }
+    }
+
+    public partial class SupportsInterfaceFunction : SupportsInterfaceFunctionBase { }
+
+    [Function("supportsInterface", "bool")]
+    public class SupportsInterfaceFunctionBase : FunctionMessage
+    {
+        [Parameter("bytes4", "interfaceId", 1)]
+        public virtual byte[] InterfaceId { get; set; }
+    }
+
+    public partial class SymbolFunction : SymbolFunctionBase { }
+
+    [Function("symbol", "string")]
+    public class SymbolFunctionBase : FunctionMessage
+    {
+
+    }
+
+    public partial class TokenURIFunction : TokenURIFunctionBase { }
+
+    [Function("tokenURI", "string")]
+    public class TokenURIFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "tokenId", 1)]
+        public virtual BigInteger TokenId { get; set; }
+    }
+
+    public partial class TotalSupplyFunction : TotalSupplyFunctionBase { }
+
+    [Function("totalSupply", "uint256")]
+    public class TotalSupplyFunctionBase : FunctionMessage
+    {
+
+    }
+
+    public partial class TransferFromFunction : TransferFromFunctionBase { }
+
+    [Function("transferFrom")]
+    public class TransferFromFunctionBase : FunctionMessage
+    {
+        [Parameter("address", "from", 1)]
+        public virtual string From { get; set; }
+        [Parameter("address", "to", 2)]
+        public virtual string To { get; set; }
+        [Parameter("uint256", "tokenId", 3)]
+        public virtual BigInteger TokenId { get; set; }
+    }
+
+    public partial class TransferOwnershipFunction : TransferOwnershipFunctionBase { }
+
+    [Function("transferOwnership")]
+    public class TransferOwnershipFunctionBase : FunctionMessage
+    {
+        [Parameter("address", "newOwner", 1)]
+        public virtual string NewOwner { get; set; }
+    }
+
+    public partial class GetExecutionBatchSizeByTokenIdFunction : GetExecutionBatchSizeByTokenIdFunctionBase { }
+
+    [Function("getExecutionBatchSizeByTokenId", "uint256")]
+    public class GetExecutionBatchSizeByTokenIdFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "tokenId", 1)]
+        public virtual BigInteger TokenId { get; set; }
+    }
+
+    public partial class GetTicketIdFunction : GetTicketIdFunctionBase { }
+
+    [Function("getTicketId", "uint256")]
+    public class GetTicketIdFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "tokenId", 1)]
+        public virtual BigInteger TokenId { get; set; }
+    }
+
+    public partial class GetTicketSecretFunction : GetTicketSecretFunctionBase { }
+
+    [Function("getTicketSecret", "uint256")]
+    public class GetTicketSecretFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "tokenId", 1)]
+        public virtual BigInteger TokenId { get; set; }
+        [Parameter("uint256", "ticketId", 2)]
+        public virtual BigInteger TicketId { get; set; }
+    }
+
+    public partial class RevokeTokenAllowanceFunction : RevokeTokenAllowanceFunctionBase { }
+
+    [Function("revokeTokenAllowance")]
+    public class RevokeTokenAllowanceFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "tokenId", 1)]
+        public virtual BigInteger TokenId { get; set; }
+    }
+
+    public partial class GiveTokenAllowanceFunction : GiveTokenAllowanceFunctionBase { }
+
+    [Function("giveTokenAllowance")]
+    public class GiveTokenAllowanceFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "tokenId", 1)]
+        public virtual BigInteger TokenId { get; set; }
+        [Parameter("address", "to", 2)]
+        public virtual string To { get; set; }
+    }
+
+    public partial class AssignAllowedServiceFunction : AssignAllowedServiceFunctionBase { }
+
+    [Function("assignAllowedService")]
+    public class AssignAllowedServiceFunctionBase : FunctionMessage
+    {
+        [Parameter("address", "addressToAllow", 1)]
+        public virtual string AddressToAllow { get; set; }
+    }
+
+    public partial class UnassignAllowedServiceFunction : UnassignAllowedServiceFunctionBase { }
+
+    [Function("unassignAllowedService")]
+    public class UnassignAllowedServiceFunctionBase : FunctionMessage
+    {
+        [Parameter("address", "addressToUnassign", 1)]
+        public virtual string AddressToUnassign { get; set; }
+    }
+
+    public partial class GetTokenIdByTicketIdFunction : GetTokenIdByTicketIdFunctionBase { }
+
+    [Function("getTokenIdByTicketId", "uint256")]
+    public class GetTokenIdByTicketIdFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "ticketId", 1)]
+        public virtual BigInteger TicketId { get; set; }
+    }
+
+    public partial class ServiceBurnExecutionTicketsFunction : ServiceBurnExecutionTicketsFunctionBase { }
+
+    [Function("serviceBurnExecutionTickets")]
+    public class ServiceBurnExecutionTicketsFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "ticketId", 1)]
+        public virtual BigInteger TicketId { get; set; }
+    }
+
+    public partial class CreateExecutionTicketFunction : CreateExecutionTicketFunctionBase { }
+
+    [Function("createExecutionTicket")]
+    public class CreateExecutionTicketFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "tokenId", 1)]
+        public virtual BigInteger TokenId { get; set; }
+        [Parameter("uint256", "serviceSecret", 2)]
+        public virtual BigInteger ServiceSecret { get; set; }
+    }
+
+    public partial class BurnExecutionTicketFunction : BurnExecutionTicketFunctionBase { }
+
+    [Function("burnExecutionTicket")]
+    public class BurnExecutionTicketFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "tokenId", 1)]
+        public virtual BigInteger TokenId { get; set; }
+    }
+
+    public partial class MintFunction : MintFunctionBase { }
+
+    [Function("mint")]
+    public class MintFunctionBase : FunctionMessage
+    {
+        [Parameter("uint16", "tokenType", 1)]
+        public virtual ushort TokenType { get; set; }
+        [Parameter("address", "_to", 2)]
+        public virtual string To { get; set; }
+    }
+
+    public partial class GetIsSaleActiveFunction : GetIsSaleActiveFunctionBase { }
+
+    [Function("getIsSaleActive", "bool")]
+    public class GetIsSaleActiveFunctionBase : FunctionMessage
+    {
+
+    }
+
+    public partial class SetIsSaleActiveFunction : SetIsSaleActiveFunctionBase { }
+
+    [Function("setIsSaleActive")]
+    public class SetIsSaleActiveFunctionBase : FunctionMessage
+    {
+
+    }
+
+    public partial class SetIsSaleInactiveFunction : SetIsSaleInactiveFunctionBase { }
+
+    [Function("setIsSaleInactive")]
+    public class SetIsSaleInactiveFunctionBase : FunctionMessage
+    {
+
+    }
+
+    public partial class AdaptMarketPriceFunction : AdaptMarketPriceFunctionBase { }
+
+    [Function("adaptMarketPrice")]
+    public class AdaptMarketPriceFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "newPriceGwei", 1)]
+        public virtual BigInteger NewPriceGwei { get; set; }
     }
 
     public partial class GetTokenBalanceFunction : GetTokenBalanceFunctionBase { }
@@ -337,6 +389,17 @@ namespace CryptNG.Autogen.ComputingPaymentToken.ContractDefinition
         public virtual bool Approved { get; set; }
     }
 
+    public partial class AssignedAllowedServiceEventEventDTO : AssignedAllowedServiceEventEventDTOBase { }
+
+    [Event("AssignedAllowedServiceEvent")]
+    public class AssignedAllowedServiceEventEventDTOBase : IEventDTO
+    {
+        [Parameter("address", "sender", 1, false )]
+        public virtual string Sender { get; set; }
+        [Parameter("address", "addressToAllow", 2, false )]
+        public virtual string AddressToAllow { get; set; }
+    }
+
     public partial class CreatedExecutionTicketEventDTO : CreatedExecutionTicketEventDTOBase { }
 
     [Event("CreatedExecutionTicket")]
@@ -344,10 +407,10 @@ namespace CryptNG.Autogen.ComputingPaymentToken.ContractDefinition
     {
         [Parameter("address", "from", 1, true )]
         public virtual string From { get; set; }
-        [Parameter("uint256", "ticketId", 2, true )]
-        public virtual BigInteger TicketId { get; set; }
-        [Parameter("uint256", "tokenId", 3, true )]
+        [Parameter("uint256", "tokenId", 2, true )]
         public virtual BigInteger TokenId { get; set; }
+        [Parameter("uint256", "ticketId", 3, true )]
+        public virtual BigInteger TicketId { get; set; }
     }
 
     public partial class ExecutionTicketBurnedEventDTO : ExecutionTicketBurnedEventDTOBase { }
@@ -357,9 +420,20 @@ namespace CryptNG.Autogen.ComputingPaymentToken.ContractDefinition
     {
         [Parameter("address", "from", 1, true )]
         public virtual string From { get; set; }
-        [Parameter("uint256", "ticketId", 2, true )]
+        [Parameter("uint256", "tokenId", 2, true )]
+        public virtual BigInteger TokenId { get; set; }
+        [Parameter("uint256", "ticketId", 3, true )]
         public virtual BigInteger TicketId { get; set; }
-        [Parameter("uint256", "tokenId", 3, true )]
+    }
+
+    public partial class GivenTokenAllowanceEventDTO : GivenTokenAllowanceEventDTOBase { }
+
+    [Event("GivenTokenAllowance")]
+    public class GivenTokenAllowanceEventDTOBase : IEventDTO
+    {
+        [Parameter("address", "to", 1, true )]
+        public virtual string To { get; set; }
+        [Parameter("uint256", "tokenId", 2, true )]
         public virtual BigInteger TokenId { get; set; }
     }
 
@@ -372,6 +446,15 @@ namespace CryptNG.Autogen.ComputingPaymentToken.ContractDefinition
         public virtual string PreviousOwner { get; set; }
         [Parameter("address", "newOwner", 2, true )]
         public virtual string NewOwner { get; set; }
+    }
+
+    public partial class RevokedTokenAllowanceEventDTO : RevokedTokenAllowanceEventDTOBase { }
+
+    [Event("RevokedTokenAllowance")]
+    public class RevokedTokenAllowanceEventDTOBase : IEventDTO
+    {
+        [Parameter("uint256", "tokenId", 1, true )]
+        public virtual BigInteger TokenId { get; set; }
     }
 
     public partial class TransferEventDTO : TransferEventDTOBase { }
@@ -387,6 +470,64 @@ namespace CryptNG.Autogen.ComputingPaymentToken.ContractDefinition
         public virtual BigInteger TokenId { get; set; }
     }
 
+    public partial class UnassignedAllowedServiceEventEventDTO : UnassignedAllowedServiceEventEventDTOBase { }
+
+    [Event("UnassignedAllowedServiceEvent")]
+    public class UnassignedAllowedServiceEventEventDTOBase : IEventDTO
+    {
+        [Parameter("address", "sender", 1, false )]
+        public virtual string Sender { get; set; }
+        [Parameter("address", "addressToUnassign", 2, false )]
+        public virtual string AddressToUnassign { get; set; }
+    }
+
+
+
+    public partial class BalanceOfOutputDTO : BalanceOfOutputDTOBase { }
+
+    [FunctionOutput]
+    public class BalanceOfOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("uint256", "", 1)]
+        public virtual BigInteger ReturnValue1 { get; set; }
+    }
+
+    public partial class GetApprovedOutputDTO : GetApprovedOutputDTOBase { }
+
+    [FunctionOutput]
+    public class GetApprovedOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("address", "", 1)]
+        public virtual string ReturnValue1 { get; set; }
+    }
+
+    public partial class GetTokensOutputDTO : GetTokensOutputDTOBase { }
+
+    [FunctionOutput]
+    public class GetTokensOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("uint256[]", "", 1)]
+        public virtual List<BigInteger> ReturnValue1 { get; set; }
+    }
+
+    public partial class IsApprovedForAllOutputDTO : IsApprovedForAllOutputDTOBase { }
+
+    [FunctionOutput]
+    public class IsApprovedForAllOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("bool", "", 1)]
+        public virtual bool ReturnValue1 { get; set; }
+    }
+
+    public partial class NameOutputDTO : NameOutputDTOBase { }
+
+    [FunctionOutput]
+    public class NameOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("string", "", 1)]
+        public virtual string ReturnValue1 { get; set; }
+    }
+
     public partial class OwnerOutputDTO : OwnerOutputDTOBase { }
 
     [FunctionOutput]
@@ -396,17 +537,70 @@ namespace CryptNG.Autogen.ComputingPaymentToken.ContractDefinition
         public virtual string ReturnValue1 { get; set; }
     }
 
-
-
-
-
-    public partial class GetTokensOutputDTO : GetTokensOutputDTOBase { }
+    public partial class OwnerOfOutputDTO : OwnerOfOutputDTOBase { }
 
     [FunctionOutput]
-    public class GetTokensOutputDTOBase : IFunctionOutputDTO 
+    public class OwnerOfOutputDTOBase : IFunctionOutputDTO 
     {
-        [Parameter("uint256[]", "", 1)]
-        public virtual List<BigInteger> ReturnValue1 { get; set; }
+        [Parameter("address", "", 1)]
+        public virtual string ReturnValue1 { get; set; }
+    }
+
+
+
+
+
+
+
+
+
+    public partial class SupportsInterfaceOutputDTO : SupportsInterfaceOutputDTOBase { }
+
+    [FunctionOutput]
+    public class SupportsInterfaceOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("bool", "", 1)]
+        public virtual bool ReturnValue1 { get; set; }
+    }
+
+    public partial class SymbolOutputDTO : SymbolOutputDTOBase { }
+
+    [FunctionOutput]
+    public class SymbolOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("string", "", 1)]
+        public virtual string ReturnValue1 { get; set; }
+    }
+
+    public partial class TokenURIOutputDTO : TokenURIOutputDTOBase { }
+
+    [FunctionOutput]
+    public class TokenURIOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("string", "", 1)]
+        public virtual string ReturnValue1 { get; set; }
+    }
+
+    public partial class TotalSupplyOutputDTO : TotalSupplyOutputDTOBase { }
+
+    [FunctionOutput]
+    public class TotalSupplyOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("uint256", "", 1)]
+        public virtual BigInteger ReturnValue1 { get; set; }
+    }
+
+
+
+
+
+    public partial class GetExecutionBatchSizeByTokenIdOutputDTO : GetExecutionBatchSizeByTokenIdOutputDTOBase { }
+
+    [FunctionOutput]
+    public class GetExecutionBatchSizeByTokenIdOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("uint256", "", 1)]
+        public virtual BigInteger ReturnValue1 { get; set; }
     }
 
     public partial class GetTicketIdOutputDTO : GetTicketIdOutputDTOBase { }
@@ -435,14 +629,10 @@ namespace CryptNG.Autogen.ComputingPaymentToken.ContractDefinition
 
 
 
-
-
-
-
-    public partial class TotalSupplyOutputDTO : TotalSupplyOutputDTOBase { }
+    public partial class GetTokenIdByTicketIdOutputDTO : GetTokenIdByTicketIdOutputDTOBase { }
 
     [FunctionOutput]
-    public class TotalSupplyOutputDTOBase : IFunctionOutputDTO 
+    public class GetTokenIdByTicketIdOutputDTOBase : IFunctionOutputDTO 
     {
         [Parameter("uint256", "", 1)]
         public virtual BigInteger ReturnValue1 { get; set; }
@@ -454,77 +644,12 @@ namespace CryptNG.Autogen.ComputingPaymentToken.ContractDefinition
 
 
 
-    public partial class SupportsInterfaceOutputDTO : SupportsInterfaceOutputDTOBase { }
+
+
+    public partial class GetIsSaleActiveOutputDTO : GetIsSaleActiveOutputDTOBase { }
 
     [FunctionOutput]
-    public class SupportsInterfaceOutputDTOBase : IFunctionOutputDTO 
-    {
-        [Parameter("bool", "", 1)]
-        public virtual bool ReturnValue1 { get; set; }
-    }
-
-    public partial class BalanceOfOutputDTO : BalanceOfOutputDTOBase { }
-
-    [FunctionOutput]
-    public class BalanceOfOutputDTOBase : IFunctionOutputDTO 
-    {
-        [Parameter("uint256", "", 1)]
-        public virtual BigInteger ReturnValue1 { get; set; }
-    }
-
-    public partial class OwnerOfOutputDTO : OwnerOfOutputDTOBase { }
-
-    [FunctionOutput]
-    public class OwnerOfOutputDTOBase : IFunctionOutputDTO 
-    {
-        [Parameter("address", "", 1)]
-        public virtual string ReturnValue1 { get; set; }
-    }
-
-    public partial class NameOutputDTO : NameOutputDTOBase { }
-
-    [FunctionOutput]
-    public class NameOutputDTOBase : IFunctionOutputDTO 
-    {
-        [Parameter("string", "", 1)]
-        public virtual string ReturnValue1 { get; set; }
-    }
-
-    public partial class SymbolOutputDTO : SymbolOutputDTOBase { }
-
-    [FunctionOutput]
-    public class SymbolOutputDTOBase : IFunctionOutputDTO 
-    {
-        [Parameter("string", "", 1)]
-        public virtual string ReturnValue1 { get; set; }
-    }
-
-    public partial class TokenURIOutputDTO : TokenURIOutputDTOBase { }
-
-    [FunctionOutput]
-    public class TokenURIOutputDTOBase : IFunctionOutputDTO 
-    {
-        [Parameter("string", "", 1)]
-        public virtual string ReturnValue1 { get; set; }
-    }
-
-
-
-    public partial class GetApprovedOutputDTO : GetApprovedOutputDTOBase { }
-
-    [FunctionOutput]
-    public class GetApprovedOutputDTOBase : IFunctionOutputDTO 
-    {
-        [Parameter("address", "", 1)]
-        public virtual string ReturnValue1 { get; set; }
-    }
-
-
-
-    public partial class IsApprovedForAllOutputDTO : IsApprovedForAllOutputDTOBase { }
-
-    [FunctionOutput]
-    public class IsApprovedForAllOutputDTOBase : IFunctionOutputDTO 
+    public class GetIsSaleActiveOutputDTOBase : IFunctionOutputDTO 
     {
         [Parameter("bool", "", 1)]
         public virtual bool ReturnValue1 { get; set; }

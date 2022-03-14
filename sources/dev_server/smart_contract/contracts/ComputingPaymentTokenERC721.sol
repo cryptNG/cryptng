@@ -85,14 +85,14 @@ contract ComputingPaymentTokenERC721 is
     // Mapping token id to token balance / num of executions
     uint256[] internal _tokenBalance;
 
-     event ExecutionTicketBurned(address indexed from, uint256 indexed ticketId, uint256 indexed tokenId);
+     event ExecutionTicketBurned(address indexed from, uint256 indexed tokenId,uint256 indexed ticketId);
     
     // Mapping from token ID to minutes since contract creation
     // if there is any value, the ticket exists and is in use
     //if a ticket is not fully burned e.g. when the executing customer service dies
     //it will stay open like this and await the next service time until consumed
     //consumed ticket = 0
-    uint256[] internal _executionTickets;
+    mapping(uint256 => mapping(uint256 => uint256)) internal _executionTickets;
 
     // Mapping from token ID to approved address
     mapping(uint256 => address) private _tokenApprovals;
@@ -142,7 +142,7 @@ contract ComputingPaymentTokenERC721 is
     }
 
     modifier _tokenHasBeenMinted(uint256 tokenId) {
-        require(_owners.length >getTokenIdIndex(tokenId), "Token does not exist");
+        require(_exists(tokenId),'The token does not exist!');
         _;
     }
 
@@ -405,7 +405,7 @@ contract ComputingPaymentTokenERC721 is
      * and stop existing when they are burned (`_burn`).
      */
     function _exists(uint256 tokenId) internal view virtual returns (bool) {
-        return _owners.length < getTokenIdIndex( tokenId); //owner length is the amt of existing tokens, including burned tokens
+        return getTokenIdIndex(tokenId) < _owners.length; //owner length is the amt of existing tokens, including burned tokens
     }
 
     /**
@@ -484,7 +484,8 @@ contract ComputingPaymentTokenERC721 is
         _owners.push(to);
         _types.push(ttype);
         _tokenBalance.push(1000);
-        _executionTickets.push(0);
+        //_owners.length - 1 is the ticketId
+        _executionTickets[tokenId][_owners.length - 1] = 0;
 
         emit Transfer(address(0), to, tokenId);
     }
