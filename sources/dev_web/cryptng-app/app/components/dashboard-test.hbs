@@ -34,9 +34,8 @@
 <div class="right">5 seconds per execution</div></div>
 </div></div>
 
-<div class="tokenspacer">&nbsp;</div>
 <div class="tokenfooter">
-	<button class="mint ripple {{unless this.web3service.isSaleActive 'disabled'}}" type="button">Mint for 0.0001 ETH (~2,50€)</button>
+	<button class="mint ripple {{unless this.web3service.isSaleActive 'inactive'}}" {{on "click" this.mintWhenDisabled}} type="button">Mint for 0.0001 ETH (~2,50€)</button>
 </div>
 </div>
 
@@ -68,9 +67,8 @@
 <div class="left">Time limit</div>
 <div class="right">5 seconds per execution</div></div>
 </div></div>
-<div class="tokenspacer">&nbsp;</div>
 <div class="tokenfooter">
-	<button class="mint ripple {{unless this.web3service.isSaleActive 'disabled'}}" type="button">Mint for 0.0001 ETH (~2,50€)</button>
+	<button class="mint ripple {{unless this.web3service.isSaleActive 'inactive'}}" {{on "click" this.mintWhenDisabled}} type="button">Mint for 0.0001 ETH (~2,50€)</button>
 </div>
 </div>
 
