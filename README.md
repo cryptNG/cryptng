@@ -34,9 +34,9 @@ Set a variable "ENVIRONMENT"
 Value: http://hub.cryptng.app:8545
 
 
-## SUPER COOL HACKS ##
+## DEVELOP ON THE NEXT LEVEL ##
 
-### SUPERCHARGE GIT ###
+### GIT WITHOUT GIT ###
 if you want to use git via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -54,7 +54,7 @@ use like so:
 
 congratulations, you can now git via docker.
 
-### SUPERDEVELOP IN TRUFFLE ###
+### TRUFFLE IS NOT JUST A FUNGHUS ###
 if you want to use truffle via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -75,7 +75,7 @@ congratulations, you can now use truffle via docker.
 btw, i'd like some kudos for this one, it took me a hella lot of time to get this working, thaaaankkk you.
 
 
-### NPM TASTES LIKE TRUFFLES ###
+### TRUFFLE CAN BE SO MUCH MORE ###
 if you want to use npm via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -95,7 +95,7 @@ congratulations, you can now use npm via docker.
 
 thanks to @cgreinke for pointing out that npm can be used like the truffle alias
 
-### NODE OR NO NODE ###
+### USE NODE FROM TRUFFLE ###
 if you want to use node via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
