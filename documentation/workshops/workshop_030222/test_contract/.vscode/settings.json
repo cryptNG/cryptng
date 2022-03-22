@@ -1,5 +1,0 @@
-{
-   "solidity.packageDefaultDependenciesContractsDirectory": "",
-  "solidity.packageDefaultDependenciesDirectory": "node_modules",
-  "solidity.defaultCompiler": "localNodeModule"
-}

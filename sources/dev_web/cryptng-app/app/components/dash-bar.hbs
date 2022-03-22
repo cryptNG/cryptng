@@ -1,0 +1,19 @@
+<div class="dashbar">
+<CryptlogoBanner @project="mint"></CryptlogoBanner>
+  
+  <div class="connectinfo">
+    {{#if this.web3service.isConnected}}
+    <div class="account" id="glow-red"><b>&lt;</b> {{this.web3service.accountName}} <b>&gt;</b></div>
+    {{else}}
+    <div class="account" id="glow-red"><b>&lt;</b> not connected <b>&gt;</b></div>
+    {{/if}}
+    <div class="connect-right">
+    {{#if this.web3service.isConnected}}
+    <button class="raise-button with-shadow connectbtn ripple" style="background-color: #da1f1fb2; color: white;" type="button"  {{action this.disconnect}}>DISCONNECT</button>
+    {{else}}
+    <button class="raise-button with-shadow connectbtn ripple" style="background-color: #da1f1fb2; color: white;" type="button"  {{action this.connect}}>CONNECT METAMASK</button>
+    {{/if}}
+    </div>
+     </div> 
+
+</div>

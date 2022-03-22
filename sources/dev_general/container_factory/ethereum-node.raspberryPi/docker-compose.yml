@@ -1,0 +1,18 @@
+services:
+  gethnode:
+    build:
+      context: .
+    volumes:
+      - ./data:/root/.ethereum/goerli
+    ports:
+      - "30303:30303"
+      - "8545:8545"
+    stdin_open: true
+    tty: true
+    #set network, http.addr enables access from everywhere
+    command: --goerli --http.addr 0.0.0.0 --http --http.api eth,net,web3
+volumes:
+  ethereum:
+version: '3.5'
+
+

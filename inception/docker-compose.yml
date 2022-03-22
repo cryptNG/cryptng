@@ -1,0 +1,25 @@
+version: "3"
+services:
+  cryptng:
+    build:
+      context: .
+    ports:
+      - "8545:8545"
+      - "9545:9545"
+      - "5000:5000"
+      - "5001:5001"
+      - "5432:5432"
+      - "8080:8080"
+      - "4000:4000"
+      - "4200:4200"
+      - "7020:7020"
+      - "7357:7357"
+    volumes:
+      - ./root/sources:/sources
+      -  /var/run/docker.sock:/var/run/docker.sock
+    entrypoint:
+      - docker-compose
+      - -f
+      - /root/sources/cryptng/tooling/docker-compose-inception.yml
+      - up
+ 

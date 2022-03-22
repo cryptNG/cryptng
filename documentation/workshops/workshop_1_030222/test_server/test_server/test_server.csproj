@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="Nethereum.ABI" Version="4.1.1" />
+    <PackageReference Include="Nethereum.Contracts" Version="4.1.1" />
+    <PackageReference Include="Nethereum.Hex" Version="4.1.1" />
+    <PackageReference Include="Nethereum.Util" Version="4.1.1" />
+    <PackageReference Include="nethereum.web3" Version="4.1.1" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <None Update="packagesheet.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packagesheet2pdf.xsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

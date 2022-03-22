@@ -1,0 +1,115 @@
+
+
+<DashBar></DashBar>
+
+<!DOCTYPE HTML>
+<!--
+	Thanks to Dimension by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		
+		<title>Crypto Next Generation</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<!--	<link rel="stylesheet" href="assets/css/main.css" /> -->
+		<noscript><link rel="stylesheet" href="assets/styles/template/noscript.css" /></noscript> 
+	
+	</head>
+	<body class="is-preload page">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="logo">
+							<!--<span class="icon fa-gem"></span>-->
+							<span class="icon">
+							<i class="icon-ethereum"></i>
+							</span>
+							<!--<span class="image main"><img src="assets/images/tingey-injury-law-firm-DZpc4UY8ZtY-unsplash.jpg" alt="" /></span>-->
+						</div>
+						<div class="content">
+							<div class="inner">
+								<h1>CryptNG</h1>
+								<p>Minting APP</p><br>
+								<p>Mint your NFT, join our ecosystem!</p>
+								<p>(THIS SERVICE IS CURRENTLY IN DEVELOPMENT)</p>
+							</div>
+						</div>
+						
+					</header>
+
+				<!-- Main -->
+					<div id="main">
+
+						{{#if this.showAboutUs}}
+						<ModalDialog @translucentOverlay={{true}} @onClose={{action 'toggleShowAboutUs'}} @containerClass="dark-modal" @overlayClass="dark-modal-overlay">
+						
+							<div class="modal-title"><h2 class="modal">About Us</h2></div>
+								<articlemodal id="aboutus">
+									<p>a collaboration between Novent Concepts & Yavuz IT Consulting</p><br>
+									<p>contact us at <a href="mailto:socialmedia@cryptng.app">socialmedia@cryptng.app</a> </p>
+									<p>Address: Yavuz IT Consulting, Kalbersnacken 5, 59759 Arnsberg (NW, Germany)</p>
+									<!-- <ul class="icons"> -->
+										<!-- <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li> -->
+										<!-- <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li> -->
+										<!-- <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li> -->
+										<!-- <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li> -->
+									<!-- </ul> -->
+								</articlemodal>  
+                        </ModalDialog>
+						{{/if}}
+						{{#if this.showPrivacy}}
+
+						<ModalDialog @translucentOverlay={{true}} @onClose={{action 'toggleShowPrivacy'}} @containerClass="dark-modal" @overlayClass="dark-modal-overlay">
+								
+							<div class="modal-title"><h2 class="modal">Privacy & Disclaimer</h2></div>
+                            <articlemodal id="privacydisclaimer">
+							
+								<p>This page does not employ any tracking, advertising other otherwise privacy-invading technology, don't worry.</p><br><p>no 3rd party cookies to find here</p><br><br><br>
+								
+								<p>1. Contents of the website<br>
+                                <br>
+                                The contents of this website were written with due diligence and by the author’s best knowledge.<br> We can be held liable only by general laws, especially for our own contents acc. § 7 TMG (German law on tele-media) and for external contents acc. §§ 8 – 10 TMG.<br> As a Provider of tele-media we can be held liable for external contents only once we have knowledge of a concrete infringement of law.<br> We reserve the right to change or delete contents of this webpage which are not subject to any contractual obligation.<br>
+                                <br>
+                                2. Links on external Websites<br>
+                                <br>
+                                Contents of external websites on which we are linking direct or indirect (through „hyperlinks“ or „deeplinks“) are beyond our responsibility and are not adopted as our own content.<br> When the links were published, we didn’t have knowledge of any illegal activities or contents on these websites.<br> Since we do not have any control on the contents of these websites, we distance ourselves from all contents of all linked websites, which were updated after the setting of the links.<br> For all contents and especially damages, resulting of the use of the linked websites, only the provider of these linked websites can be held liable.<br> If we receive knowledge of illegal contents on these linked websites, we will delete the according links.<br>
+                                <br>
+                                3. Intellectual property rights<br>
+                                <br>
+                                All content of this website, especially texts, pictures, images, graphical presentations, music, trademarks, brands and so forth, are subject to copyright laws.<br> The use, reproduction and so on are subject to the individual rights of the respective owner of the copyright or administrator of these rights.<br> If you want to use such content, please let us know and we will establish contact with the respective owner/administrator.<br>
+                                <br>
+                                This disclaimer for websites was written by the law office of Viola Lachenmann, <a href="http://www.kanzlei-lachenmann.de/">http://www.kanzlei-lachenmann.de/</a>.</p>
+							</articlemodal>
+                        </ModalDialog>
+					{{/if}}
+                      
+					<!--	{{yield}} -->
+							
+
+					</div>
+
+				<!-- Footer -->
+				<div class="footer">
+					<p class="copyright">&copy; CryptNG / Yavuz IT Consulting / Novent Concepts. Design inspiration: <a href="https://html5up.net">HTML5 UP</a> / Development: <a href="https://yavuz.support">Yavuz IT Consulting</a>, Novent Concepts</p>
+				</div>
+				
+
+			</div>
+
+		<!-- BG -->
+			<div id="bg"></div>
+
+		<!-- Scripts -->
+			{{!-- <script src="assets/js/jquery.min.js"></script> --}}
+			{{!-- <script src="assets/js/browser.min.js"></script> --}}
+			{{!-- <script src="assets/js/breakpoints.min.js"></script> --}}
+			{{!-- <script src="assets/js/main.js"></script> --}}
+
+	</body>
+</html>

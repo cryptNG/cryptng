@@ -1,0 +1,7 @@
+{
+   "solidity.packageDefaultDependenciesContractsDirectory": "",
+  "solidity.packageDefaultDependenciesDirectory": "node_modules",
+  "solidity.defaultCompiler": "localNodeModule",
+  "solidity.compileUsingRemoteVersion": "latest",  
+  "terminal.integrated.shellArgs.linux": ["-l"],
+}

@@ -4,6 +4,10 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 
+ignore.*
+node_modules/
+build/
+
 #N++ bak files
 *.bak
 
@@ -334,3 +338,9 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/documentation/workshops/*/*/build/
+/documentation/workshops/workshop_030222/test_contract/build/contracts
+/documentation/workshops/workshop_1_030222/Tooling/postgres-data
+/documentation/workshops/workshop_1_030222/test_service/distiller
+./do_not_include
+/do_not_include/*

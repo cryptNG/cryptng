@@ -1,0 +1,1 @@
+this compose runs all containers that we use on our server (rancherOS)

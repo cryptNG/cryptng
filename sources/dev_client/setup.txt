@@ -1,0 +1,167 @@
+
+
+## OUR DEVELOPMENT SETUP ##
+
+### WE USE GIT WITHOUT INSTALLING IT (WSL) ###
+we want to use git via container without actually installing it on your machine, follow these steps:
+
+`nano ~/.profile`
+
+paste following lines:
+
+`function git () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/git alpine/git "$@")}`
+
+save, run 
+`source ~/.profile`
+
+use like so:
+
+`git pull`
+
+congratulations, you can now git via docker.
+
+### WE USE TRUFFLE WITHOUT INSTALLING IT (WSL) ###
+## THIS USES OUR SELF-BUILT TRUFFLE IMAGE ##
+we want to use truffle via container without actually installing it on your machine, follow these steps:
+
+`nano ~/.profile`
+
+paste following lines:
+
+`function truffle () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite truffle "$@")}`
+
+save, run 
+`source ~/.profile`
+
+use like so:
+
+`truffle init`
+
+congratulations, you can now use truffle via docker.
+
+btw, i'd like some kudos for this one, it took me a hella lot of time to get this working, thaaaankkk you.
+
+
+### WE USE NPM WITHOUT INSTALLING IT (WSL) ###
+## THIS USES OUR SELF-BUILT TRUFFLE IMAGE ##
+we want to use npm via container without actually installing it on your machine, follow these steps:
+
+`nano ~/.profile`
+
+paste following lines:
+
+`function npm () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite npm "$@")}`
+
+save, run 
+`source ~/.profile`
+
+use like so:
+
+`npm -v`
+
+congratulations, you can now use npm via docker.
+
+thanks to @cgreinke for pointing out that npm can be used like the truffle alias
+
+### WE USE NODE WITHOUT INSTALLING IT (WSL) ###
+## THIS USES OUR SELF-BUILT TRUFFLE IMAGE ##
+we want to use node via container without actually installing it on your machine, follow these steps:
+
+`nano ~/.profile`
+
+paste following lines:
+
+`function node () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite node "$@")}`
+
+save, run 
+`source ~/.profile`
+
+use like so:
+
+`node -v`
+
+congratulations, you can now use node via docker.
+
+
+### WE USE EMBER.JS WITHOUT INSTALLING IT (WSL) ###
+
+
+we want to use ember via container without actually installing it on your machine, follow these steps:
+
+`nano ~/.profile`
+
+paste following lines:
+
+`function ember () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app danlynn/ember-cli:4.1.1 ember "$@")}`
+
+save, run 
+`source ~/.profile`
+
+use like so:
+
+`node -v`
+
+congratulations, you can now use ember via docker.
+
+--> to serve ember with an extra command
+
+
+`function embers () {(docker run -ti --rm -p 4200:4200 -p 7020:7020 -p 7357:7357  -v ${HOME}:/root -v $(pwd):/myapp danlynn/ember-cli:4.1.1 ember serve "$@")}`
+
+### WE USE YARN WITHOUT INSTALLING IT (WSL) ###
+
+
+we want to use yarn via container without actually installing it on your machine, follow these steps:
+
+`nano ~/.profile`
+
+paste following lines:
+
+`function yarn () {(docker run -ti --rm -v ${HOME}:/myapp -v $(pwd):/app danlynn/ember-cli:4.1.1 yarn "$@")}`
+
+save, run 
+`source ~/.profile`
+
+use like so:
+
+`node -v`
+
+congratulations, you can now use yarn via docker.
+
+
+
+### USING THESE IN THE VSCODE TERMINAL ###
+## THIS USES OUR SELF-BUILT TRUFFLE IMAGE FOR SOME COMMANDS##
+
+to use vscode console with our alias setups (truffle npm node etc)
+call "source ~/.profile" from the vscode terminal
+
+
+### All-in-one copypaste job ###
+
+just for you lazies out there.
+
+`#-----------------mapped docker aliases----------------`
+
+`#----------git---------`
+`function git () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/git alpine/git "$@")}`
+
+`#----------truffle---------`
+`function truffle () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite truffle "$@")}`
+
+`#----------npm---------`
+`function npm () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite npm "$@")}`
+
+`#----------node---------`
+`function node () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite node "$@")}`
+
+`#----------ember---------`
+`function ember () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/myapp danlynn/ember-cli:4.1.1 ember "$@")}`
+
+`#----------yarn---------`
+`function yarn () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/myapp danlynn/ember-cli:4.1.1 yarn "$@")}`
+
+`#----------ember-serve---------`
+`function embers () {(docker run -ti --rm -p 4200:4200 -p 7020:7020 -p 7357:7357  -v ${HOME}:/root -v $(pwd):/myapp danlynn/ember-cli:4.1.1 ember serve "$@")}`
+
+`#-----------------/mapped docker aliases----------------`
