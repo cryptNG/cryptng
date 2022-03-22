@@ -12,6 +12,9 @@ using CryptNG.Autogen.ComputingPaymentToken;
 using System.Text.Json;
 using System.Text;
 using app;
+using CryptNG.Autogen.BasicProofingToken;
+using CryptNG.Autogen.BasicProofingToken.ContractDefinition;
+using System;
 
 //TRUFFLE LOCAL DEVELOP DATA:
 // Accounts:
@@ -53,10 +56,10 @@ using app;
 
 
 
-var net_localdevelop = "http://localhost:8545";
+var net_localdevelop = "http://localhost:9545";
 var net_noventdevelopment = "http://192.168.0.7:9545";
 //private key of the account we are using here
-var privateKey = "f973e5765aa921c3e848fe5dfbf696f37029343b597bcaf2d6fe48da67d81734";
+var privateKey = "2163b1f7cb60228ec5adad6347e0768cfe909eec7a84b833c21ae516303d70d8";
 var account = new Account(privateKey, 1337);
 var web3 = new Web3(account, net_localdevelop);
 
@@ -64,8 +67,8 @@ var web3 = new Web3(account, net_localdevelop);
 //TODO: load wallet privateKey/ passphrase to generate privateKey
 //decryption
 
-var contractAddress = "0x3f3534D3e107838033dd7D8bd9c3e46730ed219f";
-
+var computingPaymentTokenContractAddress = "0xCE476007bd55342bc348aBD5d4C46B2967D46D30";
+var basicProofingTokenContractAddress = "0xab512A8125430e48b9ed1d203da737D9a3aE0965";
 
 Console.WriteLine("& After truffle develop:");
 Console.WriteLine("Did you migrate the contract in develop?");
@@ -77,6 +80,7 @@ Console.WriteLine("This is just temporary");
 
 Console.WriteLine("Did you update the contract address?");
 Console.WriteLine("Did you update the wallet addresses?");
+Console.WriteLine("Did you start the distiller service?");
 Console.WriteLine();
 
 
@@ -91,7 +95,7 @@ var serviceSecretReq = client.GetAsync($"/ServiceApi/createsecret?clientSecret={
 
 
 
-Console.WriteLine("Service SECRET REQ: "+ serviceSecretReq);
+Console.WriteLine("Service SECRET REQ: " + serviceSecretReq);
 string serviceSecretStr = serviceSecretReq.Content.ReadAsStringAsync().Result;
 Console.WriteLine("Service SECRET: " + serviceSecretStr);
 BigInteger serviceSecret = BigInteger.Parse(serviceSecretStr);
@@ -106,55 +110,74 @@ BigInteger serviceSecret = BigInteger.Parse(serviceSecretStr);
 //we mint on every call because i don't want to manually mint a token from time to time.
 
 
-ComputingPaymentTokenService service = new ComputingPaymentTokenService(web3, contractAddress);
+ComputingPaymentTokenService cptService = new ComputingPaymentTokenService(web3, computingPaymentTokenContractAddress);
+BasicProofingTokenService bptService = new BasicProofingTokenService(web3, basicProofingTokenContractAddress);
+
 var mintFunc = new MintFunction()
 {
     AmountToSend = 10000000000000000,
-    To = account.Address
+    To = account.Address,
+    TokenType = 1
+
 };
 
-var mintEvent = service.ContractHandler.GetEvent<TransferEventDTO>();
+var mintFuncProofing = new MintFunction()
+{
+    AmountToSend = 10000000000000000,
+    To = account.Address,
+    TokenType = 2
+};
+
+var mintEvent = cptService.ContractHandler.GetEvent<CryptNG.Autogen.ComputingPaymentToken.ContractDefinition.TransferEventDTO>();
 var mintFilter = await mintEvent.CreateFilterAsync();
 
-var mintReceipt = await service.MintRequestAsync(mintFunc);
+var mintReceipt = await cptService.MintRequestAsync(mintFuncProofing);
+
+Console.WriteLine(mintReceipt);
 
 var mintLog = await mintEvent.GetFilterChangesAsync(mintFilter);
 
+
+UInt64 tokenId = 0;
 foreach (var eventLog in mintLog)
 {
+    tokenId = (UInt64)eventLog.Event.TokenId;
     Console.WriteLine("Minted: " + eventLog.Event.TokenId);
 }
 
 
 
 
-BigInteger ticketId = 8;
+
+
+
+UInt64 ticketId = 8;
 
 var createExecutionTicketFunc = new CreateExecutionTicketFunction()
 {
-    ServiceSecret = serviceSecret
-
+    ServiceSecret = serviceSecret,
+    TokenId = tokenId
 };
 
-var createTicketEvent = service.ContractHandler.GetEvent<CreatedExecutionTicketEventDTO>();
+var createTicketEvent = cptService.ContractHandler.GetEvent<CreatedExecutionTicketEventDTO>();
 var createTicketEventFilter = await createTicketEvent.CreateFilterAsync();
 
-var createTicketReceipt = await service.CreateExecutionTicketRequestAsync(createExecutionTicketFunc);
+var createTicketReceipt = await cptService.CreateExecutionTicketRequestAsync(createExecutionTicketFunc);
 
 var createTicketLog = await createTicketEvent.GetFilterChangesAsync(createTicketEventFilter);
 
 foreach (var eventLog in createTicketLog)
 {
     Console.WriteLine("TicketID: " + eventLog.Event.TicketId);
-    ticketId = eventLog.Event.TicketId;
+    ticketId = (UInt64)eventLog.Event.TicketId;
     Console.WriteLine("TokenId: " + eventLog.Event.TokenId);
 }
 
 string xmlData = System.IO.File.ReadAllText("testinputData.xml");
 string xslData = System.IO.File.ReadAllText("testinputData2pdf.xsl");
-string requestJson = JsonSerializer.Serialize(new executionRequestModel() { xmlData = xmlData, xslData = xslData });
+string requestJson = JsonSerializer.Serialize(new executionRequestModel() { xmlData = xmlData, xslData = xslData, clientSecret = clientSecret, ticketId = ticketId, tokenId = tokenId });
 var requestStringContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
-var executionReq = client.PostAsync($"/ServiceApi/order?clientSecret={clientSecret}&ticketId={ticketId}", requestStringContent).Result;
+var executionReq = client.PostAsync($"/ServiceApi/order", requestStringContent).Result;
 string executionRequestId = executionReq.Content.ReadAsStringAsync().Result;
 Console.WriteLine("Req Result: " + executionRequestId);
 
@@ -172,7 +195,7 @@ while (timeoutInSeconds > 0 && OrderResult == "Created")
     try
     {
         Console.WriteLine("Retriving current order state");
-        OrderResult = client.GetAsync($"/ServiceApi/order/state?clientSecret={clientSecret}&ticketId={ticketId}&requestId={executionRequestId}").Result.Content.ReadAsStringAsync().Result;
+        OrderResult = client.GetAsync($"/ServiceApi/order/state?requestId={executionRequestId}").Result.Content.ReadAsStringAsync().Result;
         Console.WriteLine("STATE: " + OrderResult);
     }
     catch (Exception exc)
@@ -189,7 +212,7 @@ while (timeoutInSeconds > 0 && OrderResult == "Created")
     if (OrderResult == "Error")
     {
         Console.WriteLine("An Error occurred, retrieving info");
-        string errorRequestResult = client.GetAsync($"/ServiceApi/order/result?clientSecret={clientSecret}&ticketId={ticketId}&requestId={executionRequestId}").Result.Content.ReadAsStringAsync().Result;
+        string errorRequestResult = client.GetAsync($"/ServiceApi/order/result?requestId={executionRequestId}&tokenId={tokenId}").Result.Content.ReadAsStringAsync().Result;
         byte[] byData = Convert.FromBase64String(errorRequestResult);
         string errorResult = Encoding.UTF8.GetString(byData);
 
@@ -200,11 +223,34 @@ while (timeoutInSeconds > 0 && OrderResult == "Created")
     if (OrderResult == "Finished")
     {
         Console.WriteLine("FINISHED: " + OrderResult);
-        string executionResult = client.GetAsync($"/ServiceApi/order/result?clientSecret={clientSecret}&ticketId={ticketId}&requestId={executionRequestId}").Result.Content.ReadAsStringAsync().Result;
+        string executionResult = client.GetAsync($"/ServiceApi/order/result?requestId={executionRequestId}&tokenId={tokenId}").Result.Content.ReadAsStringAsync().Result;
         byte[] byData = Convert.FromBase64String(executionResult);
         Console.WriteLine("Result binary length: " + byData.Length);
         System.IO.File.WriteAllBytes("testresult.pdf", byData);
         Console.WriteLine("Result written");
+
+        //proofingtoken, check
+
+        byte[] savedData = File.ReadAllBytes("testresult.pdf");
+        byte[] hashed = util.createHashFromByteArray(savedData);
+        BigInteger hashBn = new BigInteger(hashed, true);
+
+        var proofHashMapFunction = new ProofHashMapFunction()
+        {
+
+            FromHash = hashBn
+
+        };
+
+
+        var proof = bptService.ProofHashMapQueryAsync(proofHashMapFunction).Result;
+        Console.WriteLine("TXHASH FOR PROOF: " + proof);
+
+
+        //
+
+
+
         return;
     }
 }
@@ -215,3 +261,5 @@ while (timeoutInSeconds > 0 && OrderResult == "Created")
 
 //System.IO.File.WriteAllBytes("testresult.pdf", data);
 //Console.WriteLine("Result written");
+
+

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
-namespace app
+namespace service_api.Controllers
 {
-
-    //used for execution request to service api
     public class executionRequestModel
     {
         public string xmlData { get; set; }
@@ -21,5 +14,4 @@ namespace app
         public string clientSecret { get; set; }
 
     }
-
 }
