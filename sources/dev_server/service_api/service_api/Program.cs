@@ -1,5 +1,7 @@
-var builder = WebApplication.CreateBuilder(args);
+using service_api.Configuration;
 
+
+var builder = ConfigurationHelper.CreateExtendedBuilder();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -8,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

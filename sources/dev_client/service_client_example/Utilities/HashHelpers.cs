@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace app
 {
-    public static class util
+    public static class HashHelpers
     {
         public static byte[] createHashFromByteArray(byte[] data) => createSha256(data);
 

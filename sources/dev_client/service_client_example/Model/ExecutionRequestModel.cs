@@ -9,7 +9,7 @@ namespace app
 {
 
     //used for execution request to service api
-    public class executionRequestModel
+    public class ExecutionRequestModel
     {
         public string xmlData { get; set; }
         public string xslData { get; set; }
