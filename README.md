@@ -176,7 +176,7 @@ btw, i'd like some kudos for this one, it took me a hella lot of time to get thi
 =======
 to serve truffle independently:
 
-`function truffled () {(docker run -ti --rm -v $(pwd):/app -p 9545:9545 cryptng/truffle-suite truffle develop "$@" && sudo chown -R 1000:1000 *))}`
+`function truffled () {(docker run -ti --rm -v $(pwd):/app -p 9545:9545 cryptng/truffle-suite truffle develop "$@" && sudo chown -R 1000:1000 *)}`
 
 ### NPM SHALL NOT LITTER ###
 >>>>>>> 2946bf2e2cfd8aafaf0336481335624900db60c8
@@ -186,7 +186,7 @@ if you want to use npm via container without actually installing it on your mach
 
 paste following lines:
 
-`function npm () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite npm "$@" && sudo chown -R 1000:1000 *))}`
+`function npm () {(docker run -ti --rm -v ${HOME}:/root -v $(pwd):/app cryptng/truffle-suite npm "$@" && sudo chown -R 1000:1000 *)}`
 
 save, run 
 `source ~/.profile`

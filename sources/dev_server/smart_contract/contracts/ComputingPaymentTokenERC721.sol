@@ -127,8 +127,12 @@ contract ComputingPaymentTokenERC721 is
         return  uint16(tokenId /_maxTokens);
     }
 
-    function getTokens( address owner) public view returns (uint256[] memory) {
-        uint256 tokenamt = balanceOf( owner);
+    function getTokens(address owner) public view returns (uint256[] memory) {
+        uint256 tokenamt = balanceOf(owner);
+        uint256[] memory emptyArr;
+        if(tokenamt == 0){
+            return emptyArr;
+        }
         uint256[] memory tokens = new uint256[](tokenamt);
         uint256 tokenlistpos = 0;
         for (uint256 i = 0; i < _owners.length; i++) {

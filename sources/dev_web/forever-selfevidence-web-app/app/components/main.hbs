@@ -1,0 +1,36 @@
+<DashBar></DashBar>
+
+<div class="is-preload page" {{did-insert this.didInsertFileUpload}}>
+	
+	<div class="inputbox">
+	<input class="custom-input" type="text" placeholder="Enter Hash" value={{this.enteredHashData.hashData}} {{on 'keyup' (fn this.updateEnteredHashData)}} ><button class="minibtn">X</button><button class="minibtn end">Upload</button>
+	</div>
+	
+	<div class="buttons">
+		<div class="together">
+<div class="splitter-text">TO</div>
+		<button class="btn" {{action this.verifyExistingEvidence}}>VERIFY EXISTING EVIDENCE</button>
+		</div>
+		<div class="together">
+			<div class="splitter-text">OR</div>
+		<button class="btn" {{action this.mintNewEvidence}}>MINT NEW EVIDENCE</button>
+		</div>
+	
+	
+	</div>
+<div class="results-showcase">
+	<div class="results">
+		{{#each this.verifiedResults as |result|}}
+		{{log result}}
+		<div class="result {{if result.success 'ok' 'nok'}}">{{#if result.isUpload}}{{result.fileName}}{{else}}{{nicer-hash result.hashData}}{{/if}}</div>
+		{{/each}}
+	</div>
+
+	
+	<div class="results">
+		{{#each this.mintedResults as |result|}}
+		<div class="result {{if result.success 'ok' 'nok'}}">{{nicer-hash result.hashData}}</div>
+		{{/each}}
+	</div>
+</div>
+</div>

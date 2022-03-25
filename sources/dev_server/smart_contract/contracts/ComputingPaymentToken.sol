@@ -18,7 +18,7 @@ contract ComputingPaymentToken is ComputingPaymentTokenERC721
         
       _executionBatchSize[0] = 16000;  // Reserved token type, 0 does not exist.
       _executionBatchSize[1] = 10; //Testtoken Standard 
-      _executionBatchSize[2] = 1;  //Testtoken Proofing
+      _executionBatchSize[2] = 1;  //Testtoken Evidencing
         _allowedServices[_msgSender()] = true;
     }
 
