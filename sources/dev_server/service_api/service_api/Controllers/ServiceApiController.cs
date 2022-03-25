@@ -154,8 +154,15 @@ namespace service_api.Controllers
 
 
             //var mintHashMapProofEvent = service.ContractHandler.GetEvent<MintedHashMapProofEventDTO>();
+            try
+            {
 
-            await service.MintHashMapEvidenceRequestAsync(mintHashMapEvidenceFunc);
+                await service.MintHashMapEvidenceRequestAndWaitForReceiptAsync(mintHashMapEvidenceFunc);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private BigInteger loadTransactionHashFromRequestId(string requestId, UInt64 tokenId)
@@ -284,7 +291,9 @@ namespace service_api.Controllers
 
             var serviceBurnTicketFunction = new ServiceBurnExecutionTicketsFunction()
             {
-                TicketId = ticketId
+                TicketId = ticketId,
+                FromAddress = _account.Address
+
             };
 
 
