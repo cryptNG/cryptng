@@ -41,6 +41,13 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
+    local:{
+      host: "localhost",
+      port: 9545,
+      network_id: 1337,
+      //provider: () => new HDWalletProvider('riot step orange junior leader tattoo crop uphold text online avoid best', `http://127.0.0.1:9545`),
+ 
+    },
     development: {
      host: "ganache",     // Ganache (RANCHER) CG
      port: 8545,            // Standard Ethereum port (default: none)
@@ -91,7 +98,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.0",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.8.1",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       settings: {          // See the solidity docs for advice about optimization and evmVersion
        optimizer: {

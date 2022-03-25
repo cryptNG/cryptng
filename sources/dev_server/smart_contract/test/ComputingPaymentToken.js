@@ -78,13 +78,17 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
     });
 
     
-    it('can mint type 2 with 0.001ETH', async () => {
+    it('can mint type 2 with 0.001ETH, 3 times', async () => {
         let token = await tokenContract.deployed();        
         let startingBalanceEth = web3.utils.fromWei(await web3.eth.getBalance(accounts[1]), 'ether'); 
         
         let value = web3.utils.toWei('0.001', 'ether');
         await truffleAssertions.passes(token.mint(2,accounts[1],{from:accounts[1], value: value}), 'mint fails with set price');
-        
+       
+        await truffleAssertions.passes(token.mint(2,accounts[1],{from:accounts[1], value: value}), 'mint fails with set price');
+        await truffleAssertions.passes(token.mint(2,accounts[1],{from:accounts[1], value: value}), 'mint fails with set price');
+       
+
         await token.contract.getPastEvents('Transfer', {
             fromBlock: 0,
             toBlock: 'latest'
@@ -103,7 +107,7 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         assert.isTrue(balanceEth>(startingBalanceEth-0.005),`account should have more than ${(startingBalanceEth-0.005)} ETH but has ${balanceEth} ETH`);
         
         let tokenBalance = await token.balanceOf(accounts[1]);
-        assert.isTrue(tokenBalance==2,`token balance incorrent, expected 1, found ${tokenBalance}`);
+        assert.isTrue(tokenBalance==4,`token balance incorrent, expected 4, found ${tokenBalance}`);
     
     });
 
@@ -136,15 +140,12 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         let secret = 256;
         
         let tokens = await token.getTokens(accounts[1]);
-        assert.isTrue(tokens.length == 2,"Token length was not 2, instead was " + tokens.length);
+        assert.isTrue(tokens.length == 4,"Tokens length was not 4, instead was " + tokens.length);
         let totalSupply = await token.totalSupply();
 
         let ticketId = await token.getTicketId(_tokens[0]);
         let ticketSecret = await token.getTicketSecret(_tokens[0],ticketId);
-        console.log('expected: ' + secret);
-        console.log('got: ' + ticketSecret);
-        console.log('tokens0: ' + _tokens[0]);
-        console.log('ticketid: ' + ticketId);
+        
         assert.isTrue(ticketSecret == secret);       
         
     });
@@ -155,17 +156,14 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         let secret = 256;
         
         let tokens = await token.getTokens(accounts[1]);
-        assert.isTrue(tokens.length == 2,"Token length was not 2, instead was " + tokens.length);
+        assert.isTrue(tokens.length == 4,"Token length was not 4, instead was " + tokens.length);
         let totalSupply = await token.totalSupply();
 
 
         let ticketId = await token.getTicketId(_tokens[1]);
         let ticketSecret = await token.getTicketSecret(_tokens[1],ticketId);
         
-        console.log('expected: ' + secret);
-        console.log('got: ' + ticketSecret);
-        console.log('tokens1: ' + _tokens[1]);
-        console.log('ticketid: ' + ticketId);
+        
         assert.isTrue(ticketSecret == secret);       
         
     });
@@ -177,7 +175,7 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
          
         let secret = 256;
         let tokens = await token.getTokens(accounts[1]);
-        assert.isTrue(tokens.length == 2);
+        assert.isTrue(tokens.length == 4, 'tokens length was not 4');
         let totalSupply = await token.totalSupply();
 
         //totalSuppy is always +1 on the maximum ticket/token id, which cannot exist
@@ -199,7 +197,7 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         let secret = 256;
         
         let tokens = await token.getTokens(accounts[1]);
-        assert.isTrue(tokens.length == 2);
+        assert.isTrue(tokens.length == 4, 'tokens length was not 4');
         let totalSupply = await token.totalSupply();
 
         //totalSuppy is always +1 on the maximum ticket/token id, which cannot exist
@@ -219,7 +217,7 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
 
         
         let tokens = await token.getTokens(accounts[1]);
-        assert.isTrue(tokens.length == 2,"expected length 2, was " + tokens.length);
+        assert.isTrue(tokens.length == 4,"expected length 4, was " + tokens.length);
         
       //  let ticketId = await token.getTicketId(_tokens[0]);
 
@@ -234,7 +232,7 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
 
         
         let tokens = await token.getTokens(accounts[1]);
-        assert.isTrue(tokens.length == 2);
+        assert.isTrue(tokens.length == 4,'tokens length was not 4');
         
        // let ticketId = await token.getTicketId(_tokens[1]);
 
@@ -249,7 +247,7 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         let secret = 256;
         
         let tokens = await token.getTokens(accounts[1]);
-        assert.isTrue(tokens.length == 2);
+        assert.isTrue(tokens.length == 4,'tokens length was not 4');
         
         let ticketId = await token.getTicketId(_tokens[0]);
 
@@ -265,7 +263,7 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         let secret = 256;
         
         let tokens = await token.getTokens(accounts[1]);
-        assert.isTrue(tokens.length == 2);
+        assert.isTrue(tokens.length == 4, 'tokens length was not 4');
         
         let ticketId = await token.getTicketId(_tokens[1]);
 
@@ -327,9 +325,9 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         let tokensLater = await token.getTokens(someCustomer);
         assert.isTrue(tokensLater.length > tokensBefore.length);
         
-        await createTicketForAccount(someCustomer, secret, mintedToken); //account X creates the ticket
+        let ticketId = await createTicketForAccount(someCustomer, secret, mintedToken); //account X creates the ticket
         
-        await truffleAssertions.reverts(token.serviceBurnExecutionTickets(mintedToken,{from:someCustomer}), "Caller has to be an assigned/allowed service."); 
+        await truffleAssertions.reverts(token.serviceBurnExecutionTickets(ticketId,{from:someCustomer}), "Caller has to be an assigned/allowed service."); 
         
     });
 
@@ -346,9 +344,9 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         let tokensLater = await token.getTokens(someCustomer);
         assert.isTrue(tokensLater.length > tokensBefore.length);
         
-        await createTicketForAccount(someCustomer, secret, mintedToken); //account X creates the ticket
+        let ticketId = await createTicketForAccount(someCustomer, secret, mintedToken); //account X creates the ticket
         
-        await truffleAssertions.reverts(token.serviceBurnExecutionTickets(mintedToken,{from:someCustomer}), "Caller has to be an assigned/allowed service."); 
+        await truffleAssertions.reverts(token.serviceBurnExecutionTickets(ticketId,{from:someCustomer}), "Caller has to be an assigned/allowed service."); 
         
     });
 
@@ -378,10 +376,10 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         let tokensLater = await token.getTokens(someCustomer);
         assert.isTrue(tokensLater.length > tokensBefore.length);
 
-        await createTicketForAccount(someCustomer, secret, mintedToken); //account X creates the ticket
+        let ticketId = await createTicketForAccount(someCustomer, secret, mintedToken); //account X creates the ticket
        
         //service should be able to burn the token now
-        await truffleAssertions.passes(token.serviceBurnExecutionTickets(mintedToken,{from:someService}), "Caller has to be an assigned/allowed service.");
+        await truffleAssertions.passes(token.serviceBurnExecutionTickets(ticketId,{from:someService}), "Service burn reverted for unknown reason.");
         
     });
     
@@ -401,10 +399,10 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         assert.isTrue(tokensLater.length > tokensBefore.length);
 
 
-        await createTicketForAccount(someCustomer, secret, mintedToken); //account X creates the ticket
+        let ticketId = await createTicketForAccount(someCustomer, secret, mintedToken); //account X creates the ticket
        
         //service should be able to burn the token now
-        await truffleAssertions.passes(token.serviceBurnExecutionTickets(mintedToken,{from:someService}), "Caller has to be an assigned/allowed service.");
+        await truffleAssertions.passes(token.serviceBurnExecutionTickets(ticketId,{from:someService}), "Service burn reverted for unknown reason.");
         
     });
 
@@ -433,11 +431,11 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         let tokensLater = await token.getTokens(someCustomer);
         assert.isTrue(tokensLater.length > tokensBefore.length);
 
-        await createTicketForAccount(someCustomer, secret, mintedToken); //account X creates the ticket
+        let ticketId = await createTicketForAccount(someCustomer, secret, mintedToken); //account X creates the ticket
         
        
         
-        await truffleAssertions.reverts(token.serviceBurnExecutionTickets(mintedToken,{from:someService}), "Caller has to be an assigned/allowed service."); 
+        await truffleAssertions.reverts(token.serviceBurnExecutionTickets(ticketId,{from:someService}), "Caller has to be an assigned/allowed service."); 
         
     });
 
@@ -457,11 +455,11 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
         assert.isTrue(tokensLater.length > tokensBefore.length);
 
 
-        await createTicketForAccount(someCustomer, secret, mintedToken); //account X creates the ticket
+        let ticketId = await createTicketForAccount(someCustomer, secret, mintedToken); //account X creates the ticket
         
        
         
-        await truffleAssertions.reverts(token.serviceBurnExecutionTickets(mintedToken,{from:someService}), "Caller has to be an assigned/allowed service."); 
+        await truffleAssertions.reverts(token.serviceBurnExecutionTickets(ticketId,{from:someService}), "Caller has to be an assigned/allowed service."); 
         
     });
 
@@ -490,10 +488,28 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
     });
     
     //utility functions
+
+
+
     async function createTicketForAccount(account, secret, tokenId)
     {
         let token = await tokenContract.deployed();    
         await token.createExecutionTicket(tokenId, secret,{from:account});
+
+        
+        let ticketId = null;
+        await token.contract.getPastEvents('CreatedExecutionTicket', {
+            fromBlock: 0,
+            toBlock: 'latest'
+        }, function(error, events){ 
+            //console.log(events); 
+        })
+        .then(function(events){
+            let event = events[events.length - 1];
+            ticketId = event.returnValues.ticketId;
+        });
+
+        return ticketId;
     }
     
     async function mintForAccount (type,account)
@@ -516,5 +532,97 @@ contract('ComputingPaymentToken: full integration', async (accounts) => {
 
         return tokenId;
     }
+
+
+
+    it('disallows anybody but owner to disable minting', async () => {
+        let token = await tokenContract.deployed();       
+       
+        await truffleAssertions.reverts(token.setIsSaleInactive({from: accounts[1]}),"Ownable: caller is not the owner");
+   
+    });
+    
+    it('allows owner to disable minting', async () => {
+        let token = await tokenContract.deployed();       
+       
+        await truffleAssertions.passes(token.setIsSaleInactive({from: accounts[0]}));
+   
+    });
+
+    
+    it('cannot mint type 1 with 0.001ETH after sales are closed', async () => {
+        let token = await tokenContract.deployed();        
+        let startingBalanceEth = web3.utils.fromWei(await web3.eth.getBalance(accounts[1]), 'ether'); 
+        
+        //need to use ws//GANACHEURL to get this to work, or use pastEvents like below
+        // token.contract.events.Transfer()
+        // .on('data', event => {console.log('DATA-EVENT! ' + event); this.tokens.push(event.returnValues.tokenId)})
+        // .on('changed', changed => console.log('CHANGED-EVENT! ' + changed))
+        // .on('error', err => {throw err})
+        // .on('connected', str => console.log('CONNECTED-EVENT! ' + str));
+
+        let value = web3.utils.toWei('0.001', 'ether');
+        await truffleAssertions.reverts(token.mint(1,accounts[1],{from:accounts[1], value: value}), "Sale is currently not active");
+        
+        
+    
+    });
+
+    
+    it('disallows anybody but owner to enable minting', async () => {
+        let token = await tokenContract.deployed();       
+       
+        await truffleAssertions.reverts(token.setIsSaleActive({from: accounts[1]}),"Ownable: caller is not the owner");
+   
+    });
+    
+    it('allows owner to enable minting', async () => {
+        let token = await tokenContract.deployed();       
+       
+        await truffleAssertions.passes(token.setIsSaleActive({from: accounts[0]}));
+   
+    });
+
+    
+    it('can mint type 1 with 0.001ETH after sale has been re-enabled', async () => {
+        let token = await tokenContract.deployed();        
+        let startingBalanceEth = web3.utils.fromWei(await web3.eth.getBalance(accounts[1]), 'ether'); 
+        
+        //need to use ws//GANACHEURL to get this to work, or use pastEvents like below
+        // token.contract.events.Transfer()
+        // .on('data', event => {console.log('DATA-EVENT! ' + event); this.tokens.push(event.returnValues.tokenId)})
+        // .on('changed', changed => console.log('CHANGED-EVENT! ' + changed))
+        // .on('error', err => {throw err})
+        // .on('connected', str => console.log('CONNECTED-EVENT! ' + str));
+
+        let value = web3.utils.toWei('0.001', 'ether');
+        await truffleAssertions.passes(token.mint(1,accounts[1],{from:accounts[1], value: value}), 'mint fails with set price');
+        
+        
+        await token.contract.getPastEvents('Transfer', {
+            fromBlock: 0,
+            toBlock: 'latest'
+        }, function(error, events){ 
+            //console.log(events); 
+        })
+        .then(function(events){
+            let event = events[events.length - 1];
+            //console.log('TokenId! ' + event.returnValues.tokenId); 
+            _tokens.push(event.returnValues.tokenId);
+        });
+        
+        assert.isTrue(_tokens.length == 3, 'the token id has not been retrieved');
+        assert.isTrue(_tokens[0]>100000000000-1, 'the token id is invalid ' + _tokens[0]);
+        
+        let balanceWei = await web3.eth.getBalance(accounts[1]);
+        let balanceEth = web3.utils.fromWei(balanceWei, 'ether');
+        assert.isTrue(balanceEth<startingBalanceEth,`account still has ${balanceEth} ETH`);
+        assert.isTrue(balanceEth>(startingBalanceEth-0.005),`account should have more than ${(startingBalanceEth-0.005)} ETH but has ${balanceEth} ETH`);
+        
+        let tokenBalance = await token.balanceOf(accounts[1]);
+
+        assert.isTrue(tokenBalance==7,`token balance incorrent, expected 5, found ${tokenBalance}`);
+    
+    });
 
 });

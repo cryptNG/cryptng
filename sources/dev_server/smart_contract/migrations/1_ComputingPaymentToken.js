@@ -1,5 +1,6 @@
 const Token = artifacts.require("ComputingPaymentToken");
 
+//ngc generate from-abi -abi BasicEvidencingToken.abi -o . -ns CryptNG.Autogen
 
 
 module.exports = function (deployer) {

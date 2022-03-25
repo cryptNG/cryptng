@@ -1,27 +1,45 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Nethereum.ABI" Version="4.1.1" />
-    <PackageReference Include="Nethereum.Contracts" Version="4.1.1" />
-    <PackageReference Include="Nethereum.Hex" Version="4.1.1" />
-    <PackageReference Include="Nethereum.Util" Version="4.1.1" />
-    <PackageReference Include="nethereum.web3" Version="4.1.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+		<PackageReference Include="Nethereum.ABI" Version="4.2.0" />
+		<PackageReference Include="Nethereum.Contracts" Version="4.2.0" />
+		<PackageReference Include="Nethereum.Hex" Version="4.2.0" />
+		<PackageReference Include="Nethereum.Util" Version="4.2.0" />
+		<PackageReference Include="nethereum.web3" Version="4.2.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="testinputData.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="testinputData2pdf.xsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="appsettings.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Distiller_Samples\pdf_sample.xsl">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Distiller_Samples\testinputData.xml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Distiller_Samples\testinputData2pdf.xsl">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Distiller_Samples\xml_sample.xml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="testinputData.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="testinputData2pdf.xsl">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>

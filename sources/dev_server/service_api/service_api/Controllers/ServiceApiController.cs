@@ -13,15 +13,11 @@ using Nethereum.Contracts.Extensions;
 using System.Numerics;
 using CryptNG.Autogen.ComputingPaymentToken.ContractDefinition;
 using CryptNG.Autogen.ComputingPaymentToken;
-using CryptNG.Autogen.BasicProofingToken.ContractDefinition;
-using CryptNG.Autogen.BasicProofingToken;
+using CryptNG.Autogen.BasicEvidencingToken.ContractDefinition;
+using CryptNG.Autogen.BasicEvidencingToken;
 using ApiClient.PdfDestiller;
 
-public class executionRequestModel
-{
-    public string xmlData { get; set; }
-    public string xslData { get; set; }
-}
+
 
 namespace service_api.Controllers
 {
@@ -29,27 +25,44 @@ namespace service_api.Controllers
     [Route("[controller]")]
     public class ServiceApiController : ControllerBase
     {
+        private string _test_secretKey;
+        private string _distiller_url;
+        private string _tempMemoryDirectory;
+        private string _computingPaymentTokenContractAddress;
+        private string _basicEvidencingTokenContractAddress;
+        private Account _account;
+        private Web3 _web3;
+        private IConfiguration _configuration;
 
-        private const string net_containerDevelop = "http://pdfdistiller:8545";
-        private static string tempMemoryDirectory = "counters";
-        private static string contractAddress = "0x3f3534D3e107838033dd7D8bd9c3e46730ed219f";
-
+        //TYPE 0 does not exist and is due to a mathematical limitation inside the calculations (times 0)
+        readonly int[] _typedExecutionBatchSize = { 0, 10, 1 };
+        readonly BigInteger _maxTokens = 100000000000;
 
 
         private readonly ILogger<ServiceApiController> _logger;
 
-        public ServiceApiController(ILogger<ServiceApiController> logger)
+        public ServiceApiController(ILogger<ServiceApiController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
 
+            _account = new Account(_configuration["Web3:PrivateKeys:owner"], 1337);
+            _web3 = new Web3(_account, _configuration["Web3:RPC_URL"]);
+            _test_secretKey = _configuration["Web3:Test_SecretKey"];
+            _distiller_url = _configuration["Distiller_URL"];
+
+            _tempMemoryDirectory = _configuration["TempDirectory"];
+
+            _computingPaymentTokenContractAddress = _configuration["Web3:Contracts:ComputingPaymentToken"];
+            _basicEvidencingTokenContractAddress = _configuration["Web3:Contracts:basicEvidencingToken"];
 
             try
             {
-                if (!Directory.Exists(tempMemoryDirectory)) Directory.CreateDirectory(tempMemoryDirectory);
+                if (!Directory.Exists(_tempMemoryDirectory)) Directory.CreateDirectory(_tempMemoryDirectory);
             }
             catch (Exception ex)
             {
-                if (!Directory.Exists(tempMemoryDirectory))
+                if (!Directory.Exists(_tempMemoryDirectory))
                 {
                     Console.WriteLine(ex);
                     Environment.Exit(-1);
@@ -59,28 +72,24 @@ namespace service_api.Controllers
 
 
         [HttpGet("order/result")]
-        public ActionResult GetResult(BigInteger tokenId, UInt64 ticketId, string clientSecret, string requestId)
+        public async Task<ActionResult> GetResult(UInt64 tokenId, string requestId)
         {
-
-            if (!validateExecutionTicket(tokenId, ticketId, clientSecret))
-            {
-                return StatusCode(401, "Unauthorized");
-            }
 
             var resultData = getResult(requestId);
 
-            if (isProofingToken(tokenId))
+            if (isEvidencingToken(tokenId) && hasStoredTransactionHash(requestId, tokenId))
             {
-                byte[] bin = Convert.FromBase64String(resultData);
-                byte[] hashed = createSha256(bin);
-                BigInteger txHash = loadTransactionHashFromRequestId(requestId);
-                createBlockchainProof(new BigInteger(hashed, true), txHash); //BigInteger(byte[], bool IsUnsigned)
+                byte[] hashed = createHashFromBase64String(resultData);
+                BigInteger txHash = loadTransactionHashFromRequestId(requestId, tokenId);
+                await createBlockchainProof(new BigInteger(hashed, true), txHash); //BigInteger(byte[], bool IsUnsigned)
                 return StatusCode(200, resultData);
             }
 
 
             return StatusCode(200, resultData);
         }
+
+        private byte[] createHashFromBase64String(string b64) => createSha256(Convert.FromBase64String(b64));
 
         private byte[] createSha256(byte[] bin)
         {
@@ -90,39 +99,30 @@ namespace service_api.Controllers
         }
 
         [HttpGet("order/state")]
-        public ActionResult GetState(BigInteger tokenId, UInt64 ticketId, string clientSecret, string requestId)
+        public ActionResult GetState(string requestId)
         {
-
-            if (!validateExecutionTicket(tokenId, ticketId, clientSecret))
-            {
-                return StatusCode(401, "Unauthorized");
-            }
 
 
             return StatusCode(200, getState(requestId));
         }
 
-        private void storeTransactionHashToRequestId(string requestId, string txHash)
+        private void storeTransactionHashToRequestId(string requestId, UInt64 tokenId, string txHash)
         {
 
             try
             {
-                System.IO.File.WriteAllText($"{tempMemoryDirectory}/{requestId}.txh", txHash);
+                System.IO.File.WriteAllText($"{_tempMemoryDirectory}/{requestId}_{tokenId}.txh", txHash);
 
             }
             catch (Exception ex)
             {
-                if (!System.IO.File.Exists($"{tempMemoryDirectory}//{requestId}.txh"))
+                if (!System.IO.File.Exists($"{_tempMemoryDirectory}//{requestId}_{tokenId}.txh"))
                 {
                     throw new Exception("Cannot access counter requestId to txHash mapFile " + ex);
                 }
             }
 
         }
-
-        //TYPE 0 does not exist and is due to a mathematical limitation inside the calculations (times 0)
-        readonly int[] _typedExecutionBatchSize = { 0, 1, 2 };
-        readonly BigInteger _maxTokens = 100000000000;
 
 
         private int getTypeByTokenId(BigInteger tokenId)
@@ -135,21 +135,18 @@ namespace service_api.Controllers
             return _typedExecutionBatchSize[getTypeByTokenId(tokenId)];
         }
 
-        private bool isProofingToken(BigInteger tokenId)
+        private bool isEvidencingToken(BigInteger tokenId)
         {
-            return _typedExecutionBatchSize[getTypeByTokenId(tokenId)] == TokenTypes.ProofingType;
+            return getTypeByTokenId(tokenId) == TokenTypes.EvidenceType;
         }
 
-        private void createBlockchainProof(BigInteger fileHash, BigInteger txHash)
+        private async Task createBlockchainProof(BigInteger fileHash, BigInteger txHash)
         {
-            var privateKey = "f973e5765aa921c3e848fe5dfbf696f37029343b597bcaf2d6fe48da67d81734";
-            var account = new Account(privateKey, 1337);
-            var web3 = new Web3(account, net_containerDevelop);
-            BasicProofingTokenService service = new BasicProofingTokenService(web3, contractAddress);
+            BasicEvidencingTokenService service = new BasicEvidencingTokenService(_web3, _basicEvidencingTokenContractAddress);
 
 
 
-            var mintHashMapProofFunc = new MintHashMapProofFunction()
+            var mintHashMapEvidenceFunc = new MintHashMapEvidenceFunction()
             {
                 FromHash = fileHash,
                 ToHash = txHash
@@ -158,48 +155,49 @@ namespace service_api.Controllers
 
             //var mintHashMapProofEvent = service.ContractHandler.GetEvent<MintedHashMapProofEventDTO>();
 
-            var result = service.MintHashMapProofRequestAsync(mintHashMapProofFunc).Result;
+            await service.MintHashMapEvidenceRequestAsync(mintHashMapEvidenceFunc);
         }
 
-        private BigInteger loadTransactionHashFromRequestId(string requestId)
+        private BigInteger loadTransactionHashFromRequestId(string requestId, UInt64 tokenId)
         {
             //TODO: Unsigned?
-            return BigInteger.Parse(System.IO.File.ReadAllText($"{tempMemoryDirectory}//{requestId}.txh"));
+
+            return BigInteger.Parse(System.IO.File.ReadAllText($"{_tempMemoryDirectory}//{requestId}_{tokenId}.txh").Replace("x", ""), NumberStyles.HexNumber);
         }
 
-        private void deleteTransactionHashToRequestIdMappingFile(string requestId)
+        private void deleteTransactionHashToRequestIdMappingFile(string requestId, UInt64 tokenId)
         {
-            System.IO.File.Delete($"{tempMemoryDirectory}//{requestId}.txh");
+            System.IO.File.Delete($"{_tempMemoryDirectory}//{requestId}_{tokenId}.txh");
         }
 
         private int createOrLoadTempFile(string clientSecret, UInt64 ticketId)
         {
-            if (!System.IO.File.Exists($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
+            if (!System.IO.File.Exists($"{_tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
             {
                 try
                 {
-                    System.IO.File.WriteAllText($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt", "0");
+                    System.IO.File.WriteAllText($"{_tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt", "0");
 
                 }
                 catch (Exception ex)
                 {
-                    if (!System.IO.File.Exists($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
+                    if (!System.IO.File.Exists($"{_tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
                     {
                         throw new Exception("Cannot access counter file " + ex);
                     }
                 }
             }
-            return Convert.ToInt32(System.IO.File.ReadAllText($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"));
+            return Convert.ToInt32(System.IO.File.ReadAllText($"{_tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"));
         }
 
 
 
         [HttpPost("order")]
-        public ActionResult CreateOrder(BigInteger tokenId, UInt64 ticketId, string clientSecret, [FromBody] executionRequestModel model)
+        public ActionResult CreateOrder([FromBody] executionRequestModel model)
         {
 
 
-            if (!validateExecutionTicket(tokenId, ticketId, clientSecret))
+            if (!validateExecutionTicket(model.tokenId, model.ticketId, model.clientSecret))
             {
                 return StatusCode(401, "Unauthorized");
             }
@@ -208,35 +206,39 @@ namespace service_api.Controllers
 
 
             var requestId = createOrder(model.xmlData, model.xslData);
-            int counterMax = getExecutionBatchSize(tokenId);
+            int counterMax = getExecutionBatchSize(model.tokenId);
 
 
-            int counter = createOrLoadTempFile(clientSecret, ticketId) + 1;
+            int counter = createOrLoadTempFile(model.clientSecret, model.ticketId) + 1;
 
             if (counter >= counterMax)
             {
-                var result = serviceBurnExecutionTicket(ticketId);
-                if (isProofingToken(result.tokenId))
+                var result = serviceBurnExecutionTicket(model.ticketId);
+                if (isEvidencingToken(result.tokenId))
                 {
-                    storeTransactionHashToRequestId(requestId, result.txHash);
+                    storeTransactionHashToRequestId(requestId, model.tokenId, result.txHash);
                 }
-                deleteCounterFile(clientSecret, ticketId);
+                deleteCounterFile(model.clientSecret, model.ticketId);
             }
             else
             {
-                writeCounterFile(clientSecret, ticketId, counter);
+                writeCounterFile(model.clientSecret, model.ticketId, counter);
             }
             return StatusCode(200, requestId);
         }
 
+        private bool hasStoredTransactionHash(string requestId, UInt64 tokenId)
+        {
+            return System.IO.File.Exists($"{_tempMemoryDirectory}//{requestId}_{tokenId}.txh");
+        }
 
         private void writeCounterFile(string clientSecret, UInt64 ticketId, int counter)
         {
-            if (System.IO.File.Exists($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
+            if (System.IO.File.Exists($"{_tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
             {
                 try
                 {
-                    System.IO.File.WriteAllText($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt", counter.ToString());
+                    System.IO.File.WriteAllText($"{_tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt", counter.ToString());
                 }
                 catch (Exception ex)
                 {
@@ -249,14 +251,14 @@ namespace service_api.Controllers
         {
             try
             {
-                System.IO.File.Delete($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt");
+                System.IO.File.Delete($"{_tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt");
             }
             catch (Exception ex)
             {
-                if (System.IO.File.Exists($"{tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
+                if (System.IO.File.Exists($"{_tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
                 {
                     Console.WriteLine("Could not delete counterfile: " + ex.Message);
-                    Console.WriteLine($"FILE: {tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt");
+                    Console.WriteLine($"FILE: {_tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt");
                 }
             }
 
@@ -275,10 +277,8 @@ namespace service_api.Controllers
             //the distiller is set to dns:0.0.0.0 in the compose
             //this disables any outside connections to it, it can only be accessed from
             //within the container ecosystem
-            var privateKey = "f973e5765aa921c3e848fe5dfbf696f37029343b597bcaf2d6fe48da67d81734";
-            var account = new Account(privateKey, 1337);
-            var web3 = new Web3(account, net_containerDevelop);
-            ComputingPaymentTokenService service = new ComputingPaymentTokenService(web3, contractAddress);
+
+            ComputingPaymentTokenService service = new ComputingPaymentTokenService(_web3, _computingPaymentTokenContractAddress);
 
 
 
@@ -312,12 +312,10 @@ namespace service_api.Controllers
 
 
         //TBD: do we create mapping of executionticket to tokenid
-        private bool validateExecutionTicket(BigInteger tokenId, UInt64 ticketId, string clientSecret)
+        private bool validateExecutionTicket(UInt64 tokenId, UInt64 ticketId, string clientSecret)
         {
-            var privateKey = "f973e5765aa921c3e848fe5dfbf696f37029343b597bcaf2d6fe48da67d81734";
-            var account = new Account(privateKey, 1337);
-            var web3 = new Web3(account, net_containerDevelop);
-            ComputingPaymentTokenService service = new ComputingPaymentTokenService(web3, contractAddress);
+
+            ComputingPaymentTokenService service = new ComputingPaymentTokenService(_web3, _computingPaymentTokenContractAddress);
 
 
 
@@ -340,7 +338,7 @@ namespace service_api.Controllers
 
         private string getResult(string requestId)
         {
-            HttpClient client = new HttpClient() { BaseAddress = new Uri("http://localhost:8080") };
+            HttpClient client = new HttpClient() { BaseAddress = new Uri(_distiller_url) };
             PdfDestillerClient distiller = new PdfDestillerClient(client);
 
             var pdfResult = distiller.GetPdfDocumentObjectAsync(requestId).GetAwaiter().GetResult();
@@ -357,14 +355,14 @@ namespace service_api.Controllers
 
         private string getState(string requestId)
         {
-            HttpClient client = new HttpClient() { BaseAddress = new Uri("http://localhost:8080") };
+            HttpClient client = new HttpClient() { BaseAddress = new Uri(_distiller_url) };
             PdfDestillerClient distiller = new PdfDestillerClient(client);
             return distiller.GetOrderStateAsync(requestId).GetAwaiter().GetResult();
         }
 
         private string createOrder(string xmlData, string xslData)
         {
-            HttpClient client = new HttpClient() { BaseAddress = new Uri("http://localhost:8080") };
+            HttpClient client = new HttpClient() { BaseAddress = new Uri(_distiller_url) };
             PdfDestillerClient distiller = new PdfDestillerClient(client);
             string requestId = DateTime.Now.Ticks.ToString();
             distiller.PostOrderAsync(new OrderPo()
@@ -379,10 +377,10 @@ namespace service_api.Controllers
 
         private BigInteger toServiceSecret(string text)
         {
-            string key = "ourSecretKey";
+
             BigInteger val = 0;
 
-            using (var hmacsha256 = new HMACSHA256(Encoding.UTF8.GetBytes(key)))
+            using (var hmacsha256 = new HMACSHA256(Encoding.UTF8.GetBytes(_test_secretKey)))
             {
                 var hash = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(text));
                 var hexString = "0" + BitConverter.ToString(hash).Replace("-", "");
@@ -397,80 +395,5 @@ namespace service_api.Controllers
         }
 
 
-
-        //[HttpPost("order/result")]
-        //public ActionResult Execute(string clientSecret, Int64 ticketId, [FromBody] executionRequestModel model)
-        //{
-
-        //    if (!validateExecutionTicket(ticketId, clientSecret))
-        //    {
-        //        return StatusCode(401, "Unauthorized");
-        //    }
-
-
-        //    return StatusCode(200, requestPdf(model.xmlData, model.xslData));
-        //}
-
-
-        //private string requestPdf(string xmlData, string xslData)
-        //{
-        //    HttpClient client = new HttpClient() { BaseAddress = new Uri("http://localhost:8080") };
-        //    PdfDestillerClient distiller = new PdfDestillerClient(client);
-        //    string requestId = DateTime.Now.Ticks.ToString();
-        //    distiller.PostOrderAsync(new OrderPo()
-        //    {
-        //        RequestId = requestId,
-        //        XmlData = xmlData,
-        //        XslData = xslData
-        //    }).GetAwaiter().GetResult();
-
-        //    int timeoutInSeconds = 30;
-        //    string OrderResult = "Created";
-
-
-        //    while (timeoutInSeconds > 0 && OrderResult == "Created")
-        //    {
-        //        Thread.Sleep(1000);
-
-        //        try
-        //        {
-        //            OrderResult = distiller.GetOrderStateAsync(requestId).GetAwaiter().GetResult();
-        //        }
-        //        catch (Exception exc)
-        //        {
-        //            Console.WriteLine($"PdfDestiller GetOrderState Request errored out. Retrying");
-
-        //        }
-
-
-        //        timeoutInSeconds--;
-        //    }
-
-        //    if (OrderResult == "Error")
-        //    {
-        //        Console.WriteLine("An Error occurred, retrieving info");
-        //        var errorResultB64 = distiller.GetPdfDocumentObjectAsync(requestId).GetAwaiter().GetResult().DataAsBase64;
-        //        byte[] byData = Convert.FromBase64String(errorResultB64);
-        //        string errorResult = Encoding.UTF8.GetString(byData);
-
-        //        Console.WriteLine("ERRORDOCUMENT: " + errorResult);
-        //        return errorResult;
-        //    }
-
-        //    if (OrderResult != "Finished")
-        //    {
-        //        Console.WriteLine("FINISHED: " + OrderResult);
-        //    }
-
-        //    var pdfResult = distiller.GetPdfDocumentObjectAsync(requestId).GetAwaiter().GetResult();
-
-        //    byte[] data = Convert.FromBase64String(pdfResult.DataAsBase64);
-
-        //    System.IO.File.WriteAllBytes("testresult.pdf", data);
-        //    Console.WriteLine("Result written");
-
-        //    return pdfResult.DataAsBase64;
-
-        //}
     }
 }
