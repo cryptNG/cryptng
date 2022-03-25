@@ -107,6 +107,11 @@ Set a variable "ENVIRONMENT"
 Value: http://hub.cryptng.app:8545
 
 
+<<<<<<< HEAD
+## DEVELOP ON THE NEXT LEVEL ##
+
+### GIT WITHOUT GIT ###
+=======
 ## HELP US OUT ##
 
 We're pouring a lot of our free time, efforts and, coincidentally, also money into this project.
@@ -123,6 +128,7 @@ Thank you for your support, the coffe and your love!
 ## DEVELOP ON THE NEXT LEVEL ##
 
 ### GIT CAN HAVE THE SMALLEST FINGERPRINT ###
+>>>>>>> 2946bf2e2cfd8aafaf0336481335624900db60c8
 if you want to use git via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -140,7 +146,11 @@ use like so:
 
 congratulations, you can now git via docker.
 
+<<<<<<< HEAD
+### TRUFFLE IS NOT JUST A FUNGHUS ###
+=======
 ### TRUFFLE IS NOT JUST A FUNGUS ###
+>>>>>>> 2946bf2e2cfd8aafaf0336481335624900db60c8
 if you want to use truffle via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -161,11 +171,15 @@ congratulations, you can now use truffle via docker.
 btw, i'd like some kudos for this one, it took me a hella lot of time to get this working, thaaaankkk you.
 
 
+<<<<<<< HEAD
+### TRUFFLE CAN BE SO MUCH MORE ###
+=======
 to serve truffle independently:
 
 `function truffled () {(docker run -ti --rm -v $(pwd):/app -p 9545:9545 cryptng/truffle-suite truffle develop "$@" && sudo chown -R 1000:1000 *))}`
 
 ### NPM SHALL NOT LITTER ###
+>>>>>>> 2946bf2e2cfd8aafaf0336481335624900db60c8
 if you want to use npm via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -185,7 +199,11 @@ congratulations, you can now use npm via docker.
 
 thanks to @cgreinke for pointing out that npm can be used like the truffle alias
 
+<<<<<<< HEAD
+### USE NODE FROM TRUFFLE ###
+=======
 ### NODE (THIS IMAGE HAS SO MANY USES!) ###
+>>>>>>> 2946bf2e2cfd8aafaf0336481335624900db60c8
 if you want to use node via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`

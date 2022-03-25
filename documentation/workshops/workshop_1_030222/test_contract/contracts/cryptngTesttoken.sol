@@ -1,4 +1,13 @@
 //SPDX-License-Identifier: MIT
+
+
+//CALLING CONTRACTS VIA TRUFFLED (TRUFFLE DEVELOP) CONSOLE COMMAND
+//let instance = await cryptngTesttoken.deployed()
+//instance.method();
+
+//eg: instance.mint('0x4b24112d41ddc8c4cd68d5e84c065d8227946d4a',{value:10000001000000000});
+//value is mintpricegwei * 1000000000
+
 pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
@@ -32,7 +41,7 @@ contract cryptngTesttoken is
 
     uint256 private _mintPriceGwei = 1000000; //0.001ETH
 
-    bool private _isSaleActive = true;
+    bool private _isSaleActive = false;
 
     // Token name
     string private _name;
@@ -120,10 +129,7 @@ contract cryptngTesttoken is
 
         return tokenId;
     }
-
-    //tbd: is approvedTicketHolder
-    //that includes: adding approved addresses, removing them
-    //owner can be part of the list to make checks easier
+    
 
     function _ticketExists(uint256 ticketId) internal view returns (bool) {
         return _executionTickets[ticketId] != 0;
@@ -222,6 +228,10 @@ contract cryptngTesttoken is
 
     function totalSupply() public view returns (uint256) {
         return _owners.length;
+    }
+
+    function getIsSaleActive() public view returns (bool){
+        return _isSaleActive;
     }
 
     function setIsSaleActive() public onlyOwner {

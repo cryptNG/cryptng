@@ -1,0 +1,81 @@
+
+
+<DashBar></DashBar>
+<div class="page">
+<div id="bg"></div>
+<!-- NEED: Settings menu, which tokens do i own, give allowance, burn executiontickets -->
+<div class="token-showcase">
+	
+<div class="spacer">&nbsp;</div>
+<div class="token">
+<div class="tokenimage"><CryptngNftLogo @type="TEST TOKEN"></CryptngNftLogo></div>
+<div class="tokenheader"><h3>Test-Token</h3></div>
+<div class="tokenbody">This token enables you to use the PDF-Distiller service during the alpha testing phase.</div>
+<div class="detail-showcase">
+<div class="token-details features">
+	<div class="title">Features</div>
+	<div class="element"><div class="left">Executions</div>
+<div class="right">4000</div></div>
+<div class="element"><div class="left">Batch size</div>
+<div class="right">10</div></div>
+
+</div>
+
+<div class="token-details limitations">
+	<div class="title">Limitations</div>
+	<div class="element">
+<div class="left">Rate limit</div>
+<div class="right">10 Files per Hour</div></div>
+	<div class="element">
+<div class="left">RAM limit</div>
+<div class="right">100 MB per execution</div></div>
+	<div class="element">
+<div class="left">Time limit</div>
+<div class="right">5 seconds per execution</div></div>
+</div></div>
+
+<div class="tokenfooter">
+	<button class="mint ripple {{unless this.web3service.isSaleActive 'inactive'}}" {{on "click" this.mintWhenDisabled}} type="button">Mint for 0.0001 ETH (~2,50€)</button>
+</div>
+</div>
+
+
+<div class="splitter"></div>
+<div class="token">
+<div class="tokenimage"><CryptngNftLogo @type="TEST TOKEN PROOFING"></CryptngNftLogo></div>
+<div class="tokenheader"><h3>Proofing Test-Token</h3></div>
+<div class="tokenbody">This token enables you to use the PDF-Distiller service during the alpha testing phase. <br> Proof of generation will be stored on the blockchain.</div>
+<div class="detail-showcase">
+<div class="token-details features">
+	<div class="title">Features</div>
+	<div class="element"><div class="left">Executions</div>
+<div class="right">4000</div></div>
+<div class="element"><div class="left">Batch size</div>
+<div class="right">1</div></div>
+
+</div>
+
+<div class="token-details limitations">
+	<div class="title">Limitations</div>
+	<div class="element">
+<div class="left">Rate limit</div>
+<div class="right">10 Files per Hour</div></div>
+	<div class="element">
+<div class="left">RAM limit</div>
+<div class="right">100 MB per execution</div></div>
+	<div class="element">
+<div class="left">Time limit</div>
+<div class="right">5 seconds per execution</div></div>
+</div></div>
+<div class="tokenfooter">
+	<button class="mint ripple {{unless this.web3service.isSaleActive 'inactive'}}" {{on "click" this.mintWhenDisabled}} type="button">Mint for 0.0001 ETH (~2,50€)</button>
+</div>
+</div>
+
+<div class="spacer">&nbsp;</div>
+</div>
+</div>
+{{#unless this.web3service.isSaleActive}}
+<div class="center-message" id="glow-blue">MINTING IS CURRENTLY DISABLED FOR MAINTENANCE</div>
+{{/unless}}
+
