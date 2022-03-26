@@ -55,8 +55,11 @@ div.splitter-text{
 
 .together{
   justify-content: space-between;
-  flex-direction: row;
+  flex-direction: column;
+  color: darkslategrey;
+  font-weight: bold;
   display: flex;
+  font-family: 'Quicksand';
   text-align: center;
 }
 
@@ -107,9 +110,9 @@ div.buttons button:focus.btn:hover{
 
 div.inputbox button.minibtn{
   text-decoration: none;
-  background-color: rgba(255, 0, 0, 0.562);
+  background-color: rgba(0, 255, 64, 0.562);
   opacity: 1;
-  color: #ffffff;
+  color: #000000;
   padding: 12px;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22), 0 4px 4px 0 rgba(0, 0, 0, 0.35);
 
@@ -120,14 +123,14 @@ div.inputbox button.minibtn{
 
 div.inputbox button.minibtn.end{
   border-radius: 0px 10px 10px 0px;
-  background-color: rgb(253, 253, 253);
+  background-color: rgba(184, 46, 46, 0.562);
 
 }
 
 div.inputbox button.minibtn:hover{
   
   text-decoration: none;
-  background-color: rgba(255, 0, 0, 0.678);;
+  background-color: rgba(76, 189, 61, 0.678);;
   color: #ffffff;
 }
 
@@ -135,13 +138,14 @@ div.inputbox button.minibtn:hover{
 div.inputbox button:focus.minibtn:hover{
   
   text-decoration: none;
-  background-color: rgba(255, 0, 0, 0.781);;
+  background-color: rgba(88, 161, 78, 0.781);;
   color: #a71a1ab6;
 }
 
 input[type="text"].custom-input {
   width: 100%;
-  border: 2px solid #aaa;
+ /* border: 2px solid #aaa;*/
+ border: none;
   border-radius: 10px 0px 0px 10px;
   outline: none;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22), 0 4px 4px 0 rgba(0, 0, 0, 0.35);
