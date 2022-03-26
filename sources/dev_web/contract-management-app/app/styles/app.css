@@ -1,3 +1,139 @@
+.area-datadisplay-controls
+{
+  
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content:end;
+}
+
+.area-datadisplay-controls button.clearcontrol{
+  padding:0.2rem;
+  color: white;
+  font-size: small;
+  background-color: rgba(151, 58, 3, 0.438);
+  border-radius: 5px;
+}
+
+.danger-controls{
+  border-radius: 5px;
+  width: 100%;
+  text-align: center;
+  padding-top: 0.5rem;
+  padding-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-around;
+  
+ /* background-color: rgba(255, 0, 0, 0.541); */
+}
+
+div.control-area{
+  margin: 3rem;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22), 0 4px 4px 0 rgba(0, 0, 0, 0.35);
+  padding: 0.5rem;
+  
+  height: 80%;
+  width: 30%;
+  background-color: rgba(0, 139, 139, 0.438);
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  flex-direction: column;
+
+}
+
+div.control-area.bet{
+  background-color: rgba(113, 139, 0, 0.438);
+
+}
+
+div.control-area.cpt{
+  background-color: rgba(0, 72, 139, 0.438);
+
+}
+
+div.control-area .area-title{
+  position: relative;
+  top:0;
+  text-align: center;
+  padding-bottom: 10px;
+
+}
+
+div.control-area .area-controls{
+background-color: #01010149;
+align-items: center;
+flex-wrap: wrap;
+display: flex;
+justify-content: space-around;
+height: 50%;
+border-radius: 10px;  
+margin-bottom: 0.5rem;
+}
+div.control-area .area-controls button.control{
+  width: fit-content;
+  height: fit-content;
+}
+
+div.control-area .area-datadisplay{
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: rgba(95, 158, 160, 0.26);
+  border-radius: 20px;
+}
+
+
+div.control-area .area-datadisplay .area-dataset{
+  background-color: rgba(128, 128, 128, 0.692);
+  border-radius: 3px;
+  text-align: center;
+  padding: 0.2rem;
+  margin: 0.2rem;
+}
+
+
+div.control-area .area-datadisplay .area-dataset:hover{
+  background-color: rgba(167, 167, 167, 0.692);
+}
+
+
+
+button.control{
+  border-radius: 5px;
+  padding:0.5rem;
+  background-color: rgba(240, 248, 255, 0.438);
+}
+
+button.control.danger{
+  border-radius: 5px;
+  padding:0.5rem;
+  color: white;
+  background-color: rgba(151, 58, 3, 0.438);
+}
+
+
+button.control:hover{
+  
+  text-decoration: none;
+  background-color: aliceblue;
+  color: #000000;
+  
+  border: none;
+  outline: 1px solid #099c298c;
+}
+
+
+button:focus.control:hover{
+  
+  text-decoration: none;
+  background-color: #a3a3a3;
+  color: #fcfcfc;
+  
+  border: none;
+  outline: 1px solid #010101;
+}
 
 div.results{
   display: flex;
@@ -5,6 +141,7 @@ div.results{
   width: 50%;;
   align-items: center;
   justify-content: space-around;
+
 }
 
 div.results div.result{
@@ -55,11 +192,8 @@ div.splitter-text{
 
 .together{
   justify-content: space-between;
-  flex-direction: column;
-  color: darkslategrey;
-  font-weight: bold;
+  flex-direction: row;
   display: flex;
-  font-family: 'Quicksand';
   text-align: center;
 }
 
@@ -106,31 +240,36 @@ div.buttons button:focus.btn:hover{
   outline: 1px solid #010101;
 }
 
-
+.datadisplay-placeholder{
+  display: flex;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.3;
+  font-size: x-large;
+}
 
 div.inputbox button.minibtn{
   text-decoration: none;
-  background-color: rgba(0, 255, 64, 0.562);
+  background-color: rgba(255, 0, 0, 0.562);
   opacity: 1;
-  color: #000000;
+  color: #ffffff;
   padding: 12px;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22), 0 4px 4px 0 rgba(0, 0, 0, 0.35);
 
+  border-radius: 0px 10px 10px 0px;
   border:none;
   outline: none;
   transition: 0.3s;
 }
 
-div.inputbox button.minibtn.end{
-  border-radius: 0px 10px 10px 0px;
-  background-color: rgba(184, 46, 46, 0.562);
-
-}
 
 div.inputbox button.minibtn:hover{
   
   text-decoration: none;
-  background-color: rgba(76, 189, 61, 0.678);;
+  background-color: rgba(255, 0, 0, 0.678);;
   color: #ffffff;
 }
 
@@ -138,14 +277,13 @@ div.inputbox button.minibtn:hover{
 div.inputbox button:focus.minibtn:hover{
   
   text-decoration: none;
-  background-color: rgba(88, 161, 78, 0.781);;
+  background-color: rgba(255, 0, 0, 0.781);;
   color: #a71a1ab6;
 }
 
 input[type="text"].custom-input {
   width: 100%;
- /* border: 2px solid #aaa;*/
- border: none;
+  border: 2px solid #aaa;
   border-radius: 10px 0px 0px 10px;
   outline: none;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22), 0 4px 4px 0 rgba(0, 0, 0, 0.35);
@@ -165,7 +303,7 @@ input[type="text"].custom-input:focus::placeholder{
 }
 
 .inputbox{
-  width: 35%;
+  width: 60%;
 flex-direction: row;
 display: flex;
 }
@@ -177,7 +315,7 @@ div.dashbar
     background-color: #3e3e3ec9;
     width: 100%;
     height: 80px;
-    position: fixed;
+    position: relative;
     z-index: 2147483647;
 
     display: flex;
@@ -391,14 +529,38 @@ animation: glow 4s ease-in-out infinite alternate;
   }
 
 
+  .section-top{
+    height: calc(10vh - 80px);
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    z-index: 1;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .section-bottom{
+    height: calc(90vh - 80px);
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    z-index: 1;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+
+
 .page{
-  height: 100vh;
+  height: calc(100vh - 80px);
   width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   z-index: 1;
   align-items: center;
+  flex-wrap: wrap;
 }
 
   /*  fileupload */
@@ -495,3 +657,28 @@ animation: glow 4s ease-in-out infinite alternate;
   padding: 12px 20px;
   border-radius: 4px;
 }
+
+
+
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #7373735b #b0b0b0;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #b0b0b081;
+    border-radius: 10px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #73737370;
+    border-radius: 10px;
+    border: 0px solid #bfbfbf83;
+  }

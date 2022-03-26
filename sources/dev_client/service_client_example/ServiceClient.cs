@@ -35,7 +35,7 @@ namespace app
             _configuration = configuration;
 
             _account = new Account(_configuration["Web3:PrivateKeys:owner"], 1337);
-            _web3 = new Web3(_account, _configuration["Web3:RPC"]);
+            _web3 = new Web3(_account, _configuration["Web3:RPC_URL"]);
 
             _samplesDirectory = _configuration["SamplesLocation"];
 
