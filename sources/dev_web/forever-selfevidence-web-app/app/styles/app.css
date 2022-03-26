@@ -1,4 +1,9 @@
-
+@font-face
+{
+    font-family: "Quicksand";
+    src: url("webfonts/Quicksand-VariableFont_wght.ttf");
+    font-display: swap;
+}
 div.results{
   display: flex;
   flex-direction: column;
@@ -33,142 +38,11 @@ div.results div.result.ok{
 
 }
 
-#particles-js {
-    /*background-color: black;*/
-    width: 100%;
-    height: 100%;
-   
-    z-index: -1;
-    top: 0;
-    left: 0;
-position: fixed;
-
-
-}
-
-div.splitter-text{
-  text-align: center;
-  align-items: center;
-  align-self: center;
-  padding: 15px;
-}
-
-.together{
-  justify-content: space-between;
-  flex-direction: column;
-  color: darkslategrey;
-  font-weight: bold;
-  display: flex;
-  font-family: 'Quicksand';
-  text-align: center;
-}
-
-div.buttons{
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: row;
-}
-
-div.buttons button.btn{
-  border-radius: 5px;
-  text-decoration: none;
-  background-color: #099c29;
-  opacity: 1;
-  color: #ffffff;
-  padding: 10px 20px;
-  border: none;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22), 0 4px 4px 0 rgba(0, 0, 0, 0.35);
-
-  outline: 1px solid #0303038c;
-  outline: none;
-  transition: 0.3s;
-}
-
-div.buttons button.btn:hover{
-  
-  text-decoration: none;
-  background-color: #ffffff;
-  color: #000000;
-  padding: 10px 20px;
-  border: none;
-  outline: 1px solid #099c298c;
-}
-
-
-div.buttons button:focus.btn:hover{
-  
-  text-decoration: none;
-  background-color: #a3a3a3;
-  color: #fcfcfc;
-  padding: 10px 20px;
-  border: none;
-  outline: 1px solid #010101;
-}
 
 
 
-div.inputbox button.minibtn{
-  text-decoration: none;
-  background-color: rgba(0, 255, 64, 0.562);
-  opacity: 1;
-  color: #000000;
-  padding: 12px;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22), 0 4px 4px 0 rgba(0, 0, 0, 0.35);
-
-  border:none;
-  outline: none;
-  transition: 0.3s;
-}
-
-div.inputbox button.minibtn.end{
-  border-radius: 0px 10px 10px 0px;
-  background-color: rgba(184, 46, 46, 0.562);
-
-}
-
-div.inputbox button.minibtn:hover{
-  
-  text-decoration: none;
-  background-color: rgba(76, 189, 61, 0.678);;
-  color: #ffffff;
-}
 
 
-div.inputbox button:focus.minibtn:hover{
-  
-  text-decoration: none;
-  background-color: rgba(88, 161, 78, 0.781);;
-  color: #a71a1ab6;
-}
-
-input[type="text"].custom-input {
-  width: 100%;
- /* border: 2px solid #aaa;*/
- border: none;
-  border-radius: 10px 0px 0px 10px;
-  outline: none;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22), 0 4px 4px 0 rgba(0, 0, 0, 0.35);
-
-  padding: 12px;
-  box-sizing: border-box;
-  transition: 0.3s;
-}
-input[type="text"].custom-input::placeholder {
-  color: rgb(0, 0, 0);
-  opacity: 0.5;
-  text-align: center;
-}
-input[type="text"].custom-input:focus::placeholder{
-  color: transparent;
-
-}
-
-.inputbox{
-  width: 35%;
-flex-direction: row;
-display: flex;
-}
 
 div.dashbar
 {
@@ -375,20 +249,7 @@ animation: glow 4s ease-in-out infinite alternate;
   }
 
 
-  body{
-      
-    background-image: url('/images/polyback.min.svg');
-    background-size: auto calc(100vh);
-    background-repeat: no-repeat;
-    background-position-x: 0px;
-    size:cover;
-    margin:0;
-    height: 100vh;
-    width: 100vw;
-    color: white;
-    
-      
-  }
+  
 
 
 .page{
@@ -396,102 +257,9 @@ animation: glow 4s ease-in-out infinite alternate;
   width: 100vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   z-index: 1;
   align-items: center;
 }
 
   /*  fileupload */
-
-.fileupload{
-  color: black;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-  border-radius: 25px;
-}
-
-.fileupload .container {
-  border-radius: 25px;
-  color: black;
-  height: fit-content;
-  width: fit-content;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  background-color: white;
-  opacity: 0.85;
-  
-}
-
-.fileupload .container .card {
-  color: black;
-  border-radius: 10px;
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
-  width: 600px;
-  height: 260px;
-  background-color: #ffffff;
-  padding: 10px 30px 40px;
-}
-
-.fileupload .container .card h3 {
-  font-size: 22px;
-  font-weight: 600;
-  
-}
-
-.fileupload .container .card .drop_box {
-  margin: 10px 0;
-  padding: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  border: 3px dotted #a3a3a3;
-  border-radius: 5px;
-}
-
-.fileupload .container .card .drop_box h4 {
-  font-size: 16px;
-  font-weight: 400;
-  color: #2e2e2e;
-}
-
-.fileupload .container .card .drop_box p {
-  margin-top: 10px;
-  margin-bottom: 20px;
-  font-size: 12px;
-  color: #a3a3a3;
-}
-
-.fileupload .container .card .btn {
-  border-radius: 5px;
-  text-decoration: none;
-  background-color: #229ea6;
-  opacity: 1;
-  color: #ffffff;
-  padding: 10px 20px;
-  border: none;
-  
-  outline: none;
-  transition: 0.3s;
-}
-
-.fileupload .container .card .btn:hover{
-  text-decoration: none;
-  background-color: #ffffff;
-  color: #005af0;
-  padding: 10px 20px;
-  border: none;
-  outline: 1px solid #010101;
-}
-.fileupload .container .card .form input {
-  margin: 10px 0;
-  width: 100%;
-  background-color: #e2e2e2;
-  border: none;
-  outline: none;
-  padding: 12px 20px;
-  border-radius: 4px;
-}

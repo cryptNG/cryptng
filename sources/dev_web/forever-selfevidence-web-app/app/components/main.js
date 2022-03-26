@@ -17,11 +17,13 @@ export default class MainComponent extends Component {
     this.enteredHashData = {fileName : '', hashData : e.target.value, success: false, isUpload: false};
   }
 
+  @action clearHashData(){
+    this.enteredHashData = {fileName : '', hashData : "", success: false, isUpload: false};
+  }
 
   @action didInsertFileUpload() {
-    const dropArea = document.querySelector(".drop_box"),
-      button = dropArea.querySelector("button"),
-      input = dropArea.querySelector("input");
+    const button = document.querySelector("#drop_box_button"),
+      input = document.querySelector("#drop_box_input");
     let file;
     button.onclick = () => {
       input.click();

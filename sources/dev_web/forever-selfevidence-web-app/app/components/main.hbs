@@ -1,23 +1,274 @@
+<style>
+	#drop_box_input{
+		visibility: hidden;
+		    width: 0;
+	}
+
+	.inputbox{
+  width: 60%;
+flex-direction: row;
+display: flex;
+color: darkgray;
+position: relative;
+}
+
+.inputbox button.btn-clear-input {
+    position: relative;
+    right: 25px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 5px 5px #ffffffa0;
+    border: 0;
+    padding: 2px 5px;
+    cursor: pointer;
+    z-index: 101;
+    opacity: 0;
+    line-height: 1em;
+    height: 1em;
+    margin-top: 1em;
+		
+}
+
+.inputbox button.btn-clear-input.active {
+	opacity: 1;
+	transition: all 0.5s ease-in-out;
+}
+
+
+input[type="text"].custom-input {
+  width: 100%;
+ /* border: 2px solid #aaa;*/
+ border: none;
+  border-radius: 10px 0px 0px 10px;
+  outline: none;
+  box-shadow: -6px 6px 6px 3px rgba(0, 0, 0, 0.22);
+	z-index: 100;
+  padding: 5px 12px;
+  box-sizing: border-box;
+  transition: 0.3s;
+	    line-height: 3em;
+    height: 3em;
+		transition: width 0.5s ease-in-out;
+}
+input[type="text"].custom-input::placeholder {
+  color: rgb(0, 0, 0);
+  opacity: 0.5;
+  text-align: center;
+}
+input[type="text"].custom-input:focus::placeholder{
+  color: transparent;
+
+}
+
+input[type="text"].custom-input ~ label {
+    position: absolute;
+    top: 10px;
+		opacity: 1;
+		z-index: 102;
+		left:calc(50% - 100px);
+		transition: all 0.5s ease-in-out;
+
+}
+
+input[type="text"].custom-input:focus ~ label,
+input[type="text"].custom-input.active ~ label  {
+    opacity: 1;
+		top: -25px;
+		left:10px;
+		    color: #7ad5d5;
+}
+
+.inputbox button.input-btn{
+  text-decoration: none;
+  background-color: #f0ffff;
+  opacity: 1;
+  color: #000000;
+  padding: 12px;
+  border:none;
+  outline: none;
+  transition: 0.3s;
+	position: relative;
+    right: 19px;
+		cursor: pointer;
+		width: 50px;
+		height: 3em;
+		display: flex;
+		justify-content: start;
+		overflow: hidden;
+		min-width: 50px;
+		transition: all 0.5s ease-in-out;
+		z-index: 103;
+}
+
+.inputbox button.input-btn span{
+	opacity: 0;
+	transition: all 0.3s ease-in-out;
+	position: absolute;
+	margin-left: 0px;
+	white-space: nowrap;
+	color: white;
+}
+
+.inputbox button.input-btn svg {
+        position: absolute;
+    right: 7px;
+    top: 6px;
+}
+
+.inputbox button.input-btn.end{
+  border-radius: 0px 10px 10px 0px;
+	box-shadow: 6px 6px 6px 3px rgb(0 0 0 / 22%), 0 4px 4px 0 rgb(0 0 0 / 35%);
+	border-left: 1px solid gray;
+
+}
+
+.inputbox button.input-btn:hover{
+  
+  text-decoration: none;
+  background-color: rgba(77, 152, 86,0.8);;
+  color: #ffffff;
+	min-width: 310px;
+	
+}
+
+.inputbox button.input-btn:hover + label{
+	left:10px;
+	width: calc(100% - 360px);
+	overflow: hidden;
+	white-space: nowrap;
+	
+}
+
+.inputbox button.input-btn:hover + label.active{
+
+	width: calc(100% );
+	
+}
+
+.inputbox button.input-btn:hover span{
+	opacity: 1;
+	margin-left: 5px;
+	
+}
+
+.inputbox button.input-btn:hover svg {
+ 
+    left: auto;
+}
+
+.inputbox button:focus.input-btn:hover{
+  
+  text-decoration: none;
+  background-color: rgba(88, 161, 78, 0.781);;
+  color: #a71a1ab6;
+}
+
+div.splitter-text{
+  text-align: center;
+  align-items: center;
+  align-self: center;
+  padding: 15px;
+  color: white;
+}
+
+.together{
+  flex-direction: row;
+  color: darkslategrey;
+  font-weight: bold;
+  display: flex;
+  font-family: 'Quicksand';
+  text-align: center;
+  width:calc( 60% - 10px);
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  position: relative;
+  left: -8px;
+}
+
+.middle {
+  position: relative;
+  left: -8px;
+  font-size: 1.3em;
+  margin: 20px;
+  text-shadow: 1px 1px 2px #000000a0;
+}
+
+.together button.btn{
+  width: 100%;
+  border-radius: 8px;
+  text-decoration: none;
+  background-color: #097a9c;
+  opacity: 1;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22), 0 4px 4px 0 rgba(0, 0, 0, 0.35);
+cursor: pointer;
+  outline: 1px solid #0303038c;
+  outline: none;
+  transition: 0.3s;
+}
+
+.together button.btn:hover{
+  
+  text-decoration: none;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 10px 20px;
+  border: none;
+  outline: 1px solid #099c298c;
+}
+
+.together .btn span{
+	display: block;
+	position: relative;
+}
+
+.together .btn span:after {
+    content: "||";
+    position: absolute;
+    right: -10px;
+    font-size: 2em;
+    top: -10px;
+    color: #85e3ff;
+}
+
+
+</style>
+
 <DashBar></DashBar>
 
 <div class="is-preload page" {{did-insert this.didInsertFileUpload}}>
 	
 	<div class="inputbox">
-	<input class="custom-input" type="text" placeholder="Enter Hash" value={{this.enteredHashData.hashData}} {{on 'keyup' (fn this.updateEnteredHashData)}} ><button class="minibtn">Upload</button><button class="minibtn end">X</button>
+		<input type="file" id="drop_box_input" name="drop_box_input">
+	<input id="hash_input" name="hash_input" class="custom-input{{if this.enteredHashData.hashData ' active'}}" type="text" placeholder="" value={{this.enteredHashData.hashData}} {{on 'keyup' this.updateEnteredHashData}} >
+	
+	<button class="btn-clear-input{{if this.enteredHashData.hashData ' active'}}" type="button" {{on 'click' (fn this.clearHashData)}}>X</button>
+	<button id="drop_box_button" class="input-btn end" type="button">
+		<span>or upload file to create sha512 hash from</span>
+		<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 64 64" version="1">
+ <rect style="fill:#5895dc" width="48" height="34" x="8" y="3" rx="2.5" ry="2.5"/>
+ <rect style="opacity:0.1" width="48" height="34" x="8" y="8" rx="2.5" ry="2.5"/>
+ <rect style="fill:#89e058" width="48" height="34" x="8" y="9" rx="2.5" ry="2.5"/>
+ <rect style="opacity:0.1" width="48" height="34" x="8" y="14" rx="2.5" ry="2.5"/>
+ <rect style="fill:#ffcd54" width="48" height="34" x="8" y="15" rx="2.5" ry="2.5"/>
+ <rect style="opacity:0.2" width="56" height="40" x="4" y="22" rx="3" ry="3"/>
+ <rect style="fill:#8e8e8e" width="56" height="40" x="4" y="21" rx="3" ry="3"/>
+ <rect style="opacity:0.2" width="20" height="6" x="22" y="38" rx="2" ry="2"/>
+ <rect style="fill:#ececec" width="20" height="6" x="22" y="37" rx="2" ry="2"/>
+ <path style="fill:#ffffff;opacity:0.1" d="M 10.5 3 C 9.115 3 8 4.115 8 5.5 L 8 6.5 C 8 5.115 9.115 4 10.5 4 L 53.5 4 C 54.885 4 56 5.115 56 6.5 L 56 5.5 C 56 4.115 54.885 3 53.5 3 L 10.5 3 z"/>
+ <path style="fill:#ffffff;opacity:0.1" d="M 10.5,9 C 9.115,9 8,10.115 8,11.5 V 12.5 C 8,11.115 9.115,10 10.5,10 H 53.5 C 54.885,10 56,11.115 56,12.5 V 11.5 C 56,10.115 54.885,9 53.5,9 Z"/>
+ <path style="fill:#ffffff;opacity:0.1" d="M 10.5,15 C 9.115,15 8,16.115 8,17.5 V 18.5 C 8,17.115 9.115,16 10.5,16 H 53.5 C 54.885,16 56,17.115 56,18.5 V 17.5 C 56,16.115 54.885,15 53.5,15 Z"/>
+</svg></button>
+<label for="hash_input" class="{{if this.enteredHashData.hashData ' active'}}">Enter Hash of Evidence</label>
+	</div>
+	<div class="middle">to</div>
+	<div class="together">
+		<button class="btn" type="button" {{action this.verifyExistingEvidence}}><span>VERIFY EXISTING EVIDENCE</span></button>
+		<div class="splitter-text">OR</div>
+		<button class="btn" type="button" {{action this.mintNewEvidence}}><span>MINT NEW EVIDENCE</span></button>
 	</div>
 	
-	<div class="buttons">
-		<div class="together">
-<div class="splitter-text">TO</div>
-		<button class="btn" {{action this.verifyExistingEvidence}}>VERIFY EXISTING EVIDENCE</button>
-		</div>
-		<div class="together">
-			<div class="splitter-text">OR</div>
-		<button class="btn" {{action this.mintNewEvidence}}>MINT NEW EVIDENCE</button>
-		</div>
-	
-	
-	</div>
 <div class="results-showcase">
 	<div class="results">
 		{{#each this.verifiedResults as |result|}}
