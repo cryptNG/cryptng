@@ -45,6 +45,7 @@
   border-color: green;
   }
 
+
 .results-showcase{
   
     position: relative;
@@ -58,9 +59,32 @@
     border-style: solid;
     border-color: #c8f3fb;
 
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+  }
+  
+  .results-showcase.has-results {
+    opacity: 1;
+  }
+
+.results-showcase .clear-results{
+  padding: 2px 8px;
+    border: 2px solid #c8f3fb;
+    border-radius: 6px;
+    background-color: #4ccabf;
+    letter-spacing: 1px;
+    /* word-spacing: 2px; */
+    font-size: 0.7em;
+    font-weight: bold;
+    /* transition: all 0.3s ease-in-out; */
+    color: #c8f3fb;
+    text-shadow: 1px 1px 3px black;
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    cursor: pointer;
+    font-variant: small-caps;
 }
-
-
 
 
 
@@ -283,6 +307,8 @@ animation: glow 4s ease-in-out infinite alternate;
   z-index: 1;
   align-items: center;
   transition: all 0.5s ease-in-out;
+  top: 50%;
+  left:0px;
 }
 
 .page.has-results {
