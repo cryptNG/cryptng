@@ -10,11 +10,26 @@ export default class MainComponent extends Component {
   @tracked enteredHashData = {fileName : '', hashData : '', success: false, isUpload: false};
   @tracked mintedResults = []; //ok, nok
   @tracked verifiedResults = []; // ok, nok, filename or hash
+  @tracked invalidHashMessage =""
 
 //TODO DEBOUNCE
   @action updateEnteredHashData(e)
   {
+    const re = /[^0-9a-fA-F]+/g;
+    this.invalidHashMessage="";
+    if(re.test(e.target.value)) {
+      this.invalidHashMessage="The given input is not a valid hex value";
+      return;
+    }
     this.enteredHashData = {fileName : '', hashData : e.target.value, success: false, isUpload: false};
+  }
+
+  get hasValidHash(){
+    return this.invalidHashMessage.length===0 && this.enteredHashData.hashData.length>0;
+  }
+
+  get hasResults(){
+    return this.verifiedResults.length>0 || this.mintedResults.length>0;
   }
 
   @action clearHashData(){
@@ -51,7 +66,7 @@ export default class MainComponent extends Component {
         console.log(hex);
 
         //let fileHash = this.web3service.hashFile(hex);
-let fileHash = await crypto.subtle.digest('SHA-512', arrayBuffer);
+let fileHash = await crypto.subtle.digest('SHA-256', arrayBuffer);
 const hashArray = Array.from(new Uint8Array(fileHash));
 
     // convert bytes to hex string                  
@@ -62,6 +77,7 @@ console.log(hashHex);
         this.enteredHashData = {fileName : file.name, hashData : hashHex, success: false, isUpload: true};
         console.log('hashdata: ' + this.enteredHashData.hashData);
         this.enteredHashData  =  this.enteredHashData;
+        this.invalidHashMessage="";
       }
       
       await reader.readAsArrayBuffer(file);
@@ -80,15 +96,22 @@ console.log(hashHex);
 
   @action async verifyExistingEvidence()
   {
-    let tokenId = await this.web3service.verifySelfEvidence(this.enteredHashData.hashData);
-    if(tokenId != null)
+    try
     {
-      this.verifiedResults.push({fileName : this.enteredHashData.fileName, hashData : this.enteredHashData.hashData, success: true, isUpload: this.enteredHashData.isUpload});
-    }
-    else
-    {  
-      this.verifiedResults.push({fileName : this.enteredHashData.fileName, hashData : this.enteredHashData.hashData, success: false, isUpload: this.enteredHashData.isUpload});
-   
+      let tokenId = await this.web3service.verifySelfEvidence(this.enteredHashData.hashData);
+    
+      if(tokenId != null)
+      {
+        this.verifiedResults.push({fileName : this.enteredHashData.fileName, hashData : this.enteredHashData.hashData, success: true, isUpload: this.enteredHashData.isUpload});
+      }
+      else
+      {  
+        this.verifiedResults.push({fileName : this.enteredHashData.fileName, hashData : this.enteredHashData.hashData, success: false, isUpload: this.enteredHashData.isUpload});
+    
+      }
+    }catch(e)
+    {
+      this.verifiedResults.push({fileName : this.enteredHashData.fileName, hashData : this.enteredHashData.hashData, success: false, isUpload: this.enteredHashData.isUpload, error:e.message});
     }
    this.verifiedResults=this.verifiedResults;
   }

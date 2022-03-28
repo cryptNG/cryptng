@@ -4,37 +4,59 @@
     src: url("webfonts/Quicksand-VariableFont_wght.ttf");
     font-display: swap;
 }
-div.results{
+.results{
+  width: 50%;
   display: flex;
   flex-direction: column;
-  width: 50%;;
-  align-items: center;
-  justify-content: space-around;
+  
 }
 
-div.results div.result{
-width: 50%;
-padding: 5px;
-text-align: center;
-border-radius: 10px;
-background-color: red;
+.results .result{
+
+  padding: 5px;
+  text-align: left;
+  background-color: #ffffffa0;
+  margin-bottom: 5px;
+  border-width: 2px 0px 0px 0px;
+  border-style: solid;
+  border-color: #bcf5ff;
+}
+
+.results h3{
+  padding: 4px 10px;
+  border: 1px solid gray;
+  border-radius: 6px;
+  background-color: #d1f9ff;
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  font-size: 0.9em;
+  color: #0d7682;
+  text-shadow: 1px 1px 5px white;
 }
 
 
-div.results div.result.nok{
-  background-color: red;
+.results .result.nok{
+  border-color: red;
+  color: red;
   }
 
   
-div.results div.result.ok{
-  background-color: green;
+.results .result.ok{
+  border-color: green;
   }
 
 .results-showcase{
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+  
+    position: relative;
+    top: 170px;
+    display: flex;
   flex-direction: row;
+  gap: 1rem;
+  margin-left: 30px;
+  margin-right: 30px;
+  border-width: 2px 0 0 0;
+    border-style: solid;
+    border-color: #c8f3fb;
 
 }
 
@@ -260,6 +282,18 @@ animation: glow 4s ease-in-out infinite alternate;
   justify-content: center;
   z-index: 1;
   align-items: center;
+  transition: all 0.5s ease-in-out;
 }
 
+.page.has-results {
+  flex-direction: row;
+  justify-content: start;
+  z-index: 1;
+  align-items: flex-start;
+  position: relative;
+  top: 150px;
+  left:30px;
+  width: calc(100vw - 60px);
+  height: 50px;
+}
   /*  fileupload */
