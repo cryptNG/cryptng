@@ -302,9 +302,9 @@ span.invalid-hex.active {
 	
 	<div class="inputbox">
 		<input type="file" id="drop_box_input" name="drop_box_input">
-	<input id="hash_input" name="hash_input" class="custom-input{{if this.enteredHashData.hashData ' active'}}" type="text" placeholder="" value={{this.enteredHashData.hashData}} {{on 'keyup' this.updateEnteredHashData}} >
+	<input id="hash_input" name="hash_input" class="custom-input{{if this.hasValueInserted ' active'}}" type="text" placeholder="" value={{this.enteredHashData.hashData}} {{on 'keyup' this.updateEnteredHashData}} >
 	<span class="invalid-hex{{if this.invalidHashMessage ' active'}}">{{#if this.invalidHashMessage}}{{this.invalidHashMessage}}{{/if}}</span>
-	<button class="btn-clear-input{{if this.enteredHashData.hashData ' active'}}" type="button" {{on 'click' (fn this.clearHashData)}}>X</button>
+	<button class="btn-clear-input{{if this.hasValueInserted ' active'}}" type="button" {{on 'click' (fn this.clearHashData)}}>X</button>
 	<button id="drop_box_button" class="action-btn end {{unless this.isHashing 'not-hashing'}}" type="button" disabled={{if this.isHashing 'disabled' ''}}>
 		
     {{#if this.isHashing}}
@@ -351,7 +351,7 @@ span.invalid-hex.active {
 	<div class="results">
 		<h3>Mint Results</h3>
 		{{#each this.mintedResults as |result|}}
-		<div class="result {{if result.success 'ok' 'nok'}}">{{nicer-hash result.hashData}}</div>
+		<div class="result {{if result.success 'ok' 'nok'}}">{{nicer-hash result.hashData}} {{#unless result.success}} returned error: {{result.error}}{{/unless}}</div>
 		{{/each}}
 	</div>
 </div>

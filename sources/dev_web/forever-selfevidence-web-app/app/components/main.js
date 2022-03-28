@@ -24,7 +24,16 @@ export default class MainComponent extends Component {
       this.invalidHashMessage="The given input is not a valid hex value";
       return;
     }
+    if(e.target.value.length>64) {
+      this.invalidHashMessage="The given input has too many characters. Only max 64 characters allowed.";
+      return;
+    }
+    this.invalidHashMessage="";
     this.enteredHashData = {fileName : '', hashData : e.target.value, success: false, isUpload: false};
+  }
+
+  get hasValueInserted(){
+    return this.enteredHashData.hashData.length>0;
   }
 
   get hasValidHash(){
@@ -144,20 +153,32 @@ export default class MainComponent extends Component {
       this.isVerifying=false;
     }
    this.verifiedResults=this.verifiedResults;
+   this.enteredHashData=this.enteredHashData;
   }
 
   @action async mintNewEvidence()
   {
-    let result = await this.web3service.mintSelfEvidence(this.enteredHashData.hashData);
-    if(result == true)
+    this.isMinting=true;
+    try
     {
-      this.mintedResults.push({hashData : this.enteredHashData.hashData, success: true});
+      let result = await this.web3service.mintSelfEvidence(this.enteredHashData.hashData);
+      if(result == true)
+      {
+        this.mintedResults.push({hashData : this.enteredHashData.hashData, success: true});
+      }
+      else
+      {  
+        this.mintedResults.push({hashData : this.enteredHashData.hashData, success: false});
+    
+      }
+    }catch(e)
+    {
+      this.mintedResults.push({fileName : this.enteredHashData.fileName, hashData : this.enteredHashData.hashData, success: false, isUpload: this.enteredHashData.isUpload, error:e.message});
     }
-    else
-    {  
-      this.mintedResults.push({hashData : this.enteredHashData.hashData, success: false});
-   
+    finally{
+      this.isMinting=false;
     }
+  this.enteredHashData=this.enteredHashData;
    this.mintedResults=this.mintedResults;
   }
 
