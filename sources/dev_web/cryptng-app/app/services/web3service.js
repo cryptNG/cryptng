@@ -12,45 +12,36 @@ export default class Web3service extends Service.extend({
 
 
   // normal class body definition here
-  acc = null;
-  abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"approved","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":false,"internalType":"bool","name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"uint256","name":"ticketId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"CreatedExecutionTicket","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"uint256","name":"ticketId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ExecutionTicketBurned","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"getTokens","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getTicketId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"uint256","name":"ticketId","type":"uint256"}],"name":"getTicketSecret","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"address","name":"addressToAllow","type":"address"}],"name":"assignAllowedService","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"addressToDisallow","type":"address"}],"name":"unassignAllowedService","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"ticketId","type":"uint256"}],"name":"serviceBurnExecutionTickets","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"serviceSecret","type":"uint256"}],"name":"createExecutionTicket","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"ticketId","type":"uint256"}],"name":"burnExecutionTicket","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_to","type":"address"}],"name":"mint","outputs":[],"stateMutability":"payable","type":"function","payable":true},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[],"name":"setIsSaleActive","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"setIsSaleInactive","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"newPriceGwei","type":"uint256"}],"name":"adaptMarketPrice","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"tokenURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"approve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getApproved","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"bool","name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"operator","type":"address"}],"name":"isApprovedForAll","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"transferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"bytes","name":"_data","type":"bytes"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getTokenBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true}];//#end <- end of auto-replacement for migration
-  web3addr = 'http://192.168.0.7:8545'; 
-  contract_address = '0x476059cD57800DB8eB88f67c2Aa38A6fCf8251e0';
-  player1_address = '0xa508dd875f10c33c52a8abb20e16fc68e981f186';
-  player8_address = '0x8d242e4bc081e2eeD5eb9d6BF734DdF5d2F435e0';
+  _abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"approved","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":false,"internalType":"bool","name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"uint256","name":"ticketId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"CreatedExecutionTicket","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"uint256","name":"ticketId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ExecutionTicketBurned","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"getTokens","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getTicketId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"uint256","name":"ticketId","type":"uint256"}],"name":"getTicketSecret","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"address","name":"addressToAllow","type":"address"}],"name":"assignAllowedService","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"addressToDisallow","type":"address"}],"name":"unassignAllowedService","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"ticketId","type":"uint256"}],"name":"serviceBurnExecutionTickets","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"serviceSecret","type":"uint256"}],"name":"createExecutionTicket","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"ticketId","type":"uint256"}],"name":"burnExecutionTicket","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_to","type":"address"}],"name":"mint","outputs":[],"stateMutability":"payable","type":"function","payable":true},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[],"name":"setIsSaleActive","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"setIsSaleInactive","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"newPriceGwei","type":"uint256"}],"name":"adaptMarketPrice","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"tokenURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"approve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getApproved","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"bool","name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"operator","type":"address"}],"name":"isApprovedForAll","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"transferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"bytes","name":"_data","type":"bytes"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getTokenBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true}];//#end <- end of auto-replacement for migration
+  _web3addr = 'http://yitc.ddns.net:8545'; 
+  _cpt_contract_address = '0x9DAf6e2F698050596d8b5cCC10413A6b0B056f82';
   
-  @tracked connected = false;
-  @tracked installed = false;
-  @tracked isSaleActive = false;
+  @tracked _connected = false;
+  @tracked _installed = false;
+  @tracked _isSaleActive = false;
 
 
   
-  accountName = '';
+  
+  get selectedAddress()
+  {
+    return window.ethereum.selectedAddress;
+  }
 
   get isConnected()
   {
-    return (this.acc || null)  != null
+           return (window.ethereum.selectedAddress || null)  != null
   }
 
-  async disconnect()
-  {
-    this.acc = null;
-  }
+  
 
-  async connect() {
-
+  async connect(funcContinueDashBoard, funcContinueMain) {
 
     if (window.ethereum) {
       window.ethereum.on("chainChanged", () => window.location.reload());
 
-      window.ethereum.on("accountsChanged", (accounts) => {
-        if (accounts.length > 0) {
-          console.log(`Using account ${accounts[0]}`);
-          this.acc = accounts[0];
-        } else {
-          console.error("0 accounts.");
-        }
-      });
+     
+    await window.ethereum.request({ method: 'eth_requestAccounts' })[0];
 
 
 
@@ -62,20 +53,11 @@ export default class Web3service extends Service.extend({
 
       window.ethereum.on("disconnect", (error) => {
         console.log(`Disconnected from network ${error}`);
+        funcContinueMain();
       });
 
-      this.acc = await window.ethereum.request({ method: 'eth_requestAccounts' })[0];
-      if (this.acc == null) {
-        this.acc = await window.ethereum.selectedAddress;
-      }
       console.log('connected');
       window.web3 = new Web3(window.ethereum);
-      
-      if(this.isConnected)
-      {
-        this.accountName = this.acc.substring(0, 4) + '...' + this.acc.substring(this.acc.length - 4);
-      
-      }
       
     } else {
       console.error("Install MetaMask.");
@@ -88,10 +70,10 @@ export default class Web3service extends Service.extend({
     let lweb3 = new Web3(web3addr);
     // let lweb3 = new Web3('http://127.0.0.1:9545');
 
-    let contract = new lweb3.eth.Contract(this.abi, this.contract_address);
+    let contract = new lweb3.eth.Contract(this._abi, this._cpt_contract_address);
 
-    let res = await contract.methods.getIsSaleActive().call({ from: this.acc });
-    this.isSaleActive = res;
+    let res = await contract.methods.getIsSaleActive().call({ from: window.ethereum.selectedAddress });
+    this._isSaleActive = res;
   }
 
   
@@ -99,7 +81,7 @@ export default class Web3service extends Service.extend({
 
     if (window.ethereum) {
 
-      let lweb3 = new Web3(this.web3addr);
+      let lweb3 = new Web3(this._web3addr);
 
       console.log('ACC:' + acc);
 
@@ -116,7 +98,7 @@ export default class Web3service extends Service.extend({
         const txHash = block.transactions[0];
         const receipt = await lweb3.eth.getTransactionReceipt(txHash);
         if (receipt.contractAddress) {
-          this.contract_address = receipt.contractAddress;
+          this._cpt_contract_address = receipt.contractAddress;
           return;
         }
       }
@@ -136,7 +118,7 @@ export default class Web3service extends Service.extend({
     let lweb3 = new Web3(web3addr);
     // let lweb3 = new Web3('http://127.0.0.1:9545');
 
-    let contract = new lweb3.eth.Contract(this.abi, this.contract_address);
+    let contract = new lweb3.eth.Contract(this._abi, this._cpt_contract_address);
 
     let res = await contract.methods.balanceOf(this.player8_address).call({ from: this.player8_address });
     console.log(res);
@@ -146,7 +128,7 @@ export default class Web3service extends Service.extend({
     if (window.ethereum) {
       console.log('ACC:' + acc);
 
-      let contract = new window.web3.eth.Contract(this.abi, this.contract_address);
+      let contract = new window.web3.eth.Contract(this._abi, this._cpt_contract_address);
       
       let value = window.web3.utils.toWei('0.001', 'ether');
       console.log('contract:' + contract);
@@ -155,7 +137,7 @@ export default class Web3service extends Service.extend({
       let estimatedGasSpending = window.web3.utils.numberToHex(await contract.methods.mint(acc).estimateGas({ from: acc, value: value }));
       console.log('estimatedGasSpending: ' + estimatedGasSpending);
       console.log(value);
-      contract.methods.mint(acc).send({ from: acc, to: this.contract_address, value: value })
+      contract.methods.mint(acc).send({ from: acc, to: this._cpt_contract_address, value: value })
         .on('transactionHash', function (hash) {
           console.log('transactionhash: ' + hash);
         })

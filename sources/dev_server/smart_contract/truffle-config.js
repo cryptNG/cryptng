@@ -43,6 +43,13 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
+    yitc:{
+      host: "37.24.133.123",
+      port: 8545,
+      network_id: 5777,
+      //provider: () => new HDWalletProvider('riot step orange junior leader tattoo crop uphold text online avoid best', `http://127.0.0.1:9545`),
+ 
+    },
     novent_local:{
       host: "192.168.0.7",
       port: 8545,
