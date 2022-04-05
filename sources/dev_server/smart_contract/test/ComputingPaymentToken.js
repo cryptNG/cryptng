@@ -7,8 +7,8 @@ let _tokens = [];
 contract('ComputingPaymentToken: full integration', async (accounts) => {
     const [deployerAddress, tokenHolderOneAddress, tokenHolderTwoAddress] = accounts;
    
-   // const web3 = new Web3('http://ganache:8545');
-    const web3 = new Web3('http://127.0.0.1:9545'); //truffledevelop
+    const web3 = new Web3('http://37.24.133.123:8545'); //yitc
+  //  const web3 = new Web3('http://127.0.0.1:9545'); //truffledevelop
     
 
     it('cannot mint type 0 with 0.001 ETH', async () => {
