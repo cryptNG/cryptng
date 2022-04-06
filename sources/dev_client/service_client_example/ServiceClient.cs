@@ -234,6 +234,8 @@ namespace app
 
                     };
 
+                    Console.WriteLine("Waiting for evidence to be created");
+                    Thread.Sleep(120000);
 
                     var proof = bptService.VerifyEvidenceHashMapQueryAsync(verifyHashMapFunction).Result;
                     Console.WriteLine("TXHASH FOR PROOF: " + proof);
