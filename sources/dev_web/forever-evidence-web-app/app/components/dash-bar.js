@@ -9,6 +9,7 @@ export default class Dashboard extends Component {
 
 
     @service web3service;
+    @service router;
 
     
  
@@ -20,7 +21,8 @@ export default class Dashboard extends Component {
 
       await this.web3service.connect();
       
-
+      
+    await this.router.transitionTo('/');
       // this.toggleWeb3Bar();
     }
     catch(err)
@@ -31,18 +33,6 @@ export default class Dashboard extends Component {
 
   
 
-  @action async disconnect()
-  {
-    try
-    {
-
-      this.web3service.disconnect();
-    }
-    catch(err)
-    {
-      window.alert(err.message);
-    }
-  }
     
 
 }

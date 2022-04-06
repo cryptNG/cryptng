@@ -125,9 +125,10 @@ button.connectbtn
 {
     border-radius: 20px;
     height: 30px;
+    background-color: #da1f1fb2; 
+    color: white;
     width: 200px;
 }
-
 
 button.ripple {
 	background-position: center;

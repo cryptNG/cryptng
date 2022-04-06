@@ -21,7 +21,6 @@ export default class Dashboard extends Component {
       await this.web3service.connect();
       
 
-      window.alert('connecting');
       // this.toggleWeb3Bar();
     }
     catch(err)
