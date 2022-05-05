@@ -14,6 +14,10 @@ export default class ApplicationRoute extends Route {
         //instead, create and call web3service.configureweb3
         this.web3service.registerHandlers(this.router);
       }
+      else
+      {
+        
+      }
 
 
       

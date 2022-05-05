@@ -851,6 +851,8 @@ export default class Web3service extends Service.extend({
 
   get isConnected()
   {
+    if(window.ethereum == null) return false;
+    
            return (window.ethereum.selectedAddress || null)  != null
   }
 
