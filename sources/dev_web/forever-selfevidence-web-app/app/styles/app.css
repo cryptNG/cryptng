@@ -1,7 +1,7 @@
 @font-face
 {
     font-family: "Quicksand";
-    src: url("webfonts/Quicksand-VariableFont_wght.ttf");
+    src: url("/webfonts/Quicksand-VariableFont_wght.ttf");
     font-display: swap;
 }
 .results{
@@ -38,11 +38,13 @@
 .results .result.nok{
   border-color: red;
   color: red;
+  color: white;
   }
 
   
 .results .result.ok{
   border-color: green;
+  color: black;
   }
 
 

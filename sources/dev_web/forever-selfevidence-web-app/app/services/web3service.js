@@ -659,7 +659,7 @@ export default class Web3service extends Service.extend({
   ];//#end <- end of auto-replacement for migration
   
   
-  _web3addr = 'http://yitc.ddns.net:8545'; 
+  _web3addr = 'https://yitc.ddns.net:8545';  
   _bet_contract_address = '0xEa2ff902dbeEECcc828757B881b343F9316752e5';
   _lweb3 = new Web3(this._web3addr);
   _contract = new this._lweb3.eth.Contract(this._abi, this._bet_contract_address);
@@ -671,7 +671,7 @@ export default class Web3service extends Service.extend({
   
   async getIsMintingActive()
   {
-    // let this.lweb3 = new Web3('http://127.0.0.1:9545');
+    // let this._lweb3 = new Web3('http://127.0.0.1:9545');
 
     
 
@@ -699,7 +699,7 @@ export default class Web3service extends Service.extend({
       
       
       window.web3 = new Web3(window.ethereum);
-      this._metamask = new window.web3.eth.Contract(this._abi, this._cpt_contract_address);
+      this._metamask = new window.web3.eth.Contract(this._abi, this._bet_contract_address);
       
 
       window.ethereum.on("disconnect", (error) => {
@@ -759,8 +759,7 @@ export default class Web3service extends Service.extend({
 //if this is async, and awaited on the calling side, ember build fails with "applypatches"
 toBigNumber(hexHash)
 {
-  let lweb3 = new Web3(this.web3addr);
-  return lweb3.utils.toBN(hexHash);
+  return this._lweb3.utils.toBN(hexHash);
 }
 
 
@@ -768,58 +767,87 @@ toBigNumber(hexHash)
   async verifySelfEvidence(hashToProof) {
     if (window.ethereum) {
       console.log('HashToProof:' + hashToProof);
-      let lweb3 = new Web3(this.web3addr);
       const bigNum = this.toBigNumber(hashToProof);
 
     console.log('Converted ' + hashToProof + ' to ' +bigNum);
 
 
-      let contract = new lweb3.eth.Contract(this.abi, this.contract_address);
       
-      let estimatedGasSpending = lweb3.utils.numberToHex(await contract.methods.verifyEvidenceHashMap(bigNum).estimateGas());
+      let estimatedGasSpending = this._lweb3.utils.numberToHex(await this._contract.methods.verifyEvidenceHashMap(bigNum).estimateGas());
       console.log('estimatedGasSpending: ' + estimatedGasSpending);
    
-      let resultObject = await contract.methods.verifySelfEvidence(bigNum).call({ from: this.acc });
-      let retrievedEvidenceTokenId = resultObject[2];
-      return retrievedEvidenceTokenId;
+      let resultObject = await this._metamask.methods.verifySelfEvidence(bigNum).call({ from: window.ethereum.selectedAddress });
+     
+      return {hash: resultObject[0], unixtime: resultObject[1], tokenid: resultObject[2]};
     } else {
       window.alert("not connected");
     }
   }
-
 
   
   async mintSelfEvidence(evidenceHash) {
     if (window.ethereum) {
       
       const bigNum = this.toBigNumber(evidenceHash);
-      console.log('ACC:' + this.acc);
+      console.log('ACC:' + window.ethereum.selectedAddress);
 
-      let contract = new window.web3.eth.Contract(this.abi, this.contract_address);
       
       let value = window.web3.utils.toWei('0.001', 'ether');
-      console.log('contract:' + contract);
+      console.log('contract:' + this._contract);
       let currentGasPrice = window.web3.utils.numberToHex(await window.web3.eth.getGasPrice());
       console.log('currentGasPrice: ' + currentGasPrice);
-      let estimatedGasSpending = window.web3.utils.numberToHex(await contract.methods.mintSelfEvidence(bigNum).estimateGas({ from: this.acc, value: value }));
+      let estimatedGasSpending = window.web3.utils.numberToHex(await this._contract.methods.mintSelfEvidence(bigNum).estimateGas({ from: window.ethereum.selectedAddress, value: value }));
       console.log('estimatedGasSpending: ' + estimatedGasSpending);
       console.log(value);
-      contract.methods.mintSelfEvidence(bigNum).send({ from: this.acc, to: this.contract_address, value: value })
+      let result = await this._metamask.methods.mintSelfEvidence(bigNum).send({ from: window.ethereum.selectedAddress, to: this.contract_address, value: value })
         .on('receipt', function (receipt) {
           // receipt example
           console.log('ok');
-          return true;
 
         })
         .on('error', function (error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
         console.log('nok');
-          return false;
         });
+        return result.status;
     } else {
       this.connect();
       this.mint();
     }
   }
 
+//REMOVE UNIXTIME FROM SMARTCONTRACT, INSTEAD GET FROM RPC (EVENT)
 
+async getMintedTransactionHashForTokenId(tId)
+{
+  let txHash;
+  let timeStamp;
+  await this._contract.getPastEvents('Transfer', {
+      fromBlock: 0,
+      toBlock: 'latest'
+  }, function(error, events){ 
+      //console.log(events); 
+  })
+  .then(async (events)=>{
+      //console.log('TokenId! ' + event.returnValues.tokenId); 
+      for (let i = 0; i < events.length; i++) {
+        if(events[i].returnValues.tokenId == tId)
+        {
+          console.log('TID: ' + tId);
+          txHash = events[i].transactionHash;
+          let block = await this._lweb3.eth.getBlock(events[i].blockNumber);
+          timeStamp = block.timestamp;
+          console.log('TIME: ' + timeStamp);
+          break;
+        }
+      } 
+
+
+
+      
+  });
+  return {txhash: txHash, timestamp: timeStamp};
+}
+
+
+  
 }

@@ -4,12 +4,16 @@ import { inject as service } from '@ember/service';
 export default class ApplicationRoute extends Route {
     @service router;
     @service web3service;
+    
     hasWalletEventsSet = false;
     async beforeModel() {
 
+      if(window.ethereum)
+      {
         await this.web3service.getIsSaleActive();
         //instead, create and call web3service.configureweb3
         this.web3service.registerHandlers(this.router);
+      }
 
 
       

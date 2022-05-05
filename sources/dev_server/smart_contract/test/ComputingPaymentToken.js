@@ -6,10 +6,14 @@ let _tokens = [];
 //truffle test
 contract('ComputingPaymentToken: full integration', async (accounts) => {
     const [deployerAddress, tokenHolderOneAddress, tokenHolderTwoAddress] = accounts;
-   
-    const web3 = new Web3('http://37.24.133.123:8545'); //yitc
+
+   // const web3 = new Web3('http://37.24.133.123:8545'); //yitc
   //  const web3 = new Web3('http://127.0.0.1:9545'); //truffledevelop
-    
+
+    const web3 = config.network==='develop'? new Web3('http://127.0.0.1:9545'):await (async (config)=>{
+        throw `config.networks[${config.network}].web3Uri not set in truffle-config.js` 
+        return await new Web3(config.networks[config.network].web3Uri); 
+    })(config);
 
     it('cannot mint type 0 with 0.001 ETH', async () => {
         let token = await tokenContract.deployed();       

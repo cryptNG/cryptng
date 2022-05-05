@@ -36,6 +36,11 @@ contract ComputingPaymentTokenERC721 is
     constructor() {
         _name = "ComputingPaymentToken";
         _symbol = "cnx";
+        _defaultTokenBalance[0] = 0;
+        _defaultTokenBalance[1] = 1000;
+        _defaultTokenBalance[2] = 100;
+        _defaultTokenBalance[3] = 1000;
+        
     }
 
 
@@ -84,6 +89,7 @@ contract ComputingPaymentTokenERC721 is
 
     // Mapping token id to token balance / num of executions
     uint256[] internal _tokenBalance;
+    mapping(uint16 => uint16) internal _defaultTokenBalance;
 
      event ExecutionTicketBurned(address indexed from, uint256 indexed tokenId,uint256 indexed ticketId);
     
@@ -487,7 +493,7 @@ contract ComputingPaymentTokenERC721 is
         uint16 ttype = uint16(tokenId / _maxTokens);
         _owners.push(to);
         _types.push(ttype);
-        _tokenBalance.push(1000);
+        _tokenBalance.push(_defaultTokenBalance[ttype]);
         //_owners.length - 1 is the ticketId
         _executionTickets[tokenId][_owners.length - 1] = 0;
 

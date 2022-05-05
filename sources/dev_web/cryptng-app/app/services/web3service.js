@@ -831,7 +831,8 @@ export default class Web3service extends Service.extend({
       "constant": true
     }
   ]
-  _web3addr = 'http://yitc.ddns.net:8545'; 
+
+  _web3addr = 'https://yitc.ddns.net:8545'; 
   _cpt_contract_address = '0x476059cD57800DB8eB88f67c2Aa38A6fCf8251e0';
   _lweb3 = new Web3(this._web3addr);
   _contract = new this._lweb3.eth.Contract(this._abi, this._cpt_contract_address);
@@ -978,7 +979,7 @@ export default class Web3service extends Service.extend({
 
       
       
-      let value = this._lweb3.utils.toWei('0.001', 'ether');
+      let value = this._lweb3.utils.toWei('0.0001', 'ether');
       console.log('contract:' + this._contract);
       let currentGasPrice = this._lweb3.utils.numberToHex(await this._lweb3.eth.getGasPrice());
       console.log('currentGasPrice: ' + currentGasPrice);
@@ -986,7 +987,7 @@ export default class Web3service extends Service.extend({
       console.log('estimatedGasSpending: ' + estimatedGasSpending);
       console.log(value);
       console.log('ETH-ADD: ' + window.ethereum.selectedAddress);
-      this._metamask.methods.mint(1,window.ethereum.selectedAddress).send({ from: window.ethereum.selectedAddress, value: value })
+      await this._metamask.methods.mint(1,window.ethereum.selectedAddress).send({ from: window.ethereum.selectedAddress, value: value })
         .on('transactionHash', function (hash) {
           console.log('transactionhash: ' + hash);
         })
@@ -1009,43 +1010,46 @@ export default class Web3service extends Service.extend({
     }
   }
 
-  async sendmoney() {
-
+  
+  @action async mintType2() {
     if (window.ethereum) {
       console.log('ACC:' + window.ethereum.selectedAddress);
-      let data = '0x7f7465737432000000000000000000000000000000000000000000000000000000600057';
-      let currentGasPrice = web3.utils.numberToHex(await this._lweb3.eth.getGasPrice());
-      let estimatedGasSpending = this._lweb3.utils.numberToHex(await this._lweb3.eth.estimateGas({ to: this.player1_address, data: data }));
+
+      
+      
+      let value = this._lweb3.utils.toWei('0.0001', 'ether');
+      console.log('contract:' + this._contract);
+      let currentGasPrice = this._lweb3.utils.numberToHex(await this._lweb3.eth.getGasPrice());
       console.log('currentGasPrice: ' + currentGasPrice);
+      let estimatedGasSpending = this._lweb3.utils.numberToHex(await this._contract.methods.mint(1,window.ethereum.selectedAddress).estimateGas({ from: window.ethereum.selectedAddress, value: value }));
       console.log('estimatedGasSpending: ' + estimatedGasSpending);
-      let amount = this._lweb3.utils.numberToHex(this._lweb3.utils.toWei('1', 'ether'));
-      const nonce = await web3.eth.getTransactionCount(window.ethereum.selectedAddress, 'latest');
+      console.log(value);
+      console.log('ETH-ADD: ' + window.ethereum.selectedAddress);
+      await this._metamask.methods.mint(2,window.ethereum.selectedAddress).send({ from: window.ethereum.selectedAddress, value: value })
+        .on('transactionHash', function (hash) {
+          console.log('transactionhash: ' + hash);
+        })
+        .on('confirmation', function (confirmationNumber, receipt) {
 
-      const transactionParameters = {
-        nonce: nonce + '', // ignored by MetaMask
-        gasPrice: currentGasPrice, // customizable by user during MetaMask confirmation.
-        gas: estimatedGasSpending,//'0x5208', //gas limit must be 21000. // customizable by user during MetaMask confirmation, is the gas
-        to: this.player1_address, // Required except during this.contract publications.
-        from: window.ethereum.selectedAddress, // must match user's active address.
-        value: amount, // Only required to send ether to the recipient from the initiating external account.
-        data: data, // Optional, but used for defining smart this.contract creation and interaction.
-        chainId: '0x3', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
-      };
+          console.log('confirmation no: ' + confirmationNumber);
+        })
+        .on('receipt', function (receipt) {
+          // receipt example
+          console.log('receipt: ' + receipt);
 
-      // txHash is a hex string
-      // As with any RPC call, it may throw an error
-      const txHash = await window.ethereum.request({
-        method: 'eth_sendTransaction',
-        params: [transactionParameters],
-      });
-
-
-
+        })
+        .on('error', function (error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+          console.log('error: ' + error);
+        });
     } else {
       this.connect();
-      this.sendmoney();
+      console.log('ERR');
+      this.mint();
     }
-
-
   }
+
+  
+
+
+  
 }

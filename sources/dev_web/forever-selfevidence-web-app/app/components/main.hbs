@@ -342,8 +342,8 @@ span.invalid-hex.active {
 	<div class="results">
 		<h3>Verify Results</h3>
 		{{#each this.verifiedResults as |result|}}
-		
-		<div class="result {{if result.success 'ok' 'nok'}}">{{#if result.isUpload}}{{result.fileName}}{{else}}{{nicer-hash result.hashData}}{{/if}} {{#unless result.success}} returned error: {{result.error}}{{/unless}} </div>
+    {{log result}}
+		<div class="result {{if result.success 'ok' 'nok'}}">{{#if result.isUpload}}{{result.fileName}}{{else}}HASH: {{nicer-hash result.hashData}} {{/if}} {{#if result.success}} - {{result.time}} TX: <a href="https://yitc.ddns.net:4000/tx/{{result.txhash}}" target="_blank">URL</a> {{else}} returned error: {{result.error}}{{/if}} </div>
 		{{/each}}
 	</div>
 
@@ -351,7 +351,7 @@ span.invalid-hex.active {
 	<div class="results">
 		<h3>Mint Results</h3>
 		{{#each this.mintedResults as |result|}}
-		<div class="result {{if result.success 'ok' 'nok'}}">{{nicer-hash result.hashData}} {{#unless result.success}} returned error: {{result.error}}{{/unless}}</div>
+		<div class="result {{if result.success 'ok' 'nok'}}">HASH: {{nicer-hash result.hashData}}   {{#if result.success}} - {{result.time}} TX: <a href="https://yitc.ddns.net:4000/tx/{{result.txhash}}" target="_blank">URL</a> {{else}} returned error: {{result.error}}{{/if}}</div>
 		{{/each}}
 	</div>
 </div>

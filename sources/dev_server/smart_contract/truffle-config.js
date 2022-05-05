@@ -22,6 +22,7 @@
 
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const dotenv = require('dotenv');
+const Web3 = require('web3');
 dotenv.config();
 
 console.log("envs"+process.env[0]);
@@ -49,11 +50,9 @@ module.exports = {
     // options below to some value.
     //
     yitc:{
-      host: "37.24.133.123",
-      port: 8545,
       network_id: 5777,
-      //provider: () => new HDWalletProvider('riot step orange junior leader tattoo crop uphold text online avoid best', `http://127.0.0.1:9545`),
- 
+      provider: () => new HDWalletProvider('minimum symptom minute gloom tragic situate silver mechanic salad amused elite beef', 'https://yitc.ddns.net:8545'),
+      web3Uri:'https://yitc.ddns.net:8545'
     },
     novent_local:{
       host: "192.168.0.7",
@@ -65,7 +64,7 @@ module.exports = {
     local:{
       host: "localhost",
       port: 9545,
-      network_id: 1337,
+      network_id: 5777,
       //provider: () => new HDWalletProvider('riot step orange junior leader tattoo crop uphold text online avoid best', `http://127.0.0.1:9545`),
  
     },

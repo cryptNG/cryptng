@@ -127,18 +127,38 @@ export default class MainComponent extends Component {
   }
 
   
+  format_time(s) {
+    let language = window.navigator.userLanguage || window.navigator.language;
+    console.log('lang: ' + language);
+    let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log('tz: ' + timezone);
 
+    const dtFormat = new Intl.DateTimeFormat(language, {
+      timeStyle: 'short',
+      timeZone: timezone
+    });
+
+    
+    
+    let time = dtFormat.format(new Date(s * 1e3));
+    let date = new Date(s * 1000).toLocaleDateString(language);
+    return `DATE (${language}): [${date}] TIME (${timezone}): [${time}]`;
+  }
+  
 
   @action async verifyExistingEvidence()
   {
     this.isVerifying=true;
     try
     {
-      let tokenId = await this.web3service.verifySelfEvidence(this.enteredHashData.hashData);
-    
-      if(tokenId != null)
+      let resultobj = await this.web3service.verifySelfEvidence(this.enteredHashData.hashData);
+      console.log('tokenid: ' +resultobj.tokenid);
+      if(resultobj.tokenid != null)
       {
-        this.verifiedResults.push({fileName : this.enteredHashData.fileName, hashData : this.enteredHashData.hashData, success: true, isUpload: this.enteredHashData.isUpload});
+        let txData = await this.web3service.getMintedTransactionHashForTokenId(resultobj.tokenid);
+        let txHash = txData.txhash;
+        let timeStamp = txData.timestamp;
+        this.verifiedResults.push({fileName : this.enteredHashData.fileName, hashData : this.enteredHashData.hashData, success: true, isUpload: this.enteredHashData.isUpload, time: this.format_time(timeStamp), txhash: txHash});
       }
       else
       {  
@@ -164,7 +184,12 @@ export default class MainComponent extends Component {
       let result = await this.web3service.mintSelfEvidence(this.enteredHashData.hashData);
       if(result == true)
       {
-        this.mintedResults.push({hashData : this.enteredHashData.hashData, success: true});
+        let verifyResult = await this.web3service.verifySelfEvidence(this.enteredHashData.hashData);
+        let txData = await this.web3service.getMintedTransactionHashForTokenId(verifyResult.tokenid);
+        let txHash = txData.txhash;
+        let timeStamp = txData.timestamp;
+        this.workaround_sleep(5000);
+        this.mintedResults.push({hashData : this.enteredHashData.hashData, success: true, time: this.format_time(timeStamp), txhash: txHash});
       }
       else
       {  
@@ -179,9 +204,15 @@ export default class MainComponent extends Component {
       this.isMinting=false;
     }
   this.enteredHashData=this.enteredHashData;
-   this.mintedResults=this.mintedResults;
+  this.mintedResults=this.mintedResults;
   }
 
+  //to be fixed by christian
+  workaround_sleep(milliseconds) {
+    const start = Date.now();
+    while (Date.now() - start < milliseconds);
+  }
 
+  
 
 }

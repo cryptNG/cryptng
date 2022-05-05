@@ -67,6 +67,7 @@ contract BasicEvidencingToken is
     uint internal _maxTokens = 1000000000000000000000000000000000000000000000000000000000000000000000000; 
     string _baseURL;
 
+    event MintedBatchHashEvidence(address creator , uint8 indexed bucket,uint256 hashdata, uint256 tokenId);
     event MintedHashMapEvidence(address creator ,uint256 fromHash, uint256 toHash, uint256 tokenId);
     event AssignedAllowedServiceEvent(address sender ,address addressToAllow);
     event UnassignedAllowedServiceEvent(address sender ,address addressToUnassign);
@@ -123,6 +124,21 @@ contract BasicEvidencingToken is
         _mint(_msgSender(), typedTokenId);
 
         emit MintedHashMapEvidence(_msgSender(), fromHash, toHash, typedTokenId);
+    }
+
+     function mintBatchHashEvidence(uint256[] calldata hashes) public isService()
+    {
+        uint256 typedTokenId = (_owners.length ) + 1 * _maxTokens; 
+        _mint(_msgSender(), typedTokenId);
+         for (uint256 i = 0; i < hashes.length; i++) {
+
+             emit MintedBatchHashEvidence(_msgSender(),getBucketFromHash(hashes[i]), hashes[i], typedTokenId);
+        }
+    }
+
+    function getBucketFromHash(uint256 hashData) pure internal returns(uint8)
+    {
+        return uint8(hashData % 1000);
     }
 
     function mintSelfEvidence(uint256 evidenceHash) public payable

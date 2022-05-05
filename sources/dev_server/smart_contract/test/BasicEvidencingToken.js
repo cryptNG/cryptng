@@ -2,6 +2,7 @@ const tokenContract = artifacts.require("BasicEvidencingToken");
 const truffleAssertions = require('truffle-assertions');
 const truffleAssert = require('truffle-assertions');
 const Web3 = require('web3');
+const BN = require('bn.js');
 let _tokens = [];  
 //truffle test
 contract('BasicEvidencingToken: full integration', async (accounts) => {
@@ -342,4 +343,59 @@ contract('BasicEvidencingToken: full integration', async (accounts) => {
     });
     
 
+    it('allows service to mint batchevidence', async () => {
+        
+        let evidences = [];
+
+        evidences[0] = web3.utils.toBN(web3.utils.soliditySha3('evidence #1'));
+        evidences[1] = web3.utils.toBN(web3.utils.soliditySha3('evidence #2'));
+        evidences[2] = web3.utils.toBN(web3.utils.soliditySha3('evidence #3'));
+       let uMod = web3.utils.toBN(1000);
+            let token = await tokenContract.deployed();        
+            let value = web3.utils.toWei('0.001', 'ether');
+            await truffleAssertions.passes(token.mintBatchHashEvidence(evidences,{from:accounts[0]}), 'mintBatchHashEvidence fails with set price');
+            
+            let eventresults = [];
+            await token.contract.getPastEvents('MintedBatchHashEvidence', {
+                filter: {bucket:evidences[0].umod(uMod)},
+                fromBlock: 0,
+                toBlock: 'latest'
+            }, function(error, events){
+
+            })
+            .then(function(events){
+                events.forEach((ev)=>{
+                    eventresults.push(ev.returnValues.hashdata);})
+            });
+
+            await token.contract.getPastEvents('MintedBatchHashEvidence', {
+                filter: {bucket:(evidences[1].umod(uMod))},
+                fromBlock: 0,
+                toBlock: 'latest'
+            }, function(error, events){
+
+            })
+            .then(function(events){
+                events.forEach((ev)=>{
+                    eventresults.push(ev.returnValues.hashdata);})
+            });
+
+            await token.contract.getPastEvents('MintedBatchHashEvidence', {
+                filter: {bucket:(evidences[2].umod(uMod))},
+                fromBlock: 0,
+                toBlock: 'latest'
+            }, function(error, events){
+
+            })
+            .then(function(events){
+                events.forEach((ev)=>{
+                    eventresults.push(ev.returnValues.hashdata);})
+            });
+
+          
+            assert.isTrue(eventresults.some((el)=> el == evidences[0].toString()));
+            assert.isTrue(eventresults.some((el)=> el == evidences[1].toString()));
+            assert.isTrue(eventresults.some((el)=> el == evidences[2].toString()));
+           
+        });
 });

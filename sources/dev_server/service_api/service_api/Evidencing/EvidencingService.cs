@@ -77,7 +77,7 @@ namespace service_api.Evidencing
                 var res = await TryGetRevertMessage<MintHashMapEvidenceFunction>(_web3, _basicEvidencingTokenContractAddress, mintHashMapEvidenceFunc);
                 if (res != null)
                 {
-                    Console.WriteLine("[EvidencingService] " + res.Message + " REV: " + res.RevertMessage);
+                    Console.WriteLine("[EvidencingService] " + res.Message + " REV: " + res.RevertMessage); //if exception is 'cannot proof existing', delete file
                 }
                 throw ex;
             }
