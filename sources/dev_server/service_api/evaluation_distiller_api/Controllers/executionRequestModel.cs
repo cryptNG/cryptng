@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace computingtoken_distiller_api.Controllers
+namespace evaluation_distiller_api.Controllers
 {
     public class executionRequestModel
     {
@@ -9,9 +9,7 @@ namespace computingtoken_distiller_api.Controllers
 
         public UInt64 tokenId { get; set; }
 
-        public UInt64 ticketId { get; set; }
-
-        public string clientSecret { get; set; }
+        public string userId { get; set; }
 
     }
 }

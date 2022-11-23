@@ -1,5 +1,5 @@
-using computingtoken_distiller_api.Configuration;
-using computingtoken_distiller_api.Evidencing;
+
+using evaluation_distiller_api.Configuration;
 
 var builder = ConfigurationHelper.CreateExtendedBuilder();
 // Add services to the container.
@@ -21,22 +21,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-new Thread(() =>
-{
-    Thread.CurrentThread.IsBackground = true;
-    /* run your code here */
-
-    computingtoken_distiller_api.HostRunner.CreateHostBuilder(args, "appsettings.json").Build().Run();
-}).Start();
-
-
 
 
 app.Run();
-

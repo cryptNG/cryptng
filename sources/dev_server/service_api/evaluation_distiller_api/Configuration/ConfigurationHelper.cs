@@ -1,4 +1,4 @@
-﻿namespace computingtoken_distiller_api.Configuration
+﻿namespace evaluation_distiller_api.Configuration
 {
     public static class ConfigurationHelper
     {

@@ -12,8 +12,8 @@ using CryptNG.Autogen.ComputingPaymentToken;
 using System.Text.Json;
 using System.Text;
 using app;
-using CryptNG.Autogen.BasicProofingToken;
-using CryptNG.Autogen.BasicProofingToken.ContractDefinition;
+using CryptNG.Autogen.BasicEvidencingToken;
+using CryptNG.Autogen.BasicEvidencingToken.ContractDefinition;
 using System;
 using Microsoft.Extensions.Configuration;
 
@@ -28,19 +28,19 @@ namespace app
         private Web3 _web3 = null;
         private string _samplesDirectory;
         private string _computingPaymentTokenContractAddress;
-        private string _basicProofingTokenContractAddress;
+        private string _basicEvidencingTokenContractAddress;
 
         public ServiceClient(IConfiguration? configuration)
         {
             _configuration = configuration;
 
             _account = new Account(_configuration["Web3:PrivateKeys:owner"], 1337);
-            _web3 = new Web3(_account, _configuration["Web3:RPC"]);
+            _web3 = new Web3(_account, _configuration["Web3:RPC_URL"]);
 
             _samplesDirectory = _configuration["SamplesLocation"];
 
             _computingPaymentTokenContractAddress = _configuration["Web3:Contracts:ComputingPaymentToken"];
-            _basicProofingTokenContractAddress = _configuration["Web3:Contracts:BasicProofingToken"];
+            _basicEvidencingTokenContractAddress = _configuration["Web3:Contracts:BasicEvidencingToken"];
 
 
 
@@ -48,7 +48,7 @@ namespace app
             Console.WriteLine("RPC: " + _configuration["Web3:RPC"]);
             Console.WriteLine("SAMPLES: " + _configuration["SamplesLocation"]);
             Console.WriteLine("CPT: " + _configuration["Web3:Contracts:ComputingPaymentToken"]);
-            Console.WriteLine("BPT: " + _configuration["Web3:Contracts:BasicProofingToken"]);
+            Console.WriteLine("BPT: " + _configuration["Web3:Contracts:BasicEvidencingToken"]);
         }
         public async Task Run()
         {
@@ -100,7 +100,7 @@ namespace app
 
 
             ComputingPaymentTokenService cptService = new ComputingPaymentTokenService(_web3, _computingPaymentTokenContractAddress);
-            BasicProofingTokenService bptService = new BasicProofingTokenService(_web3, _basicProofingTokenContractAddress);
+            BasicEvidencingTokenService bptService = new BasicEvidencingTokenService(_web3, _basicEvidencingTokenContractAddress);
 
             var mintFunc = new MintFunction()
             {
@@ -110,7 +110,7 @@ namespace app
 
             };
 
-            var mintFuncProofing = new MintFunction()
+            var mintFuncEvidencing = new MintFunction()
             {
                 AmountToSend = 10000000000000000,
                 To = _account.Address,
@@ -123,7 +123,7 @@ namespace app
             var mintFilter = await mintEvent.CreateFilterAsync();
 
 
-            var mintReceipt = await cptService.MintRequestAsync(mintFuncProofing);
+            var mintReceipt = await cptService.MintRequestAsync(mintFuncEvidencing);
 
             Console.WriteLine(mintReceipt);
 
@@ -227,15 +227,17 @@ namespace app
                     byte[] hashed = HashHelpers.createHashFromByteArray(savedData);
                     BigInteger hashBn = new BigInteger(hashed, true);
 
-                    var proofHashMapFunction = new ProofHashMapFunction()
+                    var verifyHashMapFunction = new VerifyEvidenceHashMapFunction()
                     {
 
                         FromHash = hashBn
 
                     };
 
+                    Console.WriteLine("Waiting for evidence to be created");
+                    Thread.Sleep(120000);
 
-                    var proof = bptService.ProofHashMapQueryAsync(proofHashMapFunction).Result;
+                    var proof = bptService.VerifyEvidenceHashMapQueryAsync(verifyHashMapFunction).Result;
                     Console.WriteLine("TXHASH FOR PROOF: " + proof);
 
 

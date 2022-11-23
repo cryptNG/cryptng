@@ -13,13 +13,13 @@ using Nethereum.Contracts.Extensions;
 using System.Numerics;
 using CryptNG.Autogen.ComputingPaymentToken.ContractDefinition;
 using CryptNG.Autogen.ComputingPaymentToken;
-using CryptNG.Autogen.BasicProofingToken.ContractDefinition;
-using CryptNG.Autogen.BasicProofingToken;
+using CryptNG.Autogen.BasicEvidencingToken.ContractDefinition;
+using CryptNG.Autogen.BasicEvidencingToken;
 using ApiClient.PdfDestiller;
+using Nethereum.ABI.FunctionEncoding;
+using Nethereum.RPC.Eth.DTOs;
 
-
-
-namespace service_api.Controllers
+namespace computingtoken_distiller_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -28,8 +28,8 @@ namespace service_api.Controllers
         private string _test_secretKey;
         private string _distiller_url;
         private string _tempMemoryDirectory;
+        private string _evidenceMemoryDirectory;
         private string _computingPaymentTokenContractAddress;
-        private string _basicProofingTokenContractAddress;
         private Account _account;
         private Web3 _web3;
         private IConfiguration _configuration;
@@ -52,19 +52,25 @@ namespace service_api.Controllers
             _distiller_url = _configuration["Distiller_URL"];
 
             _tempMemoryDirectory = _configuration["TempDirectory"];
+            _evidenceMemoryDirectory = _configuration["EvidenceDirectory"];
 
             _computingPaymentTokenContractAddress = _configuration["Web3:Contracts:ComputingPaymentToken"];
-            _basicProofingTokenContractAddress = _configuration["Web3:Contracts:BasicProofingToken"];
 
             try
             {
                 if (!Directory.Exists(_tempMemoryDirectory)) Directory.CreateDirectory(_tempMemoryDirectory);
+                if (!Directory.Exists(_evidenceMemoryDirectory)) Directory.CreateDirectory(_evidenceMemoryDirectory);
             }
             catch (Exception ex)
             {
                 if (!Directory.Exists(_tempMemoryDirectory))
                 {
-                    Console.WriteLine(ex);
+                    Console.WriteLine("[ServiceAPI] " + ex);
+                    Environment.Exit(-1);
+                }
+                if (!Directory.Exists(_evidenceMemoryDirectory))
+                {
+                    Console.WriteLine("[ServiceAPI] " + ex);
                     Environment.Exit(-1);
                 }
             }
@@ -74,20 +80,27 @@ namespace service_api.Controllers
         [HttpGet("order/result")]
         public async Task<ActionResult> GetResult(UInt64 tokenId, string requestId)
         {
-
             var resultData = getResult(requestId);
 
-            if (isProofingToken(tokenId) && hasStoredTransactionHash(requestId, tokenId))
+            if (isEvidencingToken(tokenId) && hasStoredTransactionHash(requestId, tokenId))
             {
                 byte[] hashed = createHashFromBase64String(resultData);
                 BigInteger txHash = loadTransactionHashFromRequestId(requestId, tokenId);
-                await createBlockchainProof(new BigInteger(hashed, true), txHash); //BigInteger(byte[], bool IsUnsigned)
+                BigInteger fileHash = new BigInteger(hashed, true);
+                string hashes = $"{fileHash}#{txHash}";
+                System.IO.File.WriteAllText($"{_evidenceMemoryDirectory}/{requestId}_{tokenId}.evi", hashes);
+                Console.WriteLine("[ServiceAPI] " + "Generated temporary evidence file: " + $"{_evidenceMemoryDirectory}/{requestId}_{tokenId}.evi");
+
+
                 return StatusCode(200, resultData);
             }
 
 
             return StatusCode(200, resultData);
         }
+
+
+
 
         private byte[] createHashFromBase64String(string b64) => createSha256(Convert.FromBase64String(b64));
 
@@ -135,27 +148,35 @@ namespace service_api.Controllers
             return _typedExecutionBatchSize[getTypeByTokenId(tokenId)];
         }
 
-        private bool isProofingToken(BigInteger tokenId)
+        private bool isEvidencingToken(BigInteger tokenId)
         {
-            return getTypeByTokenId(tokenId) == TokenTypes.ProofingType;
+            return getTypeByTokenId(tokenId) == TokenTypes.EvidenceType;
         }
 
-        private async Task createBlockchainProof(BigInteger fileHash, BigInteger txHash)
+
+        private static async Task<SmartContractRevertException> TryGetRevertMessage<TFunction>(
+            Web3 web3, string contractAddress, TFunction functionArgs, BlockParameter blockParameter = null)
+            where TFunction : FunctionMessage, new()
         {
-            BasicProofingTokenService service = new BasicProofingTokenService(_web3, _basicProofingTokenContractAddress);
-
-
-
-            var mintHashMapProofFunc = new MintHashMapProofFunction()
+            try
             {
-                FromHash = fileHash,
-                ToHash = txHash
-            };
+                Console.WriteLine("[ServiceAPI] " + $"* Querying Function {typeof(TFunction).Name}");
+                // instead of sending a transaction again, we do a query with the same function parameters
+                // the smart contract code will be executed but no changes will be made on chain
+                var functionHandler = web3.Eth.GetContractQueryHandler<TFunction>();
+                // we're not bothered about the return value here
+                // we'd only get that if it was successful
+                // we only want the revert reason which we'll get from the exception
+                // we cant use QueryRaw as that will never throw a SmartContractRevertException
+                await functionHandler.QueryAsync<bool>(contractAddress, functionArgs, blockParameter);
 
-
-            //var mintHashMapProofEvent = service.ContractHandler.GetEvent<MintedHashMapProofEventDTO>();
-
-            await service.MintHashMapProofRequestAsync(mintHashMapProofFunc);
+                // if we got here there was no revert message to retrieve
+                return null;
+            }
+            catch (SmartContractRevertException revertException)
+            {
+                return revertException;
+            }
         }
 
         private BigInteger loadTransactionHashFromRequestId(string requestId, UInt64 tokenId)
@@ -214,7 +235,7 @@ namespace service_api.Controllers
             if (counter >= counterMax)
             {
                 var result = serviceBurnExecutionTicket(model.ticketId);
-                if (isProofingToken(result.tokenId))
+                if (isEvidencingToken(result.tokenId))
                 {
                     storeTransactionHashToRequestId(requestId, model.tokenId, result.txHash);
                 }
@@ -242,7 +263,7 @@ namespace service_api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Could not write counter " + ex);
+                    Console.WriteLine("[ServiceAPI] " + "Could not write counter " + ex);
                 }
             }
         }
@@ -257,8 +278,8 @@ namespace service_api.Controllers
             {
                 if (System.IO.File.Exists($"{_tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt"))
                 {
-                    Console.WriteLine("Could not delete counterfile: " + ex.Message);
-                    Console.WriteLine($"FILE: {_tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt");
+                    Console.WriteLine("[ServiceAPI] " + "Could not delete counterfile: " + ex.Message);
+                    Console.WriteLine("[ServiceAPI] " + $"FILE: {_tempMemoryDirectory}/{clientSecret}_{ticketId}.cnt");
                 }
             }
 
@@ -284,29 +305,44 @@ namespace service_api.Controllers
 
             var serviceBurnTicketFunction = new ServiceBurnExecutionTicketsFunction()
             {
-                TicketId = ticketId
+                TicketId = ticketId,
+                FromAddress = _account.Address
+
             };
 
 
             var burnTicketEvent = service.ContractHandler.GetEvent<ExecutionTicketBurnedEventDTO>();
             var burnTicketEventFilter = burnTicketEvent.CreateFilterAsync().Result;
+            TransactionReceipt createTicketReceipt = null;
+            SmartContractRevertException contractErr = null;
+            try
+            {
+                createTicketReceipt = service.ServiceBurnExecutionTicketsRequestAndWaitForReceiptAsync(serviceBurnTicketFunction).Result;
 
-            var createTicketReceipt = service.ServiceBurnExecutionTicketsRequestAndWaitForReceiptAsync(serviceBurnTicketFunction).Result;
 
+            }
+            catch (Exception ex)
+            {
+                contractErr = TryGetRevertMessage<ServiceBurnExecutionTicketsFunction>(_web3, _computingPaymentTokenContractAddress, serviceBurnTicketFunction).Result;
+                if (contractErr != null)
+                {
+                    Console.WriteLine("[ServiceAPI] " + contractErr.Message + " REV: " + contractErr.RevertMessage);
+                }
+            }
             var burnedTicketLog = burnTicketEvent.GetFilterChangesAsync(burnTicketEventFilter).Result;
 
             BigInteger tokenId = 0;
             foreach (var eventLog in burnedTicketLog)
             {
-                Console.WriteLine("TicketID: " + eventLog.Event.TicketId);
-                Console.WriteLine("TokenId: " + eventLog.Event.TokenId);
+                Console.WriteLine("[ServiceAPI] " + "TicketID: " + eventLog.Event.TicketId);
+                Console.WriteLine("[ServiceAPI] " + "TokenId: " + eventLog.Event.TokenId);
                 if (eventLog.Event.TicketId == ticketId)
                 {
                     tokenId = eventLog.Event.TokenId;
                 }
 
             }
-            return (tokenId, createTicketReceipt.TransactionHash);
+            return (tokenId, createTicketReceipt != null ? createTicketReceipt.TransactionHash : contractErr.Message);
         }
 
 
@@ -326,7 +362,22 @@ namespace service_api.Controllers
             };
 
 
-            var tSecret = service.GetTicketSecretQueryAsync(getTicketSecretFunc).Result;
+            BigInteger tSecret = 0;
+            SmartContractRevertException contractErr = null;
+            try
+            {
+                tSecret = service.GetTicketSecretQueryAsync(getTicketSecretFunc).Result;
+
+
+            }
+            catch (Exception ex)
+            {
+                contractErr = TryGetRevertMessage<GetTicketSecretFunction>(_web3, _computingPaymentTokenContractAddress, getTicketSecretFunc).Result;
+                if (contractErr != null)
+                {
+                    Console.WriteLine("[ServiceAPI] " + contractErr.Message + " REV: " + contractErr.RevertMessage);
+                }
+            }
 
             if (tSecret != toServiceSecret(clientSecret))
             {
@@ -346,7 +397,7 @@ namespace service_api.Controllers
             byte[] data = Convert.FromBase64String(pdfResult.DataAsBase64);
 
             System.IO.File.WriteAllBytes("testresult.pdf", data);
-            Console.WriteLine("Result written");
+            Console.WriteLine("[ServiceAPI] " + "Result written");
 
 
 

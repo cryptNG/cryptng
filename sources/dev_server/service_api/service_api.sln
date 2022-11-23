@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "service_api", "service_api\service_api.csproj", "{685BA4C3-D442-4941-858D-DF2147E9FF1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "computingtoken_distiller_api", "service_api\computingtoken_distiller_api.csproj", "{685BA4C3-D442-4941-858D-DF2147E9FF1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evaluation_distiller_api", "evaluation_distiller_api\evaluation_distiller_api.csproj", "{84CDD11F-F9DA-4954-BA9E-F7F8B69AE824}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{685BA4C3-D442-4941-858D-DF2147E9FF1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{685BA4C3-D442-4941-858D-DF2147E9FF1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{685BA4C3-D442-4941-858D-DF2147E9FF1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84CDD11F-F9DA-4954-BA9E-F7F8B69AE824}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84CDD11F-F9DA-4954-BA9E-F7F8B69AE824}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84CDD11F-F9DA-4954-BA9E-F7F8B69AE824}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84CDD11F-F9DA-4954-BA9E-F7F8B69AE824}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,33 +10,33 @@ using Nethereum.Contracts.CQS;
 using Nethereum.Contracts.ContractHandlers;
 using Nethereum.Contracts;
 using System.Threading;
-using CryptNG.Autogen.BasicProofingToken.ContractDefinition;
+using CryptNG.Autogen.BasicEvidencingToken.ContractDefinition;
 
-namespace CryptNG.Autogen.BasicProofingToken
+namespace CryptNG.Autogen.BasicEvidencingToken
 {
-    public partial class BasicProofingTokenService
+    public partial class BasicEvidencingTokenService
     {
-        public static Task<TransactionReceipt> DeployContractAndWaitForReceiptAsync(Nethereum.Web3.Web3 web3, BasicProofingTokenDeployment basicProofingTokenDeployment, CancellationTokenSource cancellationTokenSource = null)
+        public static Task<TransactionReceipt> DeployContractAndWaitForReceiptAsync(Nethereum.Web3.Web3 web3, BasicEvidencingTokenDeployment basicEvidencingTokenDeployment, CancellationTokenSource cancellationTokenSource = null)
         {
-            return web3.Eth.GetContractDeploymentHandler<BasicProofingTokenDeployment>().SendRequestAndWaitForReceiptAsync(basicProofingTokenDeployment, cancellationTokenSource);
+            return web3.Eth.GetContractDeploymentHandler<BasicEvidencingTokenDeployment>().SendRequestAndWaitForReceiptAsync(basicEvidencingTokenDeployment, cancellationTokenSource);
         }
 
-        public static Task<string> DeployContractAsync(Nethereum.Web3.Web3 web3, BasicProofingTokenDeployment basicProofingTokenDeployment)
+        public static Task<string> DeployContractAsync(Nethereum.Web3.Web3 web3, BasicEvidencingTokenDeployment basicEvidencingTokenDeployment)
         {
-            return web3.Eth.GetContractDeploymentHandler<BasicProofingTokenDeployment>().SendRequestAsync(basicProofingTokenDeployment);
+            return web3.Eth.GetContractDeploymentHandler<BasicEvidencingTokenDeployment>().SendRequestAsync(basicEvidencingTokenDeployment);
         }
 
-        public static async Task<BasicProofingTokenService> DeployContractAndGetServiceAsync(Nethereum.Web3.Web3 web3, BasicProofingTokenDeployment basicProofingTokenDeployment, CancellationTokenSource cancellationTokenSource = null)
+        public static async Task<BasicEvidencingTokenService> DeployContractAndGetServiceAsync(Nethereum.Web3.Web3 web3, BasicEvidencingTokenDeployment basicEvidencingTokenDeployment, CancellationTokenSource cancellationTokenSource = null)
         {
-            var receipt = await DeployContractAndWaitForReceiptAsync(web3, basicProofingTokenDeployment, cancellationTokenSource);
-            return new BasicProofingTokenService(web3, receipt.ContractAddress);
+            var receipt = await DeployContractAndWaitForReceiptAsync(web3, basicEvidencingTokenDeployment, cancellationTokenSource);
+            return new BasicEvidencingTokenService(web3, receipt.ContractAddress);
         }
 
         protected Nethereum.Web3.Web3 Web3{ get; }
 
         public ContractHandler ContractHandler { get; }
 
-        public BasicProofingTokenService(Nethereum.Web3.Web3 web3, string contractAddress)
+        public BasicEvidencingTokenService(Nethereum.Web3.Web3 web3, string contractAddress)
         {
             Web3 = web3;
             ContractHandler = web3.Eth.GetContractHandler(contractAddress);
@@ -125,6 +125,57 @@ namespace CryptNG.Autogen.BasicProofingToken
              return ContractHandler.SendRequestAndWaitForReceiptAsync(setBaseURIFunction, cancellationToken);
         }
 
+        public Task<bool> GetIsSelfEvidencingActiveQueryAsync(GetIsSelfEvidencingActiveFunction getIsSelfEvidencingActiveFunction, BlockParameter blockParameter = null)
+        {
+            return ContractHandler.QueryAsync<GetIsSelfEvidencingActiveFunction, bool>(getIsSelfEvidencingActiveFunction, blockParameter);
+        }
+
+        
+        public Task<bool> GetIsSelfEvidencingActiveQueryAsync(BlockParameter blockParameter = null)
+        {
+            return ContractHandler.QueryAsync<GetIsSelfEvidencingActiveFunction, bool>(null, blockParameter);
+        }
+
+        public Task<string> SetIsSelfEvidencingActiveRequestAsync(SetIsSelfEvidencingActiveFunction setIsSelfEvidencingActiveFunction)
+        {
+             return ContractHandler.SendRequestAsync(setIsSelfEvidencingActiveFunction);
+        }
+
+        public Task<string> SetIsSelfEvidencingActiveRequestAsync()
+        {
+             return ContractHandler.SendRequestAsync<SetIsSelfEvidencingActiveFunction>();
+        }
+
+        public Task<TransactionReceipt> SetIsSelfEvidencingActiveRequestAndWaitForReceiptAsync(SetIsSelfEvidencingActiveFunction setIsSelfEvidencingActiveFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(setIsSelfEvidencingActiveFunction, cancellationToken);
+        }
+
+        public Task<TransactionReceipt> SetIsSelfEvidencingActiveRequestAndWaitForReceiptAsync(CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync<SetIsSelfEvidencingActiveFunction>(null, cancellationToken);
+        }
+
+        public Task<string> SetIsSelfEvidencingInactiveRequestAsync(SetIsSelfEvidencingInactiveFunction setIsSelfEvidencingInactiveFunction)
+        {
+             return ContractHandler.SendRequestAsync(setIsSelfEvidencingInactiveFunction);
+        }
+
+        public Task<string> SetIsSelfEvidencingInactiveRequestAsync()
+        {
+             return ContractHandler.SendRequestAsync<SetIsSelfEvidencingInactiveFunction>();
+        }
+
+        public Task<TransactionReceipt> SetIsSelfEvidencingInactiveRequestAndWaitForReceiptAsync(SetIsSelfEvidencingInactiveFunction setIsSelfEvidencingInactiveFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(setIsSelfEvidencingInactiveFunction, cancellationToken);
+        }
+
+        public Task<TransactionReceipt> SetIsSelfEvidencingInactiveRequestAndWaitForReceiptAsync(CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync<SetIsSelfEvidencingInactiveFunction>(null, cancellationToken);
+        }
+
         public Task<string> AssignAllowedServiceRequestAsync(AssignAllowedServiceFunction assignAllowedServiceFunction)
         {
              return ContractHandler.SendRequestAsync(assignAllowedServiceFunction);
@@ -177,46 +228,99 @@ namespace CryptNG.Autogen.BasicProofingToken
              return ContractHandler.SendRequestAndWaitForReceiptAsync(unassignAllowedServiceFunction, cancellationToken);
         }
 
-        public Task<string> MintHashMapProofRequestAsync(MintHashMapProofFunction mintHashMapProofFunction)
+        public Task<string> MintHashMapEvidenceRequestAsync(MintHashMapEvidenceFunction mintHashMapEvidenceFunction)
         {
-             return ContractHandler.SendRequestAsync(mintHashMapProofFunction);
+             return ContractHandler.SendRequestAsync(mintHashMapEvidenceFunction);
         }
 
-        public Task<TransactionReceipt> MintHashMapProofRequestAndWaitForReceiptAsync(MintHashMapProofFunction mintHashMapProofFunction, CancellationTokenSource cancellationToken = null)
+        public Task<TransactionReceipt> MintHashMapEvidenceRequestAndWaitForReceiptAsync(MintHashMapEvidenceFunction mintHashMapEvidenceFunction, CancellationTokenSource cancellationToken = null)
         {
-             return ContractHandler.SendRequestAndWaitForReceiptAsync(mintHashMapProofFunction, cancellationToken);
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(mintHashMapEvidenceFunction, cancellationToken);
         }
 
-        public Task<string> MintHashMapProofRequestAsync(BigInteger fromHash, BigInteger toHash)
+        public Task<string> MintHashMapEvidenceRequestAsync(BigInteger fromHash, BigInteger toHash)
         {
-            var mintHashMapProofFunction = new MintHashMapProofFunction();
-                mintHashMapProofFunction.FromHash = fromHash;
-                mintHashMapProofFunction.ToHash = toHash;
+            var mintHashMapEvidenceFunction = new MintHashMapEvidenceFunction();
+                mintHashMapEvidenceFunction.FromHash = fromHash;
+                mintHashMapEvidenceFunction.ToHash = toHash;
             
-             return ContractHandler.SendRequestAsync(mintHashMapProofFunction);
+             return ContractHandler.SendRequestAsync(mintHashMapEvidenceFunction);
         }
 
-        public Task<TransactionReceipt> MintHashMapProofRequestAndWaitForReceiptAsync(BigInteger fromHash, BigInteger toHash, CancellationTokenSource cancellationToken = null)
+        public Task<TransactionReceipt> MintHashMapEvidenceRequestAndWaitForReceiptAsync(BigInteger fromHash, BigInteger toHash, CancellationTokenSource cancellationToken = null)
         {
-            var mintHashMapProofFunction = new MintHashMapProofFunction();
-                mintHashMapProofFunction.FromHash = fromHash;
-                mintHashMapProofFunction.ToHash = toHash;
+            var mintHashMapEvidenceFunction = new MintHashMapEvidenceFunction();
+                mintHashMapEvidenceFunction.FromHash = fromHash;
+                mintHashMapEvidenceFunction.ToHash = toHash;
             
-             return ContractHandler.SendRequestAndWaitForReceiptAsync(mintHashMapProofFunction, cancellationToken);
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(mintHashMapEvidenceFunction, cancellationToken);
         }
 
-        public Task<BigInteger> ProofHashMapQueryAsync(ProofHashMapFunction proofHashMapFunction, BlockParameter blockParameter = null)
+        public Task<string> MintSelfEvidenceRequestAsync(MintSelfEvidenceFunction mintSelfEvidenceFunction)
         {
-            return ContractHandler.QueryAsync<ProofHashMapFunction, BigInteger>(proofHashMapFunction, blockParameter);
+             return ContractHandler.SendRequestAsync(mintSelfEvidenceFunction);
+        }
+
+        public Task<TransactionReceipt> MintSelfEvidenceRequestAndWaitForReceiptAsync(MintSelfEvidenceFunction mintSelfEvidenceFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(mintSelfEvidenceFunction, cancellationToken);
+        }
+
+        public Task<string> MintSelfEvidenceRequestAsync(BigInteger evidenceHash)
+        {
+            var mintSelfEvidenceFunction = new MintSelfEvidenceFunction();
+                mintSelfEvidenceFunction.EvidenceHash = evidenceHash;
+            
+             return ContractHandler.SendRequestAsync(mintSelfEvidenceFunction);
+        }
+
+        public Task<TransactionReceipt> MintSelfEvidenceRequestAndWaitForReceiptAsync(BigInteger evidenceHash, CancellationTokenSource cancellationToken = null)
+        {
+            var mintSelfEvidenceFunction = new MintSelfEvidenceFunction();
+                mintSelfEvidenceFunction.EvidenceHash = evidenceHash;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(mintSelfEvidenceFunction, cancellationToken);
+        }
+
+        public Task<BigInteger> EvidenceByTokenIdQueryAsync(EvidenceByTokenIdFunction evidenceByTokenIdFunction, BlockParameter blockParameter = null)
+        {
+            return ContractHandler.QueryAsync<EvidenceByTokenIdFunction, BigInteger>(evidenceByTokenIdFunction, blockParameter);
         }
 
         
-        public Task<BigInteger> ProofHashMapQueryAsync(BigInteger fromHash, BlockParameter blockParameter = null)
+        public Task<BigInteger> EvidenceByTokenIdQueryAsync(BigInteger tokenId, BlockParameter blockParameter = null)
         {
-            var proofHashMapFunction = new ProofHashMapFunction();
-                proofHashMapFunction.FromHash = fromHash;
+            var evidenceByTokenIdFunction = new EvidenceByTokenIdFunction();
+                evidenceByTokenIdFunction.TokenId = tokenId;
             
-            return ContractHandler.QueryAsync<ProofHashMapFunction, BigInteger>(proofHashMapFunction, blockParameter);
+            return ContractHandler.QueryAsync<EvidenceByTokenIdFunction, BigInteger>(evidenceByTokenIdFunction, blockParameter);
+        }
+
+        public Task<BigInteger> VerifyEvidenceHashMapQueryAsync(VerifyEvidenceHashMapFunction verifyEvidenceHashMapFunction, BlockParameter blockParameter = null)
+        {
+            return ContractHandler.QueryAsync<VerifyEvidenceHashMapFunction, BigInteger>(verifyEvidenceHashMapFunction, blockParameter);
+        }
+
+        
+        public Task<BigInteger> VerifyEvidenceHashMapQueryAsync(BigInteger fromHash, BlockParameter blockParameter = null)
+        {
+            var verifyEvidenceHashMapFunction = new VerifyEvidenceHashMapFunction();
+                verifyEvidenceHashMapFunction.FromHash = fromHash;
+            
+            return ContractHandler.QueryAsync<VerifyEvidenceHashMapFunction, BigInteger>(verifyEvidenceHashMapFunction, blockParameter);
+        }
+
+        public Task<VerifySelfEvidenceOutputDTO> VerifySelfEvidenceQueryAsync(VerifySelfEvidenceFunction verifySelfEvidenceFunction, BlockParameter blockParameter = null)
+        {
+            return ContractHandler.QueryDeserializingToObjectAsync<VerifySelfEvidenceFunction, VerifySelfEvidenceOutputDTO>(verifySelfEvidenceFunction, blockParameter);
+        }
+
+        public Task<VerifySelfEvidenceOutputDTO> VerifySelfEvidenceQueryAsync(BigInteger evidenceHash, BlockParameter blockParameter = null)
+        {
+            var verifySelfEvidenceFunction = new VerifySelfEvidenceFunction();
+                verifySelfEvidenceFunction.EvidenceHash = evidenceHash;
+            
+            return ContractHandler.QueryDeserializingToObjectAsync<VerifySelfEvidenceFunction, VerifySelfEvidenceOutputDTO>(verifySelfEvidenceFunction, blockParameter);
         }
 
         public Task<BigInteger> TotalSupplyQueryAsync(TotalSupplyFunction totalSupplyFunction, BlockParameter blockParameter = null)

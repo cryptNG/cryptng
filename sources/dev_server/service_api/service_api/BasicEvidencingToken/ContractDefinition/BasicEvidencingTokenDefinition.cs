@@ -10,21 +10,21 @@ using Nethereum.Contracts.CQS;
 using Nethereum.Contracts;
 using System.Threading;
 
-namespace CryptNG.Autogen.BasicProofingToken.ContractDefinition
+namespace CryptNG.Autogen.BasicEvidencingToken.ContractDefinition
 {
 
 
-    public partial class BasicProofingTokenDeployment : BasicProofingTokenDeploymentBase
+    public partial class BasicEvidencingTokenDeployment : BasicEvidencingTokenDeploymentBase
     {
-        public BasicProofingTokenDeployment() : base(BYTECODE) { }
-        public BasicProofingTokenDeployment(string byteCode) : base(byteCode) { }
+        public BasicEvidencingTokenDeployment() : base(BYTECODE) { }
+        public BasicEvidencingTokenDeployment(string byteCode) : base(byteCode) { }
     }
 
-    public class BasicProofingTokenDeploymentBase : ContractDeploymentMessage
+    public class BasicEvidencingTokenDeploymentBase : ContractDeploymentMessage
     {
         public static string BYTECODE = "";
-        public BasicProofingTokenDeploymentBase() : base(BYTECODE) { }
-        public BasicProofingTokenDeploymentBase(string byteCode) : base(byteCode) { }
+        public BasicEvidencingTokenDeploymentBase() : base(BYTECODE) { }
+        public BasicEvidencingTokenDeploymentBase(string byteCode) : base(byteCode) { }
 
     }
 
@@ -62,6 +62,30 @@ namespace CryptNG.Autogen.BasicProofingToken.ContractDefinition
         public virtual string Uri { get; set; }
     }
 
+    public partial class GetIsSelfEvidencingActiveFunction : GetIsSelfEvidencingActiveFunctionBase { }
+
+    [Function("getIsSelfEvidencingActive", "bool")]
+    public class GetIsSelfEvidencingActiveFunctionBase : FunctionMessage
+    {
+
+    }
+
+    public partial class SetIsSelfEvidencingActiveFunction : SetIsSelfEvidencingActiveFunctionBase { }
+
+    [Function("setIsSelfEvidencingActive")]
+    public class SetIsSelfEvidencingActiveFunctionBase : FunctionMessage
+    {
+
+    }
+
+    public partial class SetIsSelfEvidencingInactiveFunction : SetIsSelfEvidencingInactiveFunctionBase { }
+
+    [Function("setIsSelfEvidencingInactive")]
+    public class SetIsSelfEvidencingInactiveFunctionBase : FunctionMessage
+    {
+
+    }
+
     public partial class AssignAllowedServiceFunction : AssignAllowedServiceFunctionBase { }
 
     [Function("assignAllowedService")]
@@ -80,10 +104,10 @@ namespace CryptNG.Autogen.BasicProofingToken.ContractDefinition
         public virtual string AddressToUnassign { get; set; }
     }
 
-    public partial class MintHashMapProofFunction : MintHashMapProofFunctionBase { }
+    public partial class MintHashMapEvidenceFunction : MintHashMapEvidenceFunctionBase { }
 
-    [Function("mintHashMapProof")]
-    public class MintHashMapProofFunctionBase : FunctionMessage
+    [Function("mintHashMapEvidence")]
+    public class MintHashMapEvidenceFunctionBase : FunctionMessage
     {
         [Parameter("uint256", "fromHash", 1)]
         public virtual BigInteger FromHash { get; set; }
@@ -91,13 +115,40 @@ namespace CryptNG.Autogen.BasicProofingToken.ContractDefinition
         public virtual BigInteger ToHash { get; set; }
     }
 
-    public partial class ProofHashMapFunction : ProofHashMapFunctionBase { }
+    public partial class MintSelfEvidenceFunction : MintSelfEvidenceFunctionBase { }
 
-    [Function("proofHashMap", "uint256")]
-    public class ProofHashMapFunctionBase : FunctionMessage
+    [Function("mintSelfEvidence")]
+    public class MintSelfEvidenceFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "evidenceHash", 1)]
+        public virtual BigInteger EvidenceHash { get; set; }
+    }
+
+    public partial class EvidenceByTokenIdFunction : EvidenceByTokenIdFunctionBase { }
+
+    [Function("evidenceByTokenId", "uint256")]
+    public class EvidenceByTokenIdFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "tokenId", 1)]
+        public virtual BigInteger TokenId { get; set; }
+    }
+
+    public partial class VerifyEvidenceHashMapFunction : VerifyEvidenceHashMapFunctionBase { }
+
+    [Function("verifyEvidenceHashMap", "uint256")]
+    public class VerifyEvidenceHashMapFunctionBase : FunctionMessage
     {
         [Parameter("uint256", "fromHash", 1)]
         public virtual BigInteger FromHash { get; set; }
+    }
+
+    public partial class VerifySelfEvidenceFunction : VerifySelfEvidenceFunctionBase { }
+
+    [Function("verifySelfEvidence", typeof(VerifySelfEvidenceOutputDTO))]
+    public class VerifySelfEvidenceFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "evidenceHash", 1)]
+        public virtual BigInteger EvidenceHash { get; set; }
     }
 
     public partial class TotalSupplyFunction : TotalSupplyFunctionBase { }
@@ -280,10 +331,10 @@ namespace CryptNG.Autogen.BasicProofingToken.ContractDefinition
         public virtual string AddressToAllow { get; set; }
     }
 
-    public partial class MintedHashMapProofEventDTO : MintedHashMapProofEventDTOBase { }
+    public partial class MintedHashMapEvidenceEventDTO : MintedHashMapEvidenceEventDTOBase { }
 
-    [Event("MintedHashMapProof")]
-    public class MintedHashMapProofEventDTOBase : IEventDTO
+    [Event("MintedHashMapEvidence")]
+    public class MintedHashMapEvidenceEventDTOBase : IEventDTO
     {
         [Parameter("address", "creator", 1, false )]
         public virtual string Creator { get; set; }
@@ -345,19 +396,56 @@ namespace CryptNG.Autogen.BasicProofingToken.ContractDefinition
 
 
 
-
-
-
-
-
-
-    public partial class ProofHashMapOutputDTO : ProofHashMapOutputDTOBase { }
+    public partial class GetIsSelfEvidencingActiveOutputDTO : GetIsSelfEvidencingActiveOutputDTOBase { }
 
     [FunctionOutput]
-    public class ProofHashMapOutputDTOBase : IFunctionOutputDTO 
+    public class GetIsSelfEvidencingActiveOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("bool", "", 1)]
+        public virtual bool ReturnValue1 { get; set; }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public partial class EvidenceByTokenIdOutputDTO : EvidenceByTokenIdOutputDTOBase { }
+
+    [FunctionOutput]
+    public class EvidenceByTokenIdOutputDTOBase : IFunctionOutputDTO 
     {
         [Parameter("uint256", "", 1)]
         public virtual BigInteger ReturnValue1 { get; set; }
+    }
+
+    public partial class VerifyEvidenceHashMapOutputDTO : VerifyEvidenceHashMapOutputDTOBase { }
+
+    [FunctionOutput]
+    public class VerifyEvidenceHashMapOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("uint256", "", 1)]
+        public virtual BigInteger ReturnValue1 { get; set; }
+    }
+
+    public partial class VerifySelfEvidenceOutputDTO : VerifySelfEvidenceOutputDTOBase { }
+
+    [FunctionOutput]
+    public class VerifySelfEvidenceOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("uint256", "", 1)]
+        public virtual BigInteger ReturnValue1 { get; set; }
+        [Parameter("uint256", "", 2)]
+        public virtual BigInteger ReturnValue2 { get; set; }
+        [Parameter("uint256", "", 3)]
+        public virtual BigInteger ReturnValue3 { get; set; }
     }
 
     public partial class TotalSupplyOutputDTO : TotalSupplyOutputDTOBase { }
