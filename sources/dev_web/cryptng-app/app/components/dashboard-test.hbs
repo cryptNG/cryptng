@@ -15,7 +15,7 @@
 <div class="token-details features">
 	<div class="title">Features</div>
 	<div class="element"><div class="left">Executions</div>
-<div class="right">4000</div></div>
+<div class="right">1000</div></div>
 <div class="element"><div class="left">Batch size</div>
 <div class="right">10</div></div>
 
@@ -23,7 +23,7 @@
 
 <div class="token-details limitations">
 	<div class="title">Limitations</div>
-	<div class="element">
+	<div class="element"> 
 <div class="left">Rate limit</div>
 <div class="right">10 Files per Hour</div></div>
 	<div class="element">
@@ -35,7 +35,8 @@
 </div></div>
 
 <div class="tokenfooter">
-	<button class="mint ripple {{unless this.web3service.isSaleActive 'inactive'}}" {{on "click" this.mintWhenDisabled}} type="button">Mint for 0.0001 ETH (~2,50€)</button>
+	
+	<button class="mint ripple {{unless this.web3service._isSaleActive 'inactive'}}" {{on "click" this.web3service.mintType1}} type="button">Mint for 0.0001 ETH (~2,50€)</button>
 </div>
 </div>
 
@@ -49,7 +50,7 @@
 <div class="token-details features">
 	<div class="title">Features</div>
 	<div class="element"><div class="left">Executions</div>
-<div class="right">4000</div></div>
+<div class="right">100</div></div>
 <div class="element"><div class="left">Batch size</div>
 <div class="right">1</div></div>
 
@@ -68,14 +69,14 @@
 <div class="right">5 seconds per execution</div></div>
 </div></div>
 <div class="tokenfooter">
-	<button class="mint ripple {{unless this.web3service.isSaleActive 'inactive'}}" {{on "click" this.mintWhenDisabled}} type="button">Mint for 0.0001 ETH (~2,50€)</button>
+	<button class="mint ripple {{unless this.web3service._isSaleActive 'inactive'}}" {{on "click" this.web3service.mintType2}} type="button">Mint for 0.0001 ETH (~2,50€)</button>
 </div>
 </div>
 
 <div class="spacer">&nbsp;</div>
 </div>
 </div>
-{{#unless this.web3service.isSaleActive}}
+{{#unless this.web3service._isSaleActive}}
 <div class="center-message" id="glow-blue">MINTING IS CURRENTLY DISABLED FOR MAINTENANCE</div>
 {{/unless}}
 

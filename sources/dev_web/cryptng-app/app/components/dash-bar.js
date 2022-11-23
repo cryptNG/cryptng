@@ -31,12 +31,9 @@ export default class Dashboard extends Component {
     try
     {
 
-      await this.web3service.connect();
+      await this.web3service.connect(this.goToDashboard, this.goToMain);
       
-      if(this.web3service.isConnected)
-      {
-        this.goToDashboard();
-      }
+    
 
       // this.toggleWeb3Bar();
     }
@@ -48,19 +45,5 @@ export default class Dashboard extends Component {
 
   
 
-  @action async disconnect()
-  {
-    try
-    {
-
-      this.web3service.disconnect();
-      this.goToMain();
-    }
-    catch(err)
-    {
-      window.alert(err.message);
-    }
-  }
-    
 
 }

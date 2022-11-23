@@ -1,0 +1,343 @@
+
+
+#particles-js {
+    /*background-color: black;*/
+    width: 100%;
+    height: 100%;
+   
+    z-index: -1;
+    top: 0;
+    left: 0;
+position: fixed;
+
+
+}
+
+
+
+
+div.dashbar
+{
+    top: 0px;
+    left:0px;
+    background-color: #3e3e3ec9;
+    width: 100%;
+    height: 80px;
+    position: fixed;
+    z-index: 2147483647;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+
+    -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 1s; /* Firefox < 16 */
+        -ms-animation: fadein 1s; /* Internet Explorer */
+         -o-animation: fadein 1s; /* Opera < 12.1 */
+            animation: fadein 1s;
+}
+
+div.dashbar a{
+    border-bottom:none;
+}
+
+.pi-button, .raise-button {
+	letter-spacing: 1px;
+	display: inline-block;
+	position: relative;
+	border-radius: 2px;
+	overflow: hidden;
+	-webkit-transition: 0.2s ease-out;
+	transition: 0.2s ease-out;
+	font-family: sans-serif;
+	cursor:pointer;
+	border: none;
+	margin: 5px;
+	background-color: transparent;
+	text-align: center;
+	color: #444;
+}
+
+.pi-button:focus, .raise-button:focus {
+	outline: none;
+}
+
+.pi-button:hover {
+	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22), 0 4px 4px 0 rgba(0, 0, 0, 0.35);
+
+	color: #222;
+	text-decoration: none;
+	background-color: rgba(255, 255, 255, 0.6);
+}
+
+.pi-button:active {
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.44), 0 1px 1px 0 rgba(0, 0, 0, 0.68);
+}
+
+
+.pi-button:focus::before {
+	display: block;
+	height: 150px;
+	width: 150px;
+	top: -58px;
+	left: -30px;
+	opacity: 0;
+	content: "";
+	background: #AAA;
+	border-radius: 1000px;
+	position: absolute;
+	animation-name: fade;
+	animation-timing-function: ease-out;
+    animation-duration: 1s;
+	z-index: -2;
+}
+
+@keyframes fade {
+	0% {opacity: 1; transform: scale(0);}
+	50% {opacity: 1; transform: scale(1);}
+    100% {opacity: 0;}
+}
+
+
+.with-shadow {
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.35), 0 1px 1px 0 rgba(0, 0, 0, 0.59);
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+
+.raise-button:hover {
+	box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.3), 0 15px 15px 0 rgba(0, 0, 0, 0.4);
+	background-color: #FFF !important;
+	color: #222 !important;
+}
+
+.raise-button:active {
+	-webkit-transition: 0.05s ease-out;
+	transition: 0.05s ease-out;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.44), 0 1px 1px 0 rgba(0, 0, 0, 0.68);
+}
+
+
+
+button.connectbtn
+{
+    border-radius: 20px;
+    height: 30px;
+    background-color: #da1f1fb2; 
+    color: white;
+    width: 200px;
+}
+
+button.ripple {
+	background-position: center;
+	transition: background 0.8s;
+  }
+  button.ripple:hover {
+	background: rgba(255, 0, 0, 0.301) radial-gradient(circle, transparent 1%, rgba(255, 0, 0, 0.301) 1%) center/15000%;
+
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+	backdrop-filter: blur(5px);
+
+}
+  button.ripple:active {
+	background-color: rgba(255, 0, 0, 0.493);
+	background-size: 100%;
+	transition: background 0s;
+  
+  }
+
+
+  
+div.connectinfo
+{
+    align-items: center;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    right:0;
+    margin-right: 2rem;
+    position: absolute;
+}
+
+div.connectinfo div.account
+{
+    line-height: 45px;
+    margin: 5px 15px 5px 5px;
+
+  
+}
+
+div.connectinfo div.account b{
+    color: red;
+}
+
+
+div.logo-left
+{
+position: absolute;
+left: 0;
+
+}
+
+
+
+div.center-message
+{
+    position: absolute;
+    top: 80px;
+    z-index: 2000;
+    background: repeating-linear-gradient(
+        45deg,
+        #6b27003f,
+        #0000003a 10px
+      );
+    width: 100%;
+    height: 4rem;
+    text-align: center;
+    font-size: 2.5rem;
+    text-align: center;
+    font-family: 'Quicksand';
+    border: none;
+    
+  -webkit-animation: glow 2s ease-in-out infinite alternate;
+  -moz-animation: glow 2s ease-in-out infinite alternate;
+animation: glow 4s ease-in-out infinite alternate;
+}
+
+
+
+/* Glow Colors */
+#glow-blue {
+    animation-name: glow-blue;
+  }
+  @-webkit-keyframes glow-blue {
+    from {
+      box-shadow: 0 0 2px #82d7f944, 0 0 10px #82d7f956, 0 0 20px #00a7fb46, 0 0 30prgba(0, 167, 251, 0.411)fb;
+    }
+    to {
+      box-shadow: 0 0 10px #82d7f967, 0 0 20px #5ec9fe67, 0 0 30px #5ec9fe70, 0 0 40px #5ec9fe63;
+    }
+  }
+
+
+  body{
+      
+    background-image: url('/images/polyback.min.svg');
+    background-size: auto calc(100vh);
+    background-repeat: no-repeat;
+    background-position-x: 0px;
+    size:cover;
+    margin:0;
+    height: 100vh;
+    width: 100vw;
+    color: white;
+    
+      
+  }
+
+
+.page{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+  /*  fileupload */
+
+.fileupload{
+  color: black;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  border-radius: 25px;
+}
+
+.fileupload .container {
+  border-radius: 25px;
+  color: black;
+  height: fit-content;
+  width: fit-content;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  opacity: 0.85;
+  
+}
+
+.fileupload .container .card {
+  color: black;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+  width: 600px;
+  height: 260px;
+  background-color: #ffffff;
+  padding: 10px 30px 40px;
+}
+
+.fileupload .container .card h3 {
+  font-size: 22px;
+  font-weight: 600;
+  
+}
+
+.fileupload .container .card .drop_box {
+  margin: 10px 0;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 3px dotted #a3a3a3;
+  border-radius: 5px;
+}
+
+.fileupload .container .card .drop_box h4 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #2e2e2e;
+}
+
+.fileupload .container .card .drop_box p {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: #a3a3a3;
+}
+
+.fileupload .container .card .btn {
+  border-radius: 5px;
+  text-decoration: none;
+  background-color: #229ea6;
+  opacity: 1;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  
+  outline: none;
+  transition: 0.3s;
+}
+
+.fileupload .container .card .btn:hover{
+  text-decoration: none;
+  background-color: #ffffff;
+  color: #005af0;
+  padding: 10px 20px;
+  border: none;
+  outline: 1px solid #010101;
+}
+.fileupload .container .card .form input {
+  margin: 10px 0;
+  width: 100%;
+  background-color: #e2e2e2;
+  border: none;
+  outline: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+}

@@ -18,11 +18,14 @@ contract ComputingPaymentToken is ComputingPaymentTokenERC721
         
       _executionBatchSize[0] = 16000;  // Reserved token type, 0 does not exist.
       _executionBatchSize[1] = 10; //Testtoken Standard 
-      _executionBatchSize[2] = 1;  //Testtoken Proofing
+      _executionBatchSize[2] = 1;  //Testtoken Evidencing
+      _executionBatchSize[3] = 100;  //Testtoken BatchEvidencing
         _allowedServices[_msgSender()] = true;
     }
 
-    uint256 private _mintPriceGwei = 1000000; //0.001ETH
+
+
+    uint256 private _mintPriceGwei = 100000; //0.0001ETH
 
     bool private _isSaleActive = true;
 

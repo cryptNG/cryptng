@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ForeverEvidenceWebApp</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{content-for "head"}}
+
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/forever-evidence-web-app.css">
+
+    {{content-for "head-footer"}}
+  </head>
+  <style>
+    body{
+        
+      background: linear-gradient(#e66465, #9198e5);
+      margin:0;
+      height: 100vh;
+      width: 100vw;
+      color: white;
+      
+        
+    }
+  
+    
+  </style>
+  <body>
+    
+    {{content-for "body"}}
+
+    <script src="{{rootURL}}web3.min.js"></script>
+    <script src="{{rootURL}}particles.min.js"></script>
+    <script src="{{rootURL}}assets/vendor.js"></script>
+    <script src="{{rootURL}}assets/forever-evidence-web-app.js"></script>
+    
+
+    {{content-for "body-footer"}}
+
+  </body>
+</html>

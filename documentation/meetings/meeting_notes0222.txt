@@ -18,10 +18,3 @@ if you forget your executionTicket secret, you'll have to burn your minibatch.
 
 
 
-
-WE HAVE A CryptNG Improvement Proposal:
-
-CIP-001:
-- you can request proof of execution/ proof of document generation
-which is hash of the document, that will be stored on chain in a hash map.
-but it will cost more.

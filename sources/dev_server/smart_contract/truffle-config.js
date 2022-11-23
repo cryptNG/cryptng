@@ -1,3 +1,5 @@
+//Truffle mnemonic and accounts have been copypasted into rancher (to seed)
+
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
@@ -18,7 +20,13 @@
  *
  */
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+const dotenv = require('dotenv');
+const Web3 = require('web3');
+dotenv.config();
+
+console.log("envs"+process.env[0]);
+console.log("INF_RB_SECRET"+process.env.INF_RB_SECRET);
 //
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
@@ -41,11 +49,30 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
-    development: {
-     host: "ganache",     // Ganache (RANCHER) CG
+    yitc:{
+      network_id: 5777,
+      provider: () => new HDWalletProvider('minimum symptom minute gloom tragic situate silver mechanic salad amused elite beef', 'https://yitc.ddns.net:8545'),
+      web3Uri:'https://yitc.ddns.net:8545'
+    },
+    novent_local:{
+      host: "192.168.0.7",
+      port: 8545,
+      network_id: 5777,
+      //provider: () => new HDWalletProvider('riot step orange junior leader tattoo crop uphold text online avoid best', `http://127.0.0.1:9545`),
+ 
+    },
+    local:{
+      host: "localhost",
+      port: 9545,
+      network_id: 5777,
+      //provider: () => new HDWalletProvider('riot step orange junior leader tattoo crop uphold text online avoid best', `http://127.0.0.1:9545`),
+ 
+    },
+    novent_rpc: {
+     host: "192.168.0.7",     // Ganache (RANCHER) CG
      port: 8545,            // Standard Ethereum port (default: none)
      network_id: "5777",       // Any network (default: none)
-     //confirmations: 1,
+     //confirmations: 2,
      //provider: () => new HDWalletProvider('one teo three four five six seven tight nine ten eleven twelve', `http://192.168.0.1:8545`),
     },
     development_web: {
@@ -54,8 +81,15 @@ module.exports = {
       network_id: "5777",       // Any network (default: none)
       //confirmations: 1,
       //provider: () => new HDWalletProvider('one teo three four five six seven tight nine ten eleven twelve', `http://192.168.0.1:8545`),
-     }
-   
+     },
+     rinkeby: {
+      provider: () => new HDWalletProvider(process.env.MNEMONIC, `wss://:${process.env.INF_RB_SECRET}@rinkeby.infura.io/ws/v3/ceafcd4748d84544849e502be51b4ce9`),
+      network_id: 4,       // Ropsten's id
+      gas: 5500000,        // Ropsten has a lower block limit than mainnet
+      confirmations: 2,    // # of confs to wait between deployments. (default: 0)
+      timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
+      skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
+    },
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
@@ -91,7 +125,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.0",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.8.1",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       settings: {          // See the solidity docs for advice about optimization and evmVersion
        optimizer: {

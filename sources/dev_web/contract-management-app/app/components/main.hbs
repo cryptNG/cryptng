@@ -1,0 +1,62 @@
+<DashBar></DashBar>
+
+<div class="is-preload page">
+	<div class="section-top">
+	<div class="inputbox">
+	<input class="custom-input" type="text" placeholder="Enter Data" value={{this.enteredData}} {{on 'keyup' (fn this.updateEnteredData)}} ><button class="minibtn" {{action (fn this.clearDataField)}}>X</button>
+	</div>
+	</div>
+	<div class="section-bottom">
+	<div class="control-area cpt">
+		<div class="area-title">CPT- CONTROL CENTER</div>
+		<div class="area-controls">
+			<button class="control" {{action (fn this.createResultCpt)}}>Grant Service Allowance</button>
+			<button class="control" {{action (fn this.createResultCpt)}}>Revoke Service Allowance</button>
+			<button class="control" {{action (fn this.createResultCpt)}}>Burn Execution Token</button>
+			<button class="control" {{action (fn this.createResultCpt)}}>Adapt Market Price</button>
+			<button class="control" {{action (fn this.createResultCpt)}}>Get Token Balance</button>
+		</div>
+		<div class="danger-controls">
+			<button class="control danger">Enable Sales</button>
+			<button class="control danger">Disable Sales</button>
+		</div>
+		<div class="area-datadisplay">
+			{{#unless this.cptResults}}<div class="datadisplay-placeholder">NO-DATA</div>{{/unless}}
+			{{#each this.cptResults as |result|}}
+			<div class="area-dataset">{{result}}</div>
+			{{/each}}
+		
+		</div>
+<div class="area-datadisplay-controls">
+			<button class="clearcontrol" {{action (fn this.clearCptResults)}}>X</button>
+		</div>
+	</div>
+
+	<div class="control-area bet">
+		<div class="area-title">BET- CONTROL CENTER</div>
+		<div class="area-controls">
+			<button class="control" {{action (fn this.createResultBet)}}>Grant Service Allowance</button>
+			<button class="control" {{action (fn this.createResultBet)}}>Revoke Service Allowance</button>
+			<button class="control" {{action (fn this.createResultBet)}}>Burn Execution Token</button>
+			<button class="control" {{action (fn this.createResultBet)}}>Adapt Market Price</button>
+			<button class="control" {{action (fn this.createResultBet)}}>Get Token Balance</button>
+		</div>
+		<div class="danger-controls">
+			<button class="control danger">Enable Sales</button>
+			<button class="control danger">Disable Sales</button>
+		</div>
+		<div class="area-datadisplay">
+			{{#unless this.betResults}}<div class="datadisplay-placeholder">NO-DATA</div>{{/unless}}
+			
+			{{#each this.betResults as |result|}}
+			<div class="area-dataset">{{result}}</div>
+			{{/each}}
+		
+		</div>
+		<div class="area-datadisplay-controls">
+			<button class="clearcontrol" {{action (fn this.clearBetResults)}}>X</button>
+		</div>
+
+	</div></div>
+
+</div>
