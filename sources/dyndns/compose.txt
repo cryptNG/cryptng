@@ -1,0 +1,5 @@
+#cryptng-dyndns-updater
+  cryptng-dyndns-updater:
+    image: cryptng-dyndns-updater
+    command: bash -c "service cron start
+             && tail -f cron-result.txt" 

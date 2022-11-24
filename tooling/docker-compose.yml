@@ -87,12 +87,29 @@ services:
 
 #ember app
 
-  webapp:
+  # webapp:
+    # image: danlynn/ember-cli:3.27.0
+    # environment:
+      # - CI=true
+    # volumes:
+      # - ../sources/dev_server/webapp:/myapp
+      # - .bash_history:/root/.bash_history
+    # ports:
+      # - "4200:4200" 
+      # - "7020:7020"
+      # - "7357:7357"
+    # #include in your .bashrc: 
+    # #export WSL_WINDOWS_HOST=`cat /etc/resolv.conf | grep nameserver | cut -d ' ' -f 2`
+    # command: bash -c "yarn install && ember server --live-reload-port=7020 --proxy=http://$WSL_WINDOWS_HOST:5000"
+
+      
+      
+  distiller-app:
     image: danlynn/ember-cli:3.27.0
     environment:
       - CI=true
     volumes:
-      - ../sources/dev_server/webapp:/myapp
+      - ../sources/dev_web/pdf-distiller-web-app:/myapp
       - .bash_history:/root/.bash_history
     ports:
       - "4200:4200" 
