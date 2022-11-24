@@ -10,7 +10,7 @@ using ApiClient.PdfDestiller;
 namespace evaluation_distiller_api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/health")]
     public class HealthController : ControllerBase
     {
 

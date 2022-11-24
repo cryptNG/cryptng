@@ -4,11 +4,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Numerics;
 using ApiClient.PdfDestiller;
+using System.Net;
 
 namespace evaluation_distiller_api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/service")]
     public class ServiceApiController : ControllerBase
     {
         private string _test_secretKey;
@@ -50,11 +51,12 @@ namespace evaluation_distiller_api.Controllers
 
 
         [HttpGet("order/result")]
-        public async Task<ActionResult> GetResult(UInt64 tokenId, string requestId)
+        public async Task<ActionResult> GetResult(string requestId)
         {
             var resultData = getResult(requestId);
 
-            return StatusCode(200, resultData);
+            //return StatusCode(200, resultData);
+            return new FileContentResult(Convert.FromBase64String(resultData), "application/pdf");
         }
 
         [HttpGet("order/state")]
@@ -99,7 +101,7 @@ namespace evaluation_distiller_api.Controllers
             System.IO.File.Delete($"{_tempMemoryDirectory}//{requestId}_{tokenId}.txh");
         }
 
-        private int createOrLoadTempFile(UInt64 tokenId)
+        private int createOrLoadTempFile(string tokenId)
         {
             if (!System.IO.File.Exists($"{_tempMemoryDirectory}/{tokenId}.cnt"))
             {
@@ -151,7 +153,7 @@ namespace evaluation_distiller_api.Controllers
             return StatusCode(200, requestId);
         }
 
-        private void writeCounterFile(UInt64 tokenId, int counter)
+        private void writeCounterFile(string tokenId, int counter)
         {
             if (System.IO.File.Exists($"{_tempMemoryDirectory}/{tokenId}.cnt"))
             {
@@ -166,7 +168,7 @@ namespace evaluation_distiller_api.Controllers
             }
         }
 
-        private void deleteCounterFile(UInt64 tokenId)
+        private void deleteCounterFile(string tokenId)
         {
             try
             {
@@ -183,9 +185,9 @@ namespace evaluation_distiller_api.Controllers
 
         }
 
-        private bool validateExecutionTicket(UInt64 tokenId, string userId)
+        private bool validateExecutionTicket(string tokenId, string userId)
         {
-            if (tokenId != toServiceSecret(userId))
+            if (tokenId != toServiceSecret(userId, _test_secretKey))
             {
                 return false;
             }
@@ -219,7 +221,25 @@ namespace evaluation_distiller_api.Controllers
 
         private string createOrder(string xmlData, string xslData)
         {
+            //var proxy = new WebProxy
+            //{
+            //    Address = new Uri($"http://localhost:8080"),
+            //    BypassProxyOnLocal = false,
+            //    UseDefaultCredentials = false,
+
+            //};
+
+            //// Now create a client handler which uses that proxy
+            //var httpClientHandler = new HttpClientHandler
+            //{
+            //    Proxy = proxy,
+            //};
+
+            //HttpClient client = new HttpClient(httpClientHandler) { BaseAddress = new Uri(_distiller_url) };
+
+
             HttpClient client = new HttpClient() { BaseAddress = new Uri(_distiller_url) };
+
             PdfDestillerClient distiller = new PdfDestillerClient(client);
             string requestId = DateTime.Now.Ticks.ToString();
             distiller.PostOrderAsync(new OrderPo()
@@ -232,12 +252,12 @@ namespace evaluation_distiller_api.Controllers
         }
 
 
-        private BigInteger toServiceSecret(string text)
+        public static string toServiceSecret(string text, string secretKey)
         {
 
             BigInteger val = 0;
 
-            using (var hmacsha256 = new HMACSHA256(Encoding.UTF8.GetBytes(_test_secretKey)))
+            using (var hmacsha256 = new HMACSHA256(Encoding.UTF8.GetBytes(secretKey)))
             {
                 var hash = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(text));
                 var hexString = "0" + BitConverter.ToString(hash).Replace("-", "");
@@ -247,7 +267,7 @@ namespace evaluation_distiller_api.Controllers
 
             }
 
-            return val;
+            return val.ToString();
 
         }
 

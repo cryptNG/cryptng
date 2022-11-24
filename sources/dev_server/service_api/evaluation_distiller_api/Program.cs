@@ -1,6 +1,8 @@
 
 using evaluation_distiller_api.Configuration;
 
+var policyName = "_myAllowSpecificOrigins";
+
 var builder = ConfigurationHelper.CreateExtendedBuilder();
 // Add services to the container.
 
@@ -10,7 +12,20 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //builder.Services.AddHostedService<EvidencingService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: policyName,
+                      builder =>
+                      {
+                          builder
+                            .WithOrigins("http://localhost:4200") // specifying the allowed origin
+                            .WithMethods("GET") // defining the allowed HTTP method
+                            .AllowAnyHeader(); // allowing any header to be sent
+                      });
+});
+
 var app = builder.Build();
+
 
 
 
@@ -26,6 +41,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-
+app.UseCors(policyName);
 
 app.Run();

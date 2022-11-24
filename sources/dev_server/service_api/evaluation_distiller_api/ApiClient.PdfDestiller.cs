@@ -318,6 +318,11 @@ namespace ApiClient.PdfDestiller
                             }
                             return objectResponse_.Object;
                         }
+                        if (status_ == 202)
+                        {
+                            throw new ApiException("The Order was created but is not ready to be picked up.", status_, "ACCEPTED 202", headers_, null);
+
+                        }
                         else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
