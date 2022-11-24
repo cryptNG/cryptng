@@ -333,8 +333,20 @@
   @onContentChange={{this.updateEnteredTokenContent}}  
   @invalidMessage={{this.invalidTokenMessage}}
   @inputContent={{this.enteredTokenContent}}
+  @contentType = 'token'
   @clearInput={{this.clearTokenInputContent}}>
    <:labelContent>Enter Evaluation Token</:labelContent>
+ </EnterInput>
+    <br/>
+ <EnterInput 
+  @id="token"
+  @isWorking={{this.isWorking}} 
+  @onContentChange={{this.updateEnteredUserIdContent}}  
+  @invalidMessage={{this.invalidUserIdMessage}}
+  @inputContent={{this.enteredUserIdContent}}
+  @contentType = 'userid'
+  @clearInput={{this.clearUserIdInputContent}}>
+   <:labelContent>Enter User Id (Email)</:labelContent>
  </EnterInput>
   
   <div class="middle">to</div>
@@ -344,6 +356,8 @@
         <Ux::InlineLoader @active={{this.isWorking}} />CREATE PDF
       </span></button>
   </div>
+  
+<XToggle @value={{this.isSessionSave}} @onToggle={{fn this.toggleSessionSave}} @theme='light' />
 
 </div>
 {{#if this.isShowingRequestModal}}
