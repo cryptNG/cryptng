@@ -5,6 +5,7 @@ using System.Text;
 using System.Numerics;
 using ApiClient.PdfDestiller;
 using System.Net;
+using System.Xml;
 
 namespace evaluation_distiller_api.Controllers
 {
@@ -122,15 +123,22 @@ namespace evaluation_distiller_api.Controllers
         }
 
 
-
         [HttpPost("order")]
         public ActionResult CreateOrder([FromBody] executionRequestModel model)
         {
-
+            if(!isValidEmail(model.userId))
+            {
+                return StatusCode(400, "The UserId provided was not a real email address");
+            }
+            string wellFormedOrError = isWellFormedXml(model.xmlData);
+            if (wellFormedOrError != null)
+            {
+                return StatusCode(500, wellFormedOrError);
+            }
 
             if (!validateExecutionTicket(model.tokenId, model.userId))
             {
-                return StatusCode(401, "Unauthorized");
+                return StatusCode(401, "Unauthorized, the token could not be validated (userId/token do not match)");
             }
 
 
@@ -269,6 +277,46 @@ namespace evaluation_distiller_api.Controllers
 
             return val.ToString();
 
+        }
+
+        
+
+        string? isWellFormedXml(string xmlData)
+        {
+            try
+            {
+                var settings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore, XmlResolver = null };
+
+                using (var reader = XmlReader.Create(new StringReader(xmlData), settings))
+                {
+                    var document = new XmlDocument();
+                    document.Load(reader);
+                }
+                return null;
+            }
+            catch (Exception exc)
+            {
+                return exc.Message;
+            }
+        }
+
+        bool isValidEmail(string email)
+        {
+            var trimmedEmail = email.Trim();
+
+            if (trimmedEmail.EndsWith("."))
+            {
+                return false;
+            }
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == trimmedEmail;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 
