@@ -11,9 +11,9 @@ export default class EnterOrUploadInputComponent extends Component {
   @tracked isLoading = false;
 
 
-  @action didInsertFileUpload() {
-    const button = document.querySelector("#drop_box_button");
-    const  input = document.querySelector("#drop_box_input");
+  @action didInsertFileUpload(element) {
+    const button = element.querySelector(".drop_box_button");
+    const  input = element.querySelector(".drop_box_input");
 
     let file;
     button.onclick = () => {
