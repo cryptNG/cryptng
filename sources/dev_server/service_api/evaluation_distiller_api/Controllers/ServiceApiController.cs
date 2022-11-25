@@ -273,7 +273,7 @@ namespace evaluation_distiller_api.Controllers
             }
         }
 
-        bool isValidEmail(string email)
+        static bool isValidEmail(string email)
         {
             var trimmedEmail = email.Trim();
 
