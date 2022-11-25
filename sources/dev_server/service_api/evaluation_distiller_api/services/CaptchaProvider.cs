@@ -32,7 +32,7 @@ namespace evaluation_distiller_api.services
         }
         public static (byte[] img, byte[] enc) GenerateCaptchaImageAsByteArray(HttpContext context)
         {
-            //16:45 sonntag arnsberg 59821 vor der haar (nr7)
+
             Random ran = new Random(Convert.ToInt32(DateTime.Now.Ticks % int.MaxValue) - 1894);
             int[] calculation = new int[] { ran.Next(10, 20), ran.Next(0, 100) % 2, ran.Next(0, 10) };
             int solution = calculation[0] + calculation[2] * (calculation[1] == 0 ? -1 : 1);
@@ -55,12 +55,13 @@ namespace evaluation_distiller_api.services
 
                 using (var paint = new SKPaint())
                 {
-                    paint.TextSize = 64.0f;
+                    paint.TextSize = 34.0f;
                     paint.IsAntialias = true;
                     paint.Color = new SKColor(0x8C, 0x9F, 0x97);
                     paint.IsStroke = false;
                     paint.StrokeWidth = 3;
                     paint.TextAlign = SKTextAlign.Center;
+                    paint.Typeface = SKTypeface.FromFile("fonts/pixhobo.ttf");
 
                     canvas.Skew((float)GetRandomNumber(ran, -0.3, 0.3), (float)GetRandomNumber(ran, -0.3, 0.3));
 
