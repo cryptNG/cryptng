@@ -236,19 +236,13 @@ namespace evaluation_distiller_api.Controllers
         public static string toServiceSecret(string text, string secretKey)
         {
 
-            BigInteger val = 0;
-
             using (var hmacsha256 = new HMACSHA256(Encoding.UTF8.GetBytes(secretKey)))
             {
                 var hash = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(text));
-                var hexString = "0" + BitConverter.ToString(hash).Replace("-", "");
-                val = BigInteger.Parse(
-                hexString,
-                NumberStyles.HexNumber);
+                return BitConverter.ToString(hash).Replace("-", "");
+
 
             }
-
-            return val.ToString();
 
         }
 
