@@ -1,4 +1,5 @@
 ﻿
+using evaluation_distiller_api.captcha;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -20,8 +21,12 @@ namespace evaluation_distiller_api.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetToken(string userId)
+        public ActionResult GetToken(string userId, string captchaSolution, string captchaSecret)
         {
+            if (!CaptchaProvider.CheckCaptchaResult(HttpContext, captchaSolution, captchaSecret))
+            {
+                return new ContentResult() { Content = "The Captcha was incorrect!", ContentType = "text", StatusCode = 401};
+            }
             return new ContentResult()
             {
                 Content = ServiceApiController.toServiceSecret(userId, _test_secretKey).ToString(),

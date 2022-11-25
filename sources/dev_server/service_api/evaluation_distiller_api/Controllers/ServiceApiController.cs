@@ -54,10 +54,35 @@ namespace evaluation_distiller_api.Controllers
         [HttpGet("order/result")]
         public async Task<ActionResult> GetResult(string requestId)
         {
-            var resultData = getResult(requestId);
+            OrderResultPo resultData;
+            try
+            {
 
-            //return StatusCode(200, resultData);
-            return new FileContentResult(Convert.FromBase64String(resultData), "application/pdf");
+                resultData = getResult(requestId);
+            }
+            catch (ApiException apiex)
+            {
+                if (apiex.StatusCode == 400)
+                {
+                    return new ContentResult() { StatusCode = 400, Content = "You cannot retrieve the order result, it was not generated.", ContentType = "text" };
+                }
+                return new ContentResult() { StatusCode = apiex.StatusCode, Content = apiex.Message, ContentType = "text" };
+            }
+            if (resultData.State == "Error")
+            {
+                return new ContentResult() { StatusCode = 200, Content = resultData.DataAsBase64, ContentType = "text" };
+            }
+
+            try
+            {
+                return new FileContentResult(Convert.FromBase64String(resultData.DataAsBase64), "application/pdf");
+
+            }
+
+            catch (Exception ex)
+            {
+                return new ContentResult() { StatusCode = 500, Content = ex.Message, ContentType = "text" };
+            }
         }
 
         [HttpGet("order/state")]
@@ -126,15 +151,16 @@ namespace evaluation_distiller_api.Controllers
         [HttpPost("order")]
         public ActionResult CreateOrder([FromBody] executionRequestModel model)
         {
-            if(!isValidEmail(model.userId))
+            if (!isValidEmail(model.userId))
             {
                 return StatusCode(400, "The UserId provided was not a real email address");
             }
-            string wellFormedOrError = isWellFormedXml(model.xmlData);
-            if (wellFormedOrError != null)
-            {
-                return StatusCode(500, wellFormedOrError);
-            }
+            //string wellFormedOrError = isWellFormedXml(model.xmlData);
+            //if (wellFormedOrError == null) wellFormedOrError = isWellFormedXml(model.xslData);
+            //if (wellFormedOrError != null)
+            //{
+            //    return StatusCode(500, wellFormedOrError);
+            //}
 
             if (!validateExecutionTicket(model.tokenId, model.userId))
             {
@@ -203,21 +229,15 @@ namespace evaluation_distiller_api.Controllers
         }
 
 
-        private string getResult(string requestId)
+        private OrderResultPo getResult(string requestId)
         {
             HttpClient client = new HttpClient() { BaseAddress = new Uri(_distiller_url) };
             PdfDestillerClient distiller = new PdfDestillerClient(client);
 
-            var pdfResult = distiller.GetPdfDocumentObjectAsync(requestId).GetAwaiter().GetResult();
-
-            byte[] data = Convert.FromBase64String(pdfResult.DataAsBase64);
-
-            System.IO.File.WriteAllBytes("testresult.pdf", data);
-            Console.WriteLine("[ServiceAPI] " + "Result written");
+            var orderResult = distiller.GetOrderResultObjectAsync(requestId).GetAwaiter().GetResult();
 
 
-
-            return pdfResult.DataAsBase64;
+            return orderResult;
         }
 
         private string getState(string requestId)
@@ -279,7 +299,7 @@ namespace evaluation_distiller_api.Controllers
 
         }
 
-        
+
 
         string? isWellFormedXml(string xmlData)
         {

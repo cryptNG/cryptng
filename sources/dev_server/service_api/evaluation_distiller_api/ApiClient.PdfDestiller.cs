@@ -38,12 +38,12 @@ namespace ApiClient.PdfDestiller
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PdfDocumentPo> GetPdfDocumentObjectAsync(string requestId);
+        System.Threading.Tasks.Task<OrderResultPo> GetOrderResultObjectAsync(string requestId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PdfDocumentPo> GetPdfDocumentObjectAsync(string requestId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<OrderResultPo> GetPdfDocumentObjectAsync(string requestId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -252,7 +252,7 @@ namespace ApiClient.PdfDestiller
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<PdfDocumentPo> GetPdfDocumentObjectAsync(string requestId)
+        public System.Threading.Tasks.Task<OrderResultPo> GetOrderResultObjectAsync(string requestId)
         {
             return GetPdfDocumentObjectAsync(requestId, System.Threading.CancellationToken.None);
         }
@@ -260,7 +260,7 @@ namespace ApiClient.PdfDestiller
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<PdfDocumentPo> GetPdfDocumentObjectAsync(string requestId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OrderResultPo> GetPdfDocumentObjectAsync(string requestId, System.Threading.CancellationToken cancellationToken)
         {
             if (requestId == null)
                 throw new System.ArgumentNullException("requestId");
@@ -311,7 +311,7 @@ namespace ApiClient.PdfDestiller
                         else
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<PdfDocumentPo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<OrderResultPo>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -554,13 +554,16 @@ namespace ApiClient.PdfDestiller
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.11.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class PdfDocumentPo
+    public partial class OrderResultPo
     {
         [System.Text.Json.Serialization.JsonPropertyName("creationDate")]
         public System.DateTimeOffset CreationDate { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("dataAsBase64")]
         public string DataAsBase64 { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("state")]
+        public string State { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
 
