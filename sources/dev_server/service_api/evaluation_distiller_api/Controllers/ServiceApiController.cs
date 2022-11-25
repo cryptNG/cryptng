@@ -6,6 +6,7 @@ using System.Numerics;
 using ApiClient.PdfDestiller;
 using System.Net;
 using System.Xml;
+using evaluation_distiller_api.services;
 
 namespace evaluation_distiller_api.Controllers
 {
@@ -17,6 +18,7 @@ namespace evaluation_distiller_api.Controllers
         private string _distiller_url;
         private string _tempMemoryDirectory;
         private IConfiguration _configuration;
+        private readonly IOrderService _orderService;
 
         //TYPE 0 does not exist and is due to a mathematical limitation inside the calculations (times 0)
         readonly int[] _typedExecutionBatchSize = { 0, 10, 1 };
@@ -25,13 +27,12 @@ namespace evaluation_distiller_api.Controllers
 
         private readonly ILogger<ServiceApiController> _logger;
 
-        public ServiceApiController(ILogger<ServiceApiController> logger, IConfiguration configuration)
+        public ServiceApiController(ILogger<ServiceApiController> logger, IConfiguration configuration, IOrderService orderService)
         {
             _logger = logger;
             _configuration = configuration;
-
+            _orderService = orderService;
             _test_secretKey = _configuration["Setup:Test_SecretKey"];
-            _distiller_url = _configuration["Distiller_URL"];
 
             _tempMemoryDirectory = _configuration["TempDirectory"];
 
@@ -58,7 +59,7 @@ namespace evaluation_distiller_api.Controllers
             try
             {
 
-                resultData = getResult(requestId);
+                resultData = _orderService.GetResult(requestId);
             }
             catch (ApiException apiex)
             {
@@ -88,7 +89,7 @@ namespace evaluation_distiller_api.Controllers
         [HttpGet("order/state")]
         public ActionResult GetState(string requestId)
         {
-            return StatusCode(200, getState(requestId));
+            return StatusCode(200, _orderService.GetState(requestId));
         }
 
         private void storeTransactionHashToRequestId(string requestId, UInt64 tokenId, string txHash)
@@ -170,7 +171,7 @@ namespace evaluation_distiller_api.Controllers
 
 
 
-            var requestId = createOrder(model.xmlData, model.xslData);
+            var requestId = _orderService.CreateOrder(model.xmlData, model.xslData);
             int counterMax = getExecutionBatchSize();
 
 
@@ -229,55 +230,7 @@ namespace evaluation_distiller_api.Controllers
         }
 
 
-        private OrderResultPo getResult(string requestId)
-        {
-            HttpClient client = new HttpClient() { BaseAddress = new Uri(_distiller_url) };
-            PdfDestillerClient distiller = new PdfDestillerClient(client);
 
-            var orderResult = distiller.GetOrderResultObjectAsync(requestId).GetAwaiter().GetResult();
-
-
-            return orderResult;
-        }
-
-        private string getState(string requestId)
-        {
-            HttpClient client = new HttpClient() { BaseAddress = new Uri(_distiller_url) };
-            PdfDestillerClient distiller = new PdfDestillerClient(client);
-            return distiller.GetOrderStateAsync(requestId).GetAwaiter().GetResult();
-        }
-
-        private string createOrder(string xmlData, string xslData)
-        {
-            //var proxy = new WebProxy
-            //{
-            //    Address = new Uri($"http://localhost:8080"),
-            //    BypassProxyOnLocal = false,
-            //    UseDefaultCredentials = false,
-
-            //};
-
-            //// Now create a client handler which uses that proxy
-            //var httpClientHandler = new HttpClientHandler
-            //{
-            //    Proxy = proxy,
-            //};
-
-            //HttpClient client = new HttpClient(httpClientHandler) { BaseAddress = new Uri(_distiller_url) };
-
-
-            HttpClient client = new HttpClient() { BaseAddress = new Uri(_distiller_url) };
-
-            PdfDestillerClient distiller = new PdfDestillerClient(client);
-            string requestId = DateTime.Now.Ticks.ToString();
-            distiller.PostOrderAsync(new OrderPo()
-            {
-                RequestId = requestId,
-                XmlData = xmlData,
-                XslData = xslData
-            }).GetAwaiter().GetResult();
-            return requestId;
-        }
 
 
         public static string toServiceSecret(string text, string secretKey)

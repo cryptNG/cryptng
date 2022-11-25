@@ -7,7 +7,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace evaluation_distiller_api.captcha
+namespace evaluation_distiller_api.services
 {
     public static class CaptchaProvider
     {

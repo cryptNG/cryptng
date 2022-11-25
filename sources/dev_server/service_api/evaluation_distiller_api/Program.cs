@@ -1,5 +1,6 @@
 
 using evaluation_distiller_api.Configuration;
+using evaluation_distiller_api.services;
 
 var policyName = "_myAllowSpecificOrigins";
 
@@ -33,6 +34,10 @@ builder.Services.AddCors(options =>
                             .AllowCredentials();
                       });
 });
+
+
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 var app = builder.Build();
 

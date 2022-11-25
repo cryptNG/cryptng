@@ -120,6 +120,18 @@ services:
     command: bash -c "yarn install && ember server --live-reload-port=7020 --proxy=http://$WSL_WINDOWS_HOST:5000"
 
       
-      
+    
+  weaver-api:
+    build:
+      context: ./sources/dev_server/service_api/evaluation_distiller_api:/app
+      dockerfile: ./Dockerfile
+    ports:
+        - "5000:5000"
+    environment:
+    - PDFWEAVER_EMAIL=mail
+    - PDFWEAVER_PASSWORD=password
+    volumes:
+      - ./dosimetry-api/Sources:/app
+    
       
       
