@@ -358,7 +358,9 @@
   </div>
   
 <XToggle @value={{this.isSessionSave}} @onToggle={{fn this.toggleSessionSave}} @theme='light' />
-
+<div class="globalerror">
+{{this.globalError}}
+</div>
 </div>
 {{#if this.isShowingRequestModal}}
   <div class="requestModal" {{on "click" this.closeRequestModal}}>
@@ -372,6 +374,19 @@
   @inputContent={{this.enteredUserIdContent}}
   @clearInput={{this.clearUserIdInputContent}}>
    <:labelContent>Enter Email to receive Token in CC</:labelContent>
+ </EnterInput>
+ <br/>
+ <div id="captcha"></div>
+ <br/>
+ 
+        <EnterInput 
+    @id = 'email'
+  @isWorking={{this.isWorking}} 
+  @onContentChange={{this.updateEnteredCaptchaContent}}  
+  @invalidMessage={{this.invalidCaptchaMessage}}
+  @inputContent={{this.enteredCaptchaContent}}
+  @clearInput={{this.clearCaptchaContent}}>
+   <:labelContent>Enter Captcha</:labelContent>
  </EnterInput>
  <br/>
  <button class="btn" type="button" {{on 'click'
