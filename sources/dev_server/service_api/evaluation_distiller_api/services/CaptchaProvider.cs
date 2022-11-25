@@ -1,11 +1,11 @@
 ﻿
 
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.Maui.Graphics;
-using Microsoft.Maui.Graphics.Skia;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using SkiaSharp;
+using System.Drawing;
 
 namespace evaluation_distiller_api.services
 {
@@ -34,7 +34,7 @@ namespace evaluation_distiller_api.services
         {
 
             Random ran = new Random(Convert.ToInt32(DateTime.Now.Ticks % int.MaxValue) - 1894);
-            int[] calculation = new int[] { ran.Next(10, 20), ran.Next(0, 1), ran.Next(0, 10) };
+            int[] calculation = new int[] { ran.Next(10, 20), ran.Next(0, 100) % 2, ran.Next(0, 10) };
             int solution = calculation[0] + calculation[2] * (calculation[1] == 0 ? -1 : 1);
             context.Session.SetInt32("CaptchaSolution", solution);
             Aes myAes = Aes.Create();
@@ -45,61 +45,61 @@ namespace evaluation_distiller_api.services
             byte[] encrypted = EncryptStringToBytes_Aes(solution.ToString(), myAes.Key, myAes.IV);
             IEnumerable<byte> enciv = encrypted.Concat(myAes.IV);
             string calcText = calculation[0] + (calculation[1] == 0 ? " - " : " + ") + calculation[2];
-            Font def = new Font("Arial", 12);
 
-            SkiaBitmapExportContext bmp = new(600, 400, 1.0f);
-            ICanvas canvas = bmp.Canvas;
-
-            Rect backgroundRectangle = new(0, 0, bmp.Width, bmp.Height);
-            canvas.FillColor = Color.FromArgb("#003366");
-            canvas.FillRectangle(backgroundRectangle);
-            canvas.StrokeColor = Colors.Black;
-            canvas.StrokeSize = 20;
-            canvas.DrawRectangle(backgroundRectangle);
-
-            // Draw circles randomly around the image
-            for (int i = 0; i < 100; i++)
+            var info = new SKImageInfo(200, 150);
+            using (var surface = SKSurface.Create(info))
             {
-                float x = Random.Shared.Next(bmp.Width);
-                float y = Random.Shared.Next(bmp.Height);
-                float r = Random.Shared.Next(5, 50);
+                SKCanvas canvas = surface.Canvas;
 
-                Color randomColor = Color.FromRgb(
-                    red: Random.Shared.Next(255),
-                    green: Random.Shared.Next(255),
-                    blue: Random.Shared.Next(255));
+                canvas.Clear(SKColors.White);
 
-                canvas.StrokeSize = r / 3;
-                canvas.StrokeColor = randomColor.WithAlpha(.3f);
-                canvas.DrawCircle(x, y, r);
+                using (var paint = new SKPaint())
+                {
+                    paint.TextSize = 34.0f;
+                    paint.IsAntialias = true;
+                    paint.Color = new SKColor(0x8C, 0x9F, 0x97);
+                    paint.IsStroke = false;
+                    paint.StrokeWidth = 3;
+                    paint.TextAlign = SKTextAlign.Center;
+                    paint.Typeface = SKTypeface.FromFile("fonts/pixhobo.ttf");
+
+                    canvas.Skew((float)GetRandomNumber(ran, -0.3, 0.3), (float)GetRandomNumber(ran, -0.3, 0.3));
+
+                    canvas.DrawText(calcText, info.Width / 2f, info.Height / 1.5f, paint);
+                    //random circles all arounds
+                    for (int i = 0; i < 100; i++)
+                    {
+                        uint ui = (uint)ran.Next(-int.MaxValue, int.MaxValue);
+                        byte red = Convert.ToByte(ran.Next(0, 255));
+                        byte green = Convert.ToByte(ran.Next(0, 255));
+                        byte blue = Convert.ToByte(ran.Next(0, 255));
+                        byte alpha = Convert.ToByte(ran.Next(0, 50));
+                        float x = ran.Next(info.Width);
+                        float y = ran.Next(info.Height);
+                        float r = ran.Next(5, 50);
+
+                        SKColor randomColor = new SKColor(red, green, blue, alpha);
+
+                        paint.StrokeWidth = r / 3;
+                        paint.IsStroke = ran.Next(0, 100) % 2 == 1;
+                        paint.Color = randomColor;
+                        canvas.DrawCircle(new SKPoint(x, y), r, paint);
+                    }
+                }
+                MemoryStream output = new MemoryStream();
+                var image = surface.Snapshot();
+
+                var data = image.Encode(SKEncodedImageFormat.Png, 80);
+                data.SaveTo(output);
+                return (output.ToArray(), enciv.ToArray());
             }
 
-            // Measure a string
-            Font myFont = new Font("Impact");
-            float myFontSize = 48;
-            canvas.Font = myFont;
-            SizeF textSize = canvas.GetStringSize(calcText, myFont, myFontSize);
 
-            // Draw a rectangle to hold the string
-            Point point = new(
-                x: (bmp.Width - textSize.Width) / 2,
-                y: (bmp.Height - textSize.Height) / 2);
-            Rect myTextRectangle = new(point, textSize);
-            canvas.FillColor = Colors.Black.WithAlpha(.5f);
-            canvas.FillRectangle(myTextRectangle);
-            canvas.StrokeSize = 2;
-            canvas.StrokeColor = Colors.Yellow;
-            canvas.DrawRectangle(myTextRectangle);
+        }
 
-            // Daw the string itself
-            canvas.FontSize = myFontSize * .9f; // smaller than the rectangle
-            canvas.FontColor = Colors.White;
-            canvas.DrawString(calcText, myTextRectangle,
-                HorizontalAlignment.Center, VerticalAlignment.Center, TextFlow.OverflowBounds);
-
-            MemoryStream output = new MemoryStream();
-            bmp.WriteToStream(output);
-            return (output.ToArray(), enciv.ToArray());
+        public static double GetRandomNumber(Random ran, double minimum, double maximum)
+        {
+            return ran.NextDouble() * (maximum - minimum) + minimum;
         }
 
         static byte[] EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
