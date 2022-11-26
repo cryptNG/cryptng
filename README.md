@@ -107,8 +107,6 @@ Set a variable "ENVIRONMENT"
 Value: http://hub.cryptng.app:8545
 
 
-## DEVELOP ON THE NEXT LEVEL ##
-
 ## HELP US OUT ##
 
 We're pouring a lot of our free time, efforts and, coincidentally, also money into this project.
