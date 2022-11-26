@@ -12,8 +12,11 @@ We will soon be updating all documentation to make things easier for you.
 Sorry for the inconvenience!
 
 Btw, you might want to check out our subreddit!
+
 https://www.reddit.com/r/cryptNg/
+
 and/or our introduction:
+
 https://www.reddit.com/r/cryptNg/comments/z53fcq/whats_cryptng_a_short_introduction/
 
 
