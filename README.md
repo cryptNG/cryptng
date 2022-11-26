@@ -1,5 +1,18 @@
 
 
+*IMPORTANT NOTE:
+To use any of the blockchain-enabled products, during the testing-phase you will need to set up our private cryptNG blockchain in metamask.
+we don't have a specific tutorial for that, but we have a Medium Article that explains how to set up your wallet for one of our products (metaTrail).
+You can just follow that tutorial without using metaTrail, and you're ready to go and use any of our blockchain products that are currently online.
+Please find the article here:
+
+https://cryptng.medium.com/how-to-get-started-with-metatrail-earlybird-b37a287ebb8e
+
+We will soon be updating all documentation to make things easier for you.
+Sorry for the inconvenience!
+
+##########
+
 *NOTE: THE CONTENTS OF THIS FILE ARE SUBJECT TO CHANGE AND WILL LIKELY BE COMPLETELY REWRITTEN IN THE NEAR FUTURE.*
 
 #
@@ -14,7 +27,7 @@
 
 *Crypt***NG** stands for "*Crypt*o **N**ext **G**eneration".
 
-We are a group of IT companies originating from germany, committing to weaving a net of innovation and contribution into the fabric of open-source development .
+We are a group of developers originating from germany, committing to weaving a net of innovation and contribution into the fabric of open-source development .
 
 
 
