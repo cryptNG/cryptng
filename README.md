@@ -1,5 +1,27 @@
 
 
+*IMPORTANT NOTE:
+To use any of the blockchain-enabled products, during the testing-phase you will need to set up our private cryptNG blockchain in metamask.
+we don't have a specific tutorial for that, but we have a Medium Article that explains how to set up your wallet for one of our products (metaTrail).
+You can just follow that tutorial without using metaTrail, and you're ready to go and use any of our blockchain products that are currently online.
+Please find the article here:
+
+https://cryptng.medium.com/how-to-get-started-with-metatrail-earlybird-b37a287ebb8e
+
+We will soon be updating all documentation to make things easier for you.
+Sorry for the inconvenience!
+
+Btw, you might want to check out our subreddit!
+
+https://www.reddit.com/r/cryptNg/
+
+and/or our introduction:
+
+https://www.reddit.com/r/cryptNg/comments/z53fcq/whats_cryptng_a_short_introduction/
+
+
+##########
+
 *NOTE: THE CONTENTS OF THIS FILE ARE SUBJECT TO CHANGE AND WILL LIKELY BE COMPLETELY REWRITTEN IN THE NEAR FUTURE.*
 
 #
@@ -14,7 +36,7 @@
 
 *Crypt***NG** stands for "*Crypt*o **N**ext **G**eneration".
 
-We are a group of IT companies originating from germany, committing to weaving a net of innovation and contribution into the fabric of open-source development .
+We are a group of developers originating from germany, committing to weaving a net of innovation and contribution into the fabric of open-source development .
 
 
 
@@ -107,11 +129,6 @@ Set a variable "ENVIRONMENT"
 Value: http://hub.cryptng.app:8545
 
 
-<<<<<<< HEAD
-## DEVELOP ON THE NEXT LEVEL ##
-
-### GIT WITHOUT GIT ###
-=======
 ## HELP US OUT ##
 
 We're pouring a lot of our free time, efforts and, coincidentally, also money into this project.
@@ -146,11 +163,6 @@ use like so:
 
 congratulations, you can now git via docker.
 
-<<<<<<< HEAD
-### TRUFFLE IS NOT JUST A FUNGHUS ###
-=======
-### TRUFFLE IS NOT JUST A FUNGUS ###
->>>>>>> 2946bf2e2cfd8aafaf0336481335624900db60c8
 if you want to use truffle via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -171,15 +183,11 @@ congratulations, you can now use truffle via docker.
 btw, i'd like some kudos for this one, it took me a hella lot of time to get this working, thaaaankkk you.
 
 
-<<<<<<< HEAD
-### TRUFFLE CAN BE SO MUCH MORE ###
-=======
 to serve truffle independently:
 
 `function truffled () {(docker run -ti --rm -v $(pwd):/app -p 9545:9545 cryptng/truffle-suite truffle develop "$@" && sudo chown -R 1000:1000 *)}`
 
 ### NPM SHALL NOT LITTER ###
->>>>>>> 2946bf2e2cfd8aafaf0336481335624900db60c8
 if you want to use npm via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
@@ -199,11 +207,7 @@ congratulations, you can now use npm via docker.
 
 thanks to @cgreinke for pointing out that npm can be used like the truffle alias
 
-<<<<<<< HEAD
-### USE NODE FROM TRUFFLE ###
-=======
 ### NODE (THIS IMAGE HAS SO MANY USES!) ###
->>>>>>> 2946bf2e2cfd8aafaf0336481335624900db60c8
 if you want to use node via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`

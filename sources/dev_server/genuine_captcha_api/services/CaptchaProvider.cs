@@ -7,7 +7,7 @@ using System.Text;
 using SkiaSharp;
 using System.Drawing;
 
-namespace evaluation_distiller_api.services
+namespace genuine_captcha_api.services
 {
     public static class CaptchaProvider
     {
@@ -30,7 +30,7 @@ namespace evaluation_distiller_api.services
 
 
         }
-        public static (byte[] img, byte[] enc) GenerateCaptchaImageAsByteArray(HttpContext context)
+        public static (byte[] img, byte[] enc) GenerateCaptchaImageAsByteArray(HttpContext context, string secret)
         {
 
             Random ran = new Random(Convert.ToInt32(DateTime.Now.Ticks % int.MaxValue) - 1894);
@@ -40,7 +40,7 @@ namespace evaluation_distiller_api.services
             Aes myAes = Aes.Create();
             using (SHA256 mySHA256 = SHA256.Create())
             {
-                myAes.Key = mySHA256.ComputeHash(Encoding.Default.GetBytes("my - secret"));
+                myAes.Key = mySHA256.ComputeHash(Encoding.Default.GetBytes(secret));
             }
             byte[] encrypted = EncryptStringToBytes_Aes(solution.ToString(), myAes.Key, myAes.IV);
             IEnumerable<byte> enciv = encrypted.Concat(myAes.IV);

@@ -339,6 +339,7 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 /documentation/workshops/*/*/build/
+/sources/dev_server/service_api/evaluation_distiller_api/cache/
 /documentation/workshops/workshop_030222/test_contract/build/contracts
 /documentation/workshops/workshop_1_030222/Tooling/postgres-data
 /documentation/workshops/workshop_1_030222/test_service/distiller
