@@ -11,6 +11,11 @@ https://cryptng.medium.com/how-to-get-started-with-metatrail-earlybird-b37a287eb
 We will soon be updating all documentation to make things easier for you.
 Sorry for the inconvenience!
 
+Btw, you might want to check out our subreddit!
+https://www.reddit.com/r/cryptNg/
+and/or our introduction:
+https://www.reddit.com/r/cryptNg/comments/z53fcq/whats_cryptng_a_short_introduction/
+
 ##########
 
 *NOTE: THE CONTENTS OF THIS FILE ARE SUBJECT TO CHANGE AND WILL LIKELY BE COMPLETELY REWRITTEN IN THE NEAR FUTURE.*
