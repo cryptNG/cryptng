@@ -1,0 +1,34 @@
+
+  <div class="modal signinModal" {{on "click" @close}}>
+    <div class="title" {{on "click" this.doNothing}}>Sign with Token and Email</div>
+    <div class="content" {{on "click" this.doNothing}}>
+    
+    <EnterInput 
+    @id = 'userId'
+  @isWorking={{this.isWorking}} 
+  @onContentChange={{this.updateEnteredUserIdContent}}  
+  @invalidMessage={{this.invalidUserIdMessage}}
+  @inputContent={{this.enteredUserIdContent}}
+  @clearInput={{this.clearUserIdInputContent}}>
+   <:labelContent>Enter Email</:labelContent>
+ </EnterInput>
+ <br/>
+  
+        <EnterInput 
+    @id = 'token'
+  @isWorking={{this.isWorking}} 
+  @onContentChange={{this.updateEnteredTokenContent}}  
+  @invalidMessage={{this.invalidTokenMessage}}
+  @inputContent={{this.enteredTokenContent}}
+  @clearInput={{this.clearTokenInputContent}}>
+   <:labelContent>Enter Token</:labelContent>
+ </EnterInput>
+ <br/>
+ <button class="btn" type="button" {{on 'click'
+      (fn @updateSignIn this.enteredUserIdContent this.enteredTokenContent)}}><span>
+        Sign In
+      </span></button>
+    </div>
+     
+    
+  </div>

@@ -5,17 +5,21 @@
     font-display: swap;
 }
 
+.small-caps{
+  font-variant: small-caps;
+}
+
 
 div.dashbar
 {
     top: 0px;
     left:0px;
-    background-color: #3e3e3ec9;
+    background-color: #3e3e3ee9;
     width: 100%;
     height: 80px;
     position: fixed;
     z-index: 2147483647;
-
+    box-shadow: 6px 6px 6px 3px rgb(0 0 0 / 22%), 0 4px 4px 0 rgb(0 0 0 / 35%);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -33,55 +37,284 @@ div.dashbar a{
     border-bottom:none;
 }
 
-.pi-button, .raise-button {
-	letter-spacing: 1px;
-	display: inline-block;
-	position: relative;
-	border-radius: 2px;
-	overflow: hidden;
-	-webkit-transition: 0.2s ease-out;
-	transition: 0.2s ease-out;
-	font-family: sans-serif;
-	cursor:pointer;
-	border: none;
-	margin: 5px;
-	background-color: transparent;
-	text-align: center;
-	color: #444;
+nav {
+  color: white;
+  height: 50px;
+  line-height: 50px;
+  width: calc(100% - 12px);
+  margin-left: 6px;
+  margin-top: 6px;
+  position: fixed;
+  top: 0;
+  left: 300px;
 }
 
-.pi-button:focus, .raise-button:focus {
-	outline: none;
+nav>div>div {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding-top: 3px;
+  font-size: larger;
 }
 
-.pi-button:hover {
-	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22), 0 4px 4px 0 rgba(0, 0, 0, 0.35);
-
-	color: #222;
-	text-decoration: none;
-	background-color: rgba(255, 255, 255, 0.6);
+.dashbar .token-info {
+  z-index: 0;
+  opacity: 0;
+  transform: translateY(50px);
+  position: fixed;
+  top: 0;
+  right: 10px;
+  width: 510px;
+  background-color: #3e3e3ee9;
+  padding: 5px 10px;
+  border-radius: 0 0 10px 10px;
+  font-size: small;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 6px 6px 6px 3px rgb(0 0 0 / 22%), 0 4px 4px 0 rgb(0 0 0 / 35%);
 }
 
-.pi-button:active {
-	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.44), 0 1px 1px 0 rgba(0, 0, 0, 0.68);
+.dashbar .token-info.active {
+  z-index: 1;
+  opacity: 1;
+  transform: translateY(80px);
+}
+
+.dashbar .token-info .copy-action, 
+.dashbar .token-info .hide-action{
+  cursor: pointer;
+}
+
+.auth-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.auth-actions button {
+  background-color: transparent;
+  border: 3px solid white;
+  border-radius: 10px;
+  line-height: 1.5rem;
+  color: white;
+  font-weight: normal;
+  letter-spacing: 2px;
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.auth-actions .sign-in-btn.active {
+  color: lightgoldenrodyellow;
+  border-color: gold;
+}
+
+.auth-state {
+  position: absolute;
+  right: -100px;
+  top: 50px;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.auth-state.active {
+  position: absolute;
+  opacity: 1;
+  right: 10px;
+}
+
+.auth-state .value {
+  color: lightblue;
+}
+ 
+.auth-state .value.token {
+  cursor: pointer;
+}
+ 
+
+.inputbox {
+  width: 60%;
+  flex-direction: row;
+  display: flex;
+  color: darkgray;
+  position: relative;
+}
+
+.inputbox button.btn-clear-input {
+  position: relative;
+  right: 25px;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 5px 5px #ffffffa0;
+  border: 0;
+  padding: 2px 5px;
+  cursor: pointer;
+  z-index: 101;
+  opacity: 0;
+  line-height: 1em;
+  height: 1em;
+  margin-top: 1em;
+
+}
+
+.inputbox button.btn-clear-input.active {
+  opacity: 1;
+  transition: all 0.5s ease-in-out;
+}
+
+.inputbox input[type="text"] {
+  width: 100%;
+  /* border: 2px solid #aaa;*/
+  border: none;
+  outline: none;
+  box-shadow: -6px 6px 6px 3px rgba(0, 0, 0, 0.22);
+  border-radius: 10px;
+  padding: 5px 12px;
+  box-sizing: border-box;
+  transition: 0.3s;
+  line-height: 3em;
+  height: 3em;
+  transition: width 0.5s ease-in-out;
+}
+
+.inputbox input[type="text"].custom-input {
+
+  border-radius: 10px 0px 0px 10px;
+ 
+}
+
+.inputbox [type="text"].custom-input::placeholder {
+  color: rgb(0, 0, 0);
+  opacity: 0.5;
+  text-align: center;
+}
+
+.inputbox input[type="text"].custom-input:focus::placeholder {
+  color: transparent;
+
+}
+
+.inputbox label {
+  position: absolute;
+  transform-origin: 0% 100%;
+  transform: translateY(12px) translateX(calc(50% - 100px));
+  transition: all 0.5s ease-in-out;
+  cursor: text;
+  color:black;
+  width:100%;
+}
+.inputbox input[type=text]:not(.browser-default)+label:after{
+  display: block;
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  opacity: 0;
+}
+.inputbox input[type="text"]:focus~label,
+.inputbox>label:not(.label-icon).active {
+  -webkit-transform: translateY(-14px) scale(0.8);
+  transform: translateY(-18px) scale(0.9);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
 }
 
 
-.pi-button:focus::before {
-	display: block;
-	height: 150px;
-	width: 150px;
-	top: -58px;
-	left: -30px;
-	opacity: 0;
-	content: "";
-	background: #AAA;
-	border-radius: 1000px;
-	position: absolute;
-	animation-name: fade;
-	animation-timing-function: ease-out;
-    animation-duration: 1s;
-	z-index: -2;
+.inputbox button.action-btn {
+  text-decoration: none;
+  background-color: #f0ffff;
+  opacity: 1;
+  color: #000000;
+  padding: 12px;
+  border: none;
+  outline: none;
+  transition: 0.3s;
+  position: relative;
+  right: 19px;
+  cursor: pointer;
+  width: 50px;
+  height: 3em;
+  display: flex;
+  justify-content: start;
+  overflow: hidden;
+  min-width: 50px;
+  transition: all 0.5s ease-in-out;
+  z-index: 103;
+}
+
+.inputbox button.action-btn span {
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  position: absolute;
+  margin-left: 0px;
+  white-space: nowrap;
+  color: white;
+}
+
+.inputbox button.action-btn svg {
+  position: absolute;
+  right: 7px;
+  top: 6px;
+}
+
+
+
+.inputbox button.action-btn.end {
+  border-radius: 0px 10px 10px 0px;
+  box-shadow: 6px 6px 6px 3px rgb(0 0 0 / 22%), 0 4px 4px 0 rgb(0 0 0 / 35%);
+  border-left: 1px solid gray;
+
+}
+
+.inputbox button.action-btn.not-hashing:hover {
+
+  text-decoration: none;
+  background-color: rgba(77, 152, 86, 0.8);
+  
+  color: #ffffff;
+  min-width: 320px;
+
+}
+
+.inputbox button.action-btn.not-hashing:hover {
+
+  text-decoration: none;
+  background-color: rgba(77, 152, 86, 0.8);
+  ;
+  color: #ffffff;
+  min-width: 320px;
+
+}
+
+.inputbox button.action-btn.not-hashing:hover+label {
+  left: 10px;
+  width: calc(100% - 360px);
+  overflow: hidden;
+  white-space: nowrap;
+
+}
+
+.inputbox button.action-btn.not-hashing:hover+label.active {
+
+  width: calc(100%);
+
+}
+
+.inputbox button.action-btn.not-hashing:hover span {
+  opacity: 1;
+  margin-left: 5px;
+
+}
+
+.inputbox button.action-btn:hover svg {
+
+  left: auto;
+}
+
+.inputbox button:focus.action-btn:hover {
+
+  text-decoration: none;
+  background-color: rgba(88, 161, 78, 0.781);
+  ;
+  color: #a71a1ab6;
 }
 
 @keyframes fade {
@@ -111,14 +344,6 @@ div.dashbar a{
 
 
 
-button.connectbtn
-{
-    border-radius: 20px;
-    height: 30px;
-    width: 200px;
-}
-
-
 button.ripple {
 	background-position: center;
 	transition: background 0.8s;
@@ -138,77 +363,6 @@ button.ripple {
   }
 
 
-  
-div.connectinfo
-{
-    align-items: center;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    right:0;
-    margin-right: 2rem;
-    position: absolute;
-}
-
-div.connectinfo div.account
-{
-    line-height: 45px;
-    margin: 5px 15px 5px 5px;
-
-  
-}
-
-div.connectinfo div.account b{
-    color: red;
-}
-
-
-div.logo-left
-{
-position: absolute;
-left: 0;
-
-}
-
-
-
-div.center-message
-{
-    position: absolute;
-    top: 80px;
-    z-index: 2000;
-    background: repeating-linear-gradient(
-        45deg,
-        #6b27003f,
-        #0000003a 10px
-      );
-    width: 100%;
-    height: 4rem;
-    text-align: center;
-    font-size: 2.5rem;
-    text-align: center;
-    font-family: 'Quicksand';
-    border: none;
-    
-  -webkit-animation: glow 2s ease-in-out infinite alternate;
-  -moz-animation: glow 2s ease-in-out infinite alternate;
-animation: glow 4s ease-in-out infinite alternate;
-}
-
-
-
-/* Glow Colors */
-#glow-blue {
-    animation-name: glow-blue;
-  }
-  @-webkit-keyframes glow-blue {
-    from {
-      box-shadow: 0 0 2px #82d7f944, 0 0 10px #82d7f956, 0 0 20px #00a7fb46, 0 0 30prgba(0, 167, 251, 0.411)fb;
-    }
-    to {
-      box-shadow: 0 0 10px #82d7f967, 0 0 20px #5ec9fe67, 0 0 30px #5ec9fe70, 0 0 40px #5ec9fe63;
-    }
-  }
 
 
   
@@ -227,19 +381,8 @@ animation: glow 4s ease-in-out infinite alternate;
   left:0px;
 }
 
-.page.has-results {
-  flex-direction: row;
-  justify-content: start;
-  z-index: 1;
-  align-items: flex-start;
-  position: relative;
-  top: 150px;
-  left:30px;
-  width: calc(100vw - 60px);
-  height: 50px;
-}
   /*  fileupload */
-  .requestModal {
+  .modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -248,17 +391,44 @@ animation: glow 4s ease-in-out infinite alternate;
     background-color: #097a9c85;
     z-index: 9999;
 }
-
-.requestModal .content {
+.modal .title {
   margin-left: 25%;
   width: 50%;
   margin-top: 12.5%;
+  min-height: 2rem;
+  height: 2rem;
+  max-height: 2rem;
+  line-height: 2rem;
+  padding-left: 10px;
+  padding-right: 30px;
+  background-color: rgb(5, 74, 143);
+  border-radius: 10px 10px 0 0;
+  border: 1px solid #202124;
+  color:white;
+  letter-spacing: 2px;
+}
+
+.modal .content {
+  margin-left: 25%;
+  width: 50%;
   height: 50%;
+  padding: 20px;
   background-color: white;
-  border-radius: 10px;
+  border-radius:0 0 10px 10px;
   border: 1px solid #202124;
   color:black;
+  position: relative;
 }
+.modal .content .inputbox{
+  width: auto;
+}
+.modal .content .copyright-text{
+  position: absolute;
+  left: calc(100% + 10px);
+  width: 100px;
+}
+
+
 .loader {
   font-size: 10px;
   margin: 50px auto;

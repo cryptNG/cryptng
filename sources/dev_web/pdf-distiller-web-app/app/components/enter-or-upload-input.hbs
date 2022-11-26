@@ -1,6 +1,6 @@
  <div class="inputbox" {{did-insert this.didInsertFileUpload}}>
     <input type="file" class="drop_box_input" name="drop_box_input">
-    <input class="data_input" name="data_input" class="custom-input{{if this.hasValueInserted ' active'}}" type="text"
+    <input name="data_input" class="data_input custom-input{{if this.hasValueInserted ' active'}}" type="text"
       placeholder="" value={{@inputContent}} {{on 'keyup' @onContentChange}}>
     <span class="invalid-hex{{if @invalidFileMessage ' active'}}">{{#if
       @invalidFileMessage}}{{@invalidFileMessage}}{{/if}}</span>
@@ -16,5 +16,5 @@
      <UploadIconSvg></UploadIconSvg>
       {{/if}}
     </button>
-    <label for="data_input" class="{{if this.uploadedFileData.fileName ' active'}}">{{yield to='labelContent'}}</label>
+    <label for="data_input" class="{{if (or this.uploadedFileData.fileName this.hasValueInserted) ' active'}}">{{yield to='labelContent'}}</label>
   </div>

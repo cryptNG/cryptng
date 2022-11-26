@@ -9,18 +9,26 @@ export default class EnterOrUploadInputComponent extends Component {
   }
 
   @tracked isLoading = false;
+  element = null;
 
 
   @action didInsertFileUpload(element) {
+    this.element = element;
     const button = element.querySelector(".drop_box_button");
-    const  input = element.querySelector(".drop_box_input");
+    const  inputDropBox = element.querySelector(".drop_box_input");
+    const  inputData = element.querySelector(".data_input");
+    const  label = element.querySelector("label");
+
 
     let file;
+    label.onclick = () => {
+      inputData.focus();
+    };
     button.onclick = () => {
-      input.click();
+      inputDropBox.click();
     };
     //if you do async code in a lambda without async keyword, the babel build won't tell you but die
-    input.addEventListener("change", async (e) => {
+    inputDropBox.addEventListener("change", async (e) => {
       this.isLoading=true;
       try{
         file = e.target.files[0];
@@ -46,7 +54,7 @@ export default class EnterOrUploadInputComponent extends Component {
         await reader.readAsArrayBuffer(file);
 
       
-        input.value = null; 
+        inputDropBox.value = null; 
       }catch(e)
       {
         console.log(e);

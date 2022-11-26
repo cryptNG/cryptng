@@ -4,180 +4,7 @@
     width: 0;
   }
 
-  .inputbox {
-    width: 60%;
-    flex-direction: row;
-    display: flex;
-    color: darkgray;
-    position: relative;
-  }
-
-  .inputbox button.btn-clear-input {
-    position: relative;
-    right: 25px;
-    background-color: #ffffff;
-    box-shadow: 0px 0px 5px 5px #ffffffa0;
-    border: 0;
-    padding: 2px 5px;
-    cursor: pointer;
-    z-index: 101;
-    opacity: 0;
-    line-height: 1em;
-    height: 1em;
-    margin-top: 1em;
-
-  }
-
-  .inputbox button.btn-clear-input.active {
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
-  }
-
-
-  input[type="text"].custom-input {
-    width: 100%;
-    /* border: 2px solid #aaa;*/
-    border: none;
-    border-radius: 10px 0px 0px 10px;
-    outline: none;
-    box-shadow: -6px 6px 6px 3px rgba(0, 0, 0, 0.22);
-    z-index: 100;
-    padding: 5px 12px;
-    box-sizing: border-box;
-    transition: 0.3s;
-    line-height: 3em;
-    height: 3em;
-    transition: width 0.5s ease-in-out;
-  }
-
-  input[type="text"].custom-input::placeholder {
-    color: rgb(0, 0, 0);
-    opacity: 0.5;
-    text-align: center;
-  }
-
-  input[type="text"].custom-input:focus::placeholder {
-    color: transparent;
-
-  }
-
-  input[type="text"].custom-input~label {
-    position: absolute;
-    top: 10px;
-    opacity: 1;
-    z-index: 102;
-    left: calc(50% - 100px);
-    transition: all 0.5s ease-in-out;
-
-  }
-
-  input[type="text"].custom-input:focus~label,
-  input[type="text"].custom-input.active~label {
-    opacity: 1;
-    top: -25px;
-    left: 10px;
-    color: #c9ffff;
-    text-shadow: 1px 1px 3px black;
-  }
-
-  .inputbox button.action-btn {
-    text-decoration: none;
-    background-color: #f0ffff;
-    opacity: 1;
-    color: #000000;
-    padding: 12px;
-    border: none;
-    outline: none;
-    transition: 0.3s;
-    position: relative;
-    right: 19px;
-    cursor: pointer;
-    width: 50px;
-    height: 3em;
-    display: flex;
-    justify-content: start;
-    overflow: hidden;
-    min-width: 50px;
-    transition: all 0.5s ease-in-out;
-    z-index: 103;
-  }
-
-  .inputbox button.action-btn span {
-    opacity: 0;
-    transition: all 0.3s ease-in-out;
-    position: absolute;
-    margin-left: 0px;
-    white-space: nowrap;
-    color: white;
-  }
-
-  .inputbox button.action-btn svg {
-    position: absolute;
-    right: 7px;
-    top: 6px;
-  }
-
-
-
-  .inputbox button.action-btn.end {
-    border-radius: 0px 10px 10px 0px;
-    box-shadow: 6px 6px 6px 3px rgb(0 0 0 / 22%), 0 4px 4px 0 rgb(0 0 0 / 35%);
-    border-left: 1px solid gray;
-
-  }
-
-  .inputbox button.action-btn.not-hashing:hover {
-
-    text-decoration: none;
-    background-color: rgba(77, 152, 86, 0.8);
-    ;
-    color: #ffffff;
-    min-width: 320px;
-
-  }
-
-  .inputbox button.action-btn.not-hashing:hover {
-
-    text-decoration: none;
-    background-color: rgba(77, 152, 86, 0.8);
-    ;
-    color: #ffffff;
-    min-width: 320px;
-
-  }
-
-  .inputbox button.action-btn.not-hashing:hover+label {
-    left: 10px;
-    width: calc(100% - 360px);
-    overflow: hidden;
-    white-space: nowrap;
-
-  }
-
-  .inputbox button.action-btn.not-hashing:hover+label.active {
-
-    width: calc(100%);
-
-  }
-
-  .inputbox button.action-btn.not-hashing:hover span {
-    opacity: 1;
-    margin-left: 5px;
-
-  }
-
-  .inputbox button.action-btn:hover svg {
-
-    left: auto;
-  }
-
-  .inputbox button:focus.action-btn:hover {
-
-    text-decoration: none;
-    background-color: rgba(88, 161, 78, 0.781);
-    ;
-    color: #a71a1ab6;
-  }
+  
 
   .splitter-text {
     text-align: center;
@@ -187,9 +14,6 @@
     color: white;
   }
 
-  .page.has-results .splitter-text {
-    padding: 5px 15px;
-  }
 
   .together {
     flex-direction: row;
@@ -213,9 +37,6 @@
     text-shadow: 1px 1px 2px #000000a0;
   }
 
-  .page.has-results .middle {
-    margin: 5px 20px;
-  }
 
   .together button.btn {
     width: 100%;
@@ -234,9 +55,6 @@
 
   }
 
-  .page.has-results .together button.btn {
-    height: 3em;
-  }
 
   .together button.btn:disabled {
     background-color: gray;
@@ -301,9 +119,17 @@
   }
 </style>
 
-<DashBar @showRequestTokenModal={{this.showRequestTokenModal}}></DashBar>
+<DashBar 
+  @showRequestTokenModal={{this.showRequestTokenModal}} 
+  @showSignInTokenModal={{this.showSignInTokenModal}}
+  @userId={{this.enteredUserIdContent}}
+  @token={{this.enteredTokenContent}}
+  @isSignedIn={{this.isSignedIn}}
+  @toggleSessionSave={{this.toggleSessionSave}}
+  @isSessionSave={{this.isSessionSave}}
+/>
 
-<div class="is-preload page{{if this.hasResults ' has-results'}}">
+<div class="is-preload page">
 
  <EnterOrUploadInput 
   @isWorking={{this.isWorking}} 
@@ -326,73 +152,71 @@
    <:labelContent>Enter XSL plaintext</:labelContent>
  </EnterOrUploadInput>
   
-    <br/>
- <EnterInput 
-  @id="token"
-  @isWorking={{this.isWorking}} 
-  @onContentChange={{this.updateEnteredTokenContent}}  
-  @invalidMessage={{this.invalidTokenMessage}}
-  @inputContent={{this.enteredTokenContent}}
-  @contentType = 'token'
-  @clearInput={{this.clearTokenInputContent}}>
-   <:labelContent>Enter Evaluation Token</:labelContent>
- </EnterInput>
-    <br/>
- <EnterInput 
-  @id="token"
-  @isWorking={{this.isWorking}} 
-  @onContentChange={{this.updateEnteredUserIdContent}}  
-  @invalidMessage={{this.invalidUserIdMessage}}
-  @inputContent={{this.enteredUserIdContent}}
-  @contentType = 'userid'
-  @clearInput={{this.clearUserIdInputContent}}>
-   <:labelContent>Enter User Id (Email)</:labelContent>
- </EnterInput>
   
   <div class="middle">to</div>
   <div class="together">
     <button class="btn verify" disabled={{if this.hasValidData '' 'disabled' }} type="button" {{on 'click'
       this.executeOrderRetrieveResult}}><span>
-        <Ux::InlineLoader @active={{this.isWorking}} />CREATE PDF
+        <Ux::InlineLoader @active={{this.isWorking}} />WEAVE PDF
       </span></button>
   </div>
   
-<XToggle @value={{this.isSessionSave}} @onToggle={{fn this.toggleSessionSave}} @theme='light' />
+
 <div class="globalerror">
 {{this.globalError}}
 </div>
 </div>
 {{#if this.isShowingRequestModal}}
-  <div class="requestModal" {{on "click" this.closeRequestModal}}>
-    <div class="content" {{on "click" this.doNothing}}>
-    Request Token
-    <EnterInput 
-    @id = 'email'
-  @isWorking={{this.isWorking}} 
-  @onContentChange={{this.updateEnteredUserIdContent}}  
-  @invalidMessage={{this.invalidUserIdMessage}}
-  @inputContent={{this.enteredUserIdContent}}
-  @clearInput={{this.clearUserIdInputContent}}>
-   <:labelContent>Enter Email to receive Token in CC</:labelContent>
- </EnterInput>
- <br/>
- <div id="captcha"></div>
- <br/>
- 
-        <EnterInput 
-    @id = 'email'
-  @isWorking={{this.isWorking}} 
-  @onContentChange={{this.updateEnteredCaptchaContent}}  
-  @invalidMessage={{this.invalidCaptchaMessage}}
-  @inputContent={{this.enteredCaptchaContent}}
-  @clearInput={{this.clearCaptchaContent}}>
-   <:labelContent>Enter Captcha</:labelContent>
- </EnterInput>
- <br/>
- <button class="btn" type="button" {{on 'click'
-      this.requestToken}}><span>
-        <Ux::InlineLoader @active={{this.isWorking}} />Request Token
-      </span></button>
+  <RequestTokenModal
+    @close={{this.closeRequestModal}}
+    @updateSignIn={{fn this.updateSignIn}}
+  />
+  
+{{/if}}
+
+{{#if this.isShowingSignInModal}}
+  <SignInModal
+    @close={{this.closeSignInModal}}
+    @updateSignIn={{fn this.updateSignIn}}
+  />
+  
+{{/if}}
+
+{{#if (not (or this.isShowingRequestModal this.isSignedIn this.isShowingSignInModal))}}
+<style>
+  .modal .cryptlogo-banner{
+    margin-top: 40px;
+    margin-left:calc(50% - 140px);
+  }
+  .modal .cryptlogo-banner svg path {
+    fill: rgb(7, 104, 156) !important;
+    stroke: rgb(7, 104, 156) !important;
+}
+ .modal .cryptlogo-banner svg text ,
+ .modal .cryptlogo-banner svg text tspan{
+    fill: rgb(7, 104, 156) !important;
+}
+.modal .cryptlogo-banner svg circle {
+  
+    stroke: rgb(7, 104, 156) !important;
+}
+</style>
+<div class="modal" >
+    <div class="title" >Please Sign In with Token or Request a Token</div>
+    <div class="content">
+      
+    <p>
+      <b>You are not signed in yet.</b> Please use the "Sign In With Token" button to signin with your existing account or request a new token. You can get at any time your token once more by using the same email adress via "Request New Token". 
+    </p>
+    <p>
+      We do not store any personal data on our servers or any third party infrastructure. We do not use cookies. Further <span class="small-caps"><b>Pdf Weaver</b></span> and <span class="small-caps"><b>Genuine Captcha</b></span> is free of any data collecting activities.
+    </p>
+    <p>
+      <span class="small-caps"><b>Pdf Weaver&#8482;</b></span> and <span class="small-caps"><b>Genuine Captcha&#8482;</b></span> are copyright of CryptNG<sup>&#174;</sup>
+    </p>
+    <p>
+        <CryptlogoBanner @project="Pdf Weaver"/>
+      </p>
     </div>
      
     

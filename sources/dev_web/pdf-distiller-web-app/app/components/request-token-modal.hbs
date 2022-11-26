@@ -1,0 +1,65 @@
+<style>
+    #captcha-container{
+      width: 200px;
+      min-height: 110px;
+      padding-left: calc(50% - 100px);
+      position: relative;
+    }
+    #captcha-container img {
+          width: 200px;
+    height: 100px;
+    border-radius: 10px;
+    box-shadow: rgb(0 0 0 / 40%) 0px 2px 4px, rgb(0 0 0 / 30%) 0px 7px 13px -3px, rgb(0 0 0 / 20%) 0px -3px 0px inset;
+  }
+  #captcha-container .lds-ring
+  {
+    margin-left: calc(25% - 10px);
+    margin-top:50px;
+    position: absolute;
+  }
+  #captcha-container .lds-ring div{
+  border-color: #29b0f3 transparent transparent transparent;
+}
+  </style>
+  <div class="modal requestModal" {{on "click" this.close}}>
+    <div class="title" {{on "click" this.doNothing}}>Request Token for your Email</div>
+    <div class="content" {{on "click" this.doNothing}}>
+    
+    <EnterInput 
+    @id = 'userId'
+  @isWorking={{this.isWorking}} 
+  @onContentChange={{this.updateEnteredUserIdContent}}  
+  @invalidMessage={{this.invalidUserIdMessage}}
+  @inputContent={{this.enteredUserIdContent}}
+  @clearInput={{this.clearUserIdInputContent}}>
+   <:labelContent>Enter Email to receive Token in CC</:labelContent>
+ </EnterInput>
+ <br/>
+<Ux::InlineLoader @active=true />
+ <div id="captcha-container">
+    {{#if this.isGettingCaptcha}}
+      <Ux::InlineLoader @active={{true}} />
+    {{/if}}
+  <h5 class="copyright-text"><span class="small-caps">Genuine Captcha</span> &#169;CryptNg<sup>&#174;</sup> to prove you are human </h5>
+ </div>
+  
+ <br/>
+ 
+        <EnterInput 
+    @id = 'token'
+  @isWorking={{this.isWorking}} 
+  @onContentChange={{this.updateEnteredCaptchaContent}}  
+  @invalidMessage={{this.invalidCaptchaMessage}}
+  @inputContent={{this.enteredCaptchaContent}}
+  @clearInput={{this.clearCaptchaContent}}>
+   <:labelContent>Enter Equation Solution</:labelContent>
+ </EnterInput>
+ <br/>
+ <button class="btn" type="button" {{on 'click'
+      this.requestToken}}><span>
+        <Ux::InlineLoader @active={{this.isWorking}} />Request Token
+      </span></button>
+    </div>
+     
+    
+  </div>
