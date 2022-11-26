@@ -145,7 +145,6 @@ Thank you for your support, the coffe and your love!
 ## DEVELOP ON THE NEXT LEVEL ##
 
 ### GIT CAN HAVE THE SMALLEST FINGERPRINT ###
->>>>>>> 2946bf2e2cfd8aafaf0336481335624900db60c8
 if you want to use git via container without actually installing it on your machine, follow these steps:
 
 `nano ~/.profile`
