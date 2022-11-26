@@ -16,6 +16,7 @@ https://www.reddit.com/r/cryptNg/
 and/or our introduction:
 https://www.reddit.com/r/cryptNg/comments/z53fcq/whats_cryptng_a_short_introduction/
 
+
 ##########
 
 *NOTE: THE CONTENTS OF THIS FILE ARE SUBJECT TO CHANGE AND WILL LIKELY BE COMPLETELY REWRITTEN IN THE NEAR FUTURE.*
