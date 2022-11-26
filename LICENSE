@@ -1,16 +1,21 @@
-MIT License
+Modified MIT License
 
 Copyright (c) 2022 cryptng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
+in the Software with limited restrictions, you may host, use and integrate the software provided in your own solutions,
+which also includes commercial use.
+it is, however, NOT PERMITTED, to make any part of the software publicly available, and/or to take payment/provide commercial services based on the software provided without obtaining a license from the developer.
+you may copy, modify, merge, publish, distribute copies of the Software, 
+and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
+Any commercial use that goes beyond the integration into internal processes has to be licensed respectively by the developers.
+This includes providing apis to customers who pay for the usage, or providing apis to the public for non-commercial or commercial purposes.
+It is only permitted to integrate the software into your own systems/products without making them available to third parties.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -23,3 +28,12 @@ SOFTWARE.
 NOTE:
 ANY TOOLS, SUB-TOOLS, FRAMEWORKS, LIBRARIES AND SUB-LIBRARIES ARE SUBJECT TO THEIR OWN LICENSE TERMS AND MAY ONLY BE USED/COPIED/DISTRIBUTED ACCORDING TO THOSE TERMS.
 WE MAY OR MAY NOT INCLUDE SOFTWARE/LIBRARIES/FRAMEWORKS FOR WHICH WE HAVE A PAID LICENSE, THIS DOES NOT ENTITLE YOU TO USE THOSE WITHOUT LICENSING THEM YOURSELF FIRST!
+
+Licenses or permits to use the tool in a commercial way that requires a license can be obtained by the CryptNG Team.
+please contact us via
+info@yavuz.support
+or
+greinke@novent.de
+or
+any other means to contact provided by our online presences or included in the provided documentations
+
