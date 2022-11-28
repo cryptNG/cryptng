@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
-import { later } from '@ember/runloop';
+import ENV from 'pdf-distiller-web-app/config/environment';
 import BaseComponent from 'pdf-distiller-web-app/components/base';
 
 export default class MainComponent extends BaseComponent {
@@ -117,7 +117,7 @@ export default class MainComponent extends BaseComponent {
       tokenId: this.enteredTokenContent, userId: this.enteredUserIdContent}
       let jsonContent = JSON.stringify(content);
         const response = await fetch(
-          'https://yitc.ddns.net:5000/api/service/order', 
+          ENV.weaverApiHost+ '/api/service/order', 
           { method: 'POST',
            headers: new Headers(
            {'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ export default class MainComponent extends BaseComponent {
   async getOrderState(requestId)
   {
     const response = await fetch(
-      'https://yitc.ddns.net:5000/api/service/order/state?requestId='+requestId,
+      ENV.weaverApiHost+ '/api/service/order/state?requestId='+requestId,
       {
         method: 'GET'
       }
@@ -162,7 +162,7 @@ export default class MainComponent extends BaseComponent {
   async getOrderResult(requestId)
   {
     const response = await fetch(
-      'https://yitc.ddns.net:5000/api/service/order/result?requestId='+requestId,
+      ENV.weaverApiHost+ '/api/service/order/result?requestId='+requestId,
       {
         method: 'GET'
       }
@@ -176,8 +176,15 @@ export default class MainComponent extends BaseComponent {
     // const byteArray = new Uint8Array(byteNumbers);
     // const blob = new Blob([byteArray], {type: 'application/pdf'});        
     const blobUrl = URL.createObjectURL(blob);
-    let tab = window.open();
-    tab.location.href = blobUrl;
+   
+
+    var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = requestId+".pdf";
+            document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+            a.click();    
+            a.remove();
 
   }
 
@@ -185,7 +192,7 @@ export default class MainComponent extends BaseComponent {
   async getOrderError(requestId)
   { 
     const response = await fetch(
-      'https://yitc.ddns.net:5000/api/service/order/result?requestId='+requestId,
+      ENV.weaverApiHost+ '/api/service/order/result?requestId='+requestId,
       {
         method: 'GET'
       }

@@ -20,6 +20,16 @@
   #captcha-container .lds-ring div{
   border-color: #29b0f3 transparent transparent transparent;
 }
+
+span.reload-token {
+    display: block;
+    color: #054a8f;
+    font-size: large;
+    position: relative;
+    left: -30px;
+    bottom: 18px;
+    cursor: pointer;
+}
   </style>
   <div class="modal requestModal" {{on "click" this.close}}>
     <div class="title" {{on "click" this.doNothing}}>Request Token for your Email</div>
@@ -40,7 +50,7 @@
     {{#if this.isGettingCaptcha}}
       <Ux::InlineLoader @active={{true}} />
     {{/if}}
-  <h5 class="copyright-text"><span class="small-caps">Genuine Captcha</span> &#169;CryptNg<sup>&#174;</sup> to prove you are human </h5>
+  <h5 class="copyright-text"><span class="small-caps">Genuine Captcha</span> &#169;CryptNg<sup>&#174;</sup> to prove you are human <span class="reload-token" {{on "click" (fn this.getCaptcha)}}>&#x27f3;</span> </h5>
  </div>
   
  <br/>

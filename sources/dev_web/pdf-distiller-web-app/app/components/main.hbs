@@ -184,21 +184,21 @@
 
 {{#if (not (or this.isShowingRequestModal this.isSignedIn this.isShowingSignInModal))}}
 <style>
-  .modal .cryptlogo-banner{
+  .modal .cryptng-logo{
     margin-top: 40px;
     margin-left:calc(50% - 140px);
   }
-  .modal .cryptlogo-banner svg path {
-    fill: rgb(7, 104, 156) !important;
-    stroke: rgb(7, 104, 156) !important;
+  .modal .cryptng-logo svg path {
+    fill: #07689c !important;
+    stroke: #07689c !important;
 }
- .modal .cryptlogo-banner svg text ,
- .modal .cryptlogo-banner svg text tspan{
-    fill: rgb(7, 104, 156) !important;
+ .modal .cryptng-logo svg text ,
+ .modal .cryptng-logo svg text tspan{
+    fill: #07689c !important;
 }
-.modal .cryptlogo-banner svg circle {
+.modal .cryptng-logo svg circle {
   
-    stroke: rgb(7, 104, 156) !important;
+    stroke: #07689c !important;
 }
 </style>
 <div class="modal" >
@@ -212,10 +212,10 @@
       We do not store any personal data on our servers or any third party infrastructure. We do not use cookies. Further <span class="small-caps"><b>Pdf Weaver</b></span> and <span class="small-caps"><b>Genuine Captcha</b></span> is free of any data collecting activities.
     </p>
     <p>
-      <span class="small-caps"><b>Pdf Weaver&#8482;</b></span> and <span class="small-caps"><b>Genuine Captcha&#8482;</b></span> are copyright of CryptNG<sup>&#174;</sup>
+      <span class="small-caps"><b>Pdf Weaver&#8482;</b></span> and <span class="small-caps"><b>Genuine Captcha&#8482;</b></span> are copyright of CryptNG&#174;
     </p>
     <p>
-        <CryptlogoBanner @project="Pdf Weaver"/>
+        <CryptngLogo @project="Pdf Weaver"/>
       </p>
     </div>
      

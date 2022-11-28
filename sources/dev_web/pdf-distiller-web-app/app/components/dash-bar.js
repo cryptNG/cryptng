@@ -7,10 +7,11 @@ import { later } from '@ember/runloop';
 
 export default class Dashboard extends Component {
     @tracked isShowToken=false;
+    @tracked isShowAuthstate=false;
     @tracked isCopyClipboard = false;
 
     get cutToken(){
-        return this.args.token.substring(0,16)+'...';
+        return this.args.token.substring(0,14)+'...';
     }
 
     @action showToken(){
@@ -36,5 +37,10 @@ export default class Dashboard extends Component {
 
     @action hideToken(){
         this.isShowToken=false;
+    }
+
+    @action togggleShowAuthState(){
+        this.isShowAuthstate=!this.isShowAuthstate;
+        if(!this.isShowAuthstate) this.isShowToken=false;
     }
 }

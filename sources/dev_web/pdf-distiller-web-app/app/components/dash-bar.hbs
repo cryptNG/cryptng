@@ -1,7 +1,113 @@
+<style>
+@media screen and (min-width: 0px) and (max-width: 1035px){
+    .hamburger-menu{
+        display: inline-block;
+    }
+}
+
+@media screen and (min-width: 1036px){
+    .hamburger-menu{
+        display: none;
+    }
+}
+
+.hamburger-menu{
+    width: 70px;
+}
+
+.hamburger-menu #menu__toggle {
+  opacity: 0;
+}
+.hamburger-menu #menu__toggle:checked + .menu__btn > span {
+  transform: rotate(45deg);
+  
+}
+.hamburger-menu #menu__toggle:checked + .menu__btn > span::before {
+  top: 0;
+  transform: rotate(0deg);
+  background-color: #333;
+}
+.hamburger-menu #menu__toggle:checked + .menu__btn > span::after {
+  top: 0;
+  transform: rotate(90deg);
+  background-color: #333;
+}
+.hamburger-menu #menu__toggle:checked ~ .menu__box {
+  left: 0 !important;
+}
+.hamburger-menu .menu__btn {
+  position: fixed;
+  top: 40px;
+  left: 20px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  z-index: 1;
+}
+.hamburger-menu .menu__btn > span,
+.hamburger-menu .menu__btn > span::before,
+.hamburger-menu .menu__btn > span::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  transition-duration: .25s;
+}
+.hamburger-menu .menu__btn > span::before {
+  content: '';
+  top: -8px;
+}
+.hamburger-menu .menu__btn > span::after {
+  content: '';
+  top: 8px;
+}
+.hamburger-menu .menu__box {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 300px;
+  height: 100%;
+  margin: 0;
+  padding: 80px 0;
+  list-style: none;
+  background-color: #ECEFF1;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+  transition-duration: .25s;
+}
+.hamburger-menu .menu__item {
+  display: block;
+  padding: 12px 24px;
+  color: #333;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+  transition-duration: .25s;
+}
+.hamburger-menu .menu__item:hover {
+  background-color: #CFD8DC;
+}
+</style>
 <div class="dashbar">
-<CryptlogoBanner @project="Pdf Weaver"></CryptlogoBanner>
+
     <nav>
-        <div>
+        <div class="hamburger-menu">
+            <input id="menu__toggle" type="checkbox" />
+            <label class="menu__btn" for="menu__toggle">
+                <span></span>
+            </label>
+
+            <ul class="menu__box">
+            <li><a class="menu__item" href="#">Home</a></li>
+            <li><a class="menu__item" href="#">Evaluation App</a></li>
+            <li><a class="menu__item" href="#">Samples</a></li>
+            <li><a class="menu__item" href="#">How-To</a></li>
+            </ul>
+        </div>
+        <CryptngLogo @project="Pdf Weaver"></CryptngLogo>
+        <div class="classic-menu">
             <div class="small-caps">Home</div>|
             <div class="small-caps">Evaluation App</div>|
             <div class="small-caps">Samples</div>|
@@ -10,21 +116,24 @@
     </nav>
     <div class="token-info {{if this.isShowToken "active"}}">
         {{@token}} 
-            {{#if this.isCopyClipboard}} &#10003;{{else}}
+        {{#if this.isCopyClipboard}} &#10003;{{else}}
             <a class="copy-action" {{on "click" this.copyTokenToClipboard}}>
-            <span style="font-size: .875em; margin-right: .125em; position: relative; top: -.25em; left: -.125em">
-  📄<span style="position: absolute; top: .25em; left: .25em">📄</span>
-</span></a>{{/if}} <a class="hide-action" {{on "click" this.hideToken}}>[x]</a>
+                <span style="font-size: .875em; margin-right: .125em; position: relative; top: -.25em; left: -.125em">
+                    📄<span style="position: absolute; top: .25em; left: .25em">📄</span>
+                </span>
+            </a>
+        {{/if}} <a class="hide-action" {{on "click" this.hideToken}}>[x]</a>
      </div>
 
-    <div class="auth-actions">
-    <button class="request-btn" style="" type="button"  {{on 'click' @showRequestTokenModal}}>Request New Token</button>|
-    <button class="sign-in-btn {{if @isSignedIn "active"}}" style="" type="button"  {{on 'click' @showSignInTokenModal}}>Sign In With Token{{#if @isSignedIn}} &#10003;{{/if}}</button>
+    <div class="auth-actions {{if @isSignedIn "auth-state-active"}}">
+    
+    <button class="request-btn" style="" type="button"  {{on 'click' @showRequestTokenModal}}>Request New Token</button><span>|</span>
+    <a class="auth-state-info info {{if @isSignedIn "active"}}" {{on "click" this.togggleShowAuthState}} title="Show Sign In data">i</a> <button class="sign-in-btn {{if @isSignedIn "active"}}" style="" type="button"  {{on 'click' @showSignInTokenModal}}>Sign In With Token{{#if @isSignedIn}} &#10003;{{/if}}</button>
 
    </div>
-     <div class="auth-state {{if @isSignedIn "active"}}">
+     <div class="auth-state {{if @isSignedIn "active"}} {{if this.isShowAuthstate "show"}}">
 
-        User ID: <span class="value user-id">{{@userId}}</span>  Token: <span class="value token" {{on "click" this.showToken}}>{{this.cutToken}}</span><Input @type="checkbox" name="remeber-sign-in" @checked={{readonly @isSessionSave}} {{on 'click' (fn @toggleSessionSave)}}/><label for="remeber-sign-in">Remember</label>
+        User ID: <span class="value user-id">{{@userId}}</span>  Token: <span class="value token" {{on "click" this.showToken}} title="Show token">{{this.cutToken}} <a class="show-token-info info" {{on "click" this.showToken}} title="Show token">i</a> </span><Input @type="checkbox" name="remeber-sign-in" @checked={{readonly @isSessionSave}} {{on 'click' (fn @toggleSessionSave)}}/><label for="remeber-sign-in">Remember</label>
        
      </div>
      

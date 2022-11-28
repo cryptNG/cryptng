@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 import { later } from '@ember/runloop';
+import ENV from 'pdf-distiller-web-app/config/environment';
 
 export default class RequestTokenModalComponent extends Component {
 
@@ -39,7 +40,7 @@ export default class RequestTokenModalComponent extends Component {
   @action async requestToken()
   {
       const response = await fetch(
-        'https://yitc.ddns.net:5000/api/token?userId='+this.enteredUserIdContent+'&captchaSolution='+this.enteredCaptchaContent+'&captchaSecret='+encodeURIComponent(this.captchaSecret),
+        ENV.tokenApiHost+ '/api/token?userId='+this.enteredUserIdContent+'&captchaSolution='+this.enteredCaptchaContent+'&captchaSecret='+encodeURIComponent(this.captchaSecret),
         {
           credentials: 'include',
           method: 'GET'
@@ -58,7 +59,7 @@ export default class RequestTokenModalComponent extends Component {
   }
 
 
-  async getCaptcha()
+  getCaptcha=async ()=>
   {
     this.isGettingCaptcha=true;
     const container = window.document.querySelector("#captcha-container");
@@ -69,7 +70,7 @@ export default class RequestTokenModalComponent extends Component {
    
     await timeout(200);
     const response = await fetch(
-      'https://yitc.ddns.net:5000/api/captcha',
+      ENV.captchaApiHost+ '/api/captcha',
       {
         method: 'GET',
         credentials: 'include'
