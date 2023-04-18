@@ -119,7 +119,8 @@
   }
 </style>
 
-<DashBar 
+<DashBar>
+  <TokenDashBar
   @showRequestTokenModal={{this.showRequestTokenModal}} 
   @showSignInTokenModal={{this.showSignInTokenModal}}
   @userId={{this.enteredUserIdContent}}
@@ -128,8 +129,9 @@
   @toggleSessionSave={{this.toggleSessionSave}}
   @isSessionSave={{this.isSessionSave}}
 />
+</DashBar> 
 
-<div class="is-preload page">
+<div class="is-preload page centered">
 
  <EnterOrUploadInput 
   @isWorking={{this.isWorking}} 
@@ -169,7 +171,7 @@
 {{#if this.isShowingRequestModal}}
   <RequestTokenModal
     @close={{this.closeRequestModal}}
-    @updateSignIn={{fn this.updateSignIn}}
+    @updateSignIn={{this.updateSignIn}}
   />
   
 {{/if}}
@@ -177,7 +179,7 @@
 {{#if this.isShowingSignInModal}}
   <SignInModal
     @close={{this.closeSignInModal}}
-    @updateSignIn={{fn this.updateSignIn}}
+    @updateSignIn={{this.updateSignIn}}
   />
   
 {{/if}}

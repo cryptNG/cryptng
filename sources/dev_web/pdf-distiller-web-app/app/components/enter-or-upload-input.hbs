@@ -4,8 +4,7 @@
       placeholder="" value={{@inputContent}} {{on 'keyup' @onContentChange}}>
     <span class="invalid-hex{{if @invalidFileMessage ' active'}}">{{#if
       @invalidFileMessage}}{{@invalidFileMessage}}{{/if}}</span>
-    <button class="btn-clear-input{{if this.hasValueInserted ' active'}}" type="button" {{on 'click' (fn
-      @clearInput)}}>X</button>
+    <button class="btn-clear-input{{if this.hasValueInserted ' active'}}" type="button" {{on 'click' @clearInput}}>X</button>
     <button class="drop_box_button action-btn end {{unless (or @isWorking this.isLoading) 'not-hashing'}}" type="button"
       disabled={{if (or @isWorking this.isLoading) 'disabled' '' }}>
 

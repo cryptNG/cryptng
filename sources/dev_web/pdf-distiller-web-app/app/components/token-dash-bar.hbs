@@ -1,0 +1,23 @@
+<div class="token-info {{if this.isShowToken "active"}}">
+    {{@token}} 
+    {{#if this.isCopyClipboard}} &#10003;{{else}}
+        <a class="copy-action" {{on "click" this.copyTokenToClipboard}}>
+            <span style="font-size: .875em; margin-right: .125em; position: relative; top: -.25em; left: -.125em">
+                📄<span style="position: absolute; top: .25em; left: .25em">📄</span>
+            </span>
+        </a>
+    {{/if}} <a class="hide-action" {{on "click" this.hideToken}}>[x]</a>
+    </div>
+
+<div class="auth-actions {{if @isSignedIn "auth-state-active"}}">
+
+<button class="request-btn" style="" type="button"  {{on 'click' @showRequestTokenModal}}>Request New Token</button><span>|</span>
+<a class="auth-state-info info {{if @isSignedIn "active"}}" {{on "click" this.togggleShowAuthState}} title="Show Sign In data">i</a> <button class="sign-in-btn {{if @isSignedIn "active"}}" style="" type="button"  {{on 'click' @showSignInTokenModal}}>Sign In With Token{{#if @isSignedIn}} &#10003;{{/if}}</button>
+
+</div>
+    <div class="auth-state {{if @isSignedIn "active"}} {{if this.isShowAuthstate "show"}}">
+
+    User ID: <span class="value user-id">{{@userId}}</span>  Token: <span class="value token" {{on "click" this.showToken}} title="Show token">{{this.cutToken}} <a class="show-token-info info" {{on "click" this.showToken}} title="Show token">i</a> </span><Input @type="checkbox" name="remeber-sign-in" @checked={{readonly @isSessionSave}} {{on 'click' @toggleSessionSave}} /><label for="remeber-sign-in">Remember</label>
+    
+</div>
+     

@@ -4,10 +4,9 @@
       placeholder="" value={{this.inputContent}} {{on 'keyup' this.onContentChange}}>
     <span class="invalid-hex{{if @invalidMessage ' active'}}">{{#if
       @invalidMessage}}{{@invalidMessage}}{{/if}}</span>
-    <button class="btn-clear-input{{if this.hasValueInserted ' active'}}" type="button" {{on 'click' (fn
-      @clearInput)}}>X</button>
+    <button class="btn-clear-input{{if this.hasValueInserted ' active'}}" type="button" {{on 'click' @clearInput}}>X</button>
      <div class="slider-right">
-<XToggle @value={{this.isSessionSave}} @onToggle={{fn this.toggleSessionSave}} @theme='light' />
+<XToggle @value={{this.isSessionSave}} @onToggle={{this.toggleSessionSave}} @theme='light' />
 </div>
     <label for="{{@id}}">{{yield to='labelContent'}}</label>
   </div>

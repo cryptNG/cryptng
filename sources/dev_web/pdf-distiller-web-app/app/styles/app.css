@@ -46,6 +46,14 @@ nav .cryptng-logo{
   display: inline-block;
 }
 
+nav .classic-menu a{
+  color: white;
+  text-decoration: none;
+}
+
+nav .classic-menu a:hover{
+  text-decoration: underline;
+}
 @media screen and (min-width: 0px) and (max-width:1035px){
   nav .classic-menu {
       display: none;
@@ -502,12 +510,20 @@ button.ripple {
   width: 100vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   z-index: 1;
   align-items: center;
   transition: all 0.5s ease-in-out;
   top: 50%;
   left:0px;
+  margin-top: 100px;
+  margin-bottom: 30px;
+  overflow-y: auto;
+}
+
+.page.centered{
+  justify-content: center;
+  margin-top: 0;
 }
 
   /*  fileupload */
@@ -645,3 +661,116 @@ button.ripple {
   }
 }
 
+html:not([data-scroll='0']) .card {
+  box-shadow: 2px 2px 5px grey;
+}
+
+@media (min-width: 800px)
+{
+.card.wide-card .card-spotlight {
+    display: inline-block;
+    width: calc(39% - 2em);
+    vertical-align: top;
+    margin: 1em 0.2em;
+    padding-left: 0.8em;
+}
+}
+
+.card.wide-card .card-spotlight {
+    margin: 10px 0;
+    letter-spacing: 1px;
+    word-spacing: 3px;
+    backdrop-filter: blur(5px);
+}
+
+
+@media (min-width: 800px)
+{
+.page-content .card.wide-card {
+    margin: 0px 5% 20px 5%;
+}
+}
+@media (min-width: 400px) and (max-width: 799px)
+{
+.page-content .card.wide-card {
+    margin: 0px 8% 20px 8%;
+}
+}
+@media (min-width: 0px) and (max-width: 399px)
+.page-content .card.wide-card {
+    margin: 0px 5% 20px 5%;
+}
+
+@media (min-width: 800px)
+{
+.page-content .card {
+  margin: 0px 15% 20px 10%;
+}
+}
+@media (min-width: 400px)
+{
+.page-content .card {
+  margin: 0px 8% 20px 8%;
+}
+}
+.page-content .card {
+  margin: 0px 5% 20px 5%;
+}
+
+.card {
+  width: 100vw;
+  color: black;
+  font-size: 1em;
+  padding: 0 40px 40px 40px;
+  border-radius: 10px;
+  background-image: linear-gradient( #aadfec00 0px, #aadfec77 30px, #ffffffaa);
+}
+
+.card .card-title {
+  backdrop-filter: blur(2px);
+  padding-top: 20px;
+  color: #2d2d2d;
+  text-shadow: 0px 0px 0px #d2edf6, 0 0 1px #d2edf6, 0 0 1px #d2edf6;
+  font-size: 1.5em;
+  letter-spacing: 1px;
+  word-spacing: 4px;
+}
+
+@media (min-width: 800px)
+{
+.card.wide-card .card-content {
+    display: inline-block;
+    width: 60%;
+    padding-right: 0.8em;
+    border-right: 1px solid #164e60d4;
+    font-size: 1.5em;
+    line-height: 1.5rem;
+}
+}
+
+.card .card-content {
+  backdrop-filter: blur(5px);
+  font-size: 1em;
+  line-height: 1rem;
+  word-spacing: 5px;
+  letter-spacing: 1px;
+}
+
+@media (min-width: 400px)
+{
+.page-content {
+  font-size: 13px;
+  margin-top: 50px;
+
+}
+}
+.page-content {
+  margin: 10px;
+  font-size: 12px;
+  font-family: Quicksand;
+  flex-direction: row;
+  display: flex;
+  position: relative;
+  width: 100vw;
+  justify-content: center;
+}

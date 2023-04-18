@@ -659,7 +659,7 @@ export default class Web3service extends Service.extend({
   ];//#end <- end of auto-replacement for migration
   
   
-  _web3addr = 'https://yitc.ddns.net:8545';  
+  _web3addr = 'https://testnet.cryptng.com:8545';  
   _bet_contract_address = '0xEa2ff902dbeEECcc828757B881b343F9316752e5';
   _lweb3 = new Web3(this._web3addr);
   _contract = new this._lweb3.eth.Contract(this._abi, this._bet_contract_address);

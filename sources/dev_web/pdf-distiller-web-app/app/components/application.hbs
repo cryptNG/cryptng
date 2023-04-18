@@ -1,3 +1,4 @@
+
 <style>
   .application{
       font-family: Quicksand;  
@@ -139,4 +140,27 @@ position: fixed;
       });
         </script> 
 {{yield}}
+<style>
+  .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    background-image: linear-gradient( #3190a4, #47a8c0aa);
+    color: white;
+    z-index: 1000;
+    color: white;
+    text-align: center;
+}
+.footer a{
+  color:white;
+}
+</style>
+<div class="footer">
+    <LinkTo @route="terms">Terms</LinkTo> | 
+    <LinkTo @route="terms">Privacy</LinkTo> | 
+    <LinkTo @route="terms">Security</LinkTo> | 
+    <LinkTo @route="terms">About</LinkTo>
+  </div>
 </div>

@@ -6,9 +6,9 @@ module.exports = function (environment) {
     environment,
     rootURL: '/',
     locationType: 'history',
-    weaverApiHost:'https://localhost:5000',
-    captchaApiHost:'https://localhost:5000',
-    tokenApiHost:'https://localhost:5000',
+    weaverApiHost: 'https://localhost:5000',
+    captchaApiHost: 'https://localhost:5000',
+    tokenApiHost: 'https://localhost:5000',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -48,9 +48,9 @@ module.exports = function (environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
-    ENV.weaverApiHost='https://yitc.ddns.net:5000';
-    ENV.tokenApiHost='https://yitc.ddns.net:5000';
-    ENV.captchaApiHost='https://yitc.ddns.net:5000';
+    ENV.weaverApiHost = 'https://yitc.ddns.net:5000';
+    ENV.tokenApiHost = 'https://yitc.ddns.net:5000';
+    ENV.captchaApiHost = 'https://yitc.ddns.net:5000';
   }
 
   return ENV;

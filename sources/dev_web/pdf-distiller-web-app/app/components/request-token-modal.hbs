@@ -50,7 +50,7 @@ span.reload-token {
     {{#if this.isGettingCaptcha}}
       <Ux::InlineLoader @active={{true}} />
     {{/if}}
-  <h5 class="copyright-text"><span class="small-caps">Genuine Captcha</span> &#169;CryptNg<sup>&#174;</sup> to prove you are human <span class="reload-token" {{on "click" (fn this.getCaptcha)}}>&#x27f3;</span> </h5>
+  <h5 class="copyright-text"><span class="small-caps">Genuine Captcha</span> &#169;CryptNg<sup>&#174;</sup> to prove you are human <span class="reload-token" {{on "click" this.getCaptcha}}>&#x27f3;</span> </h5>
  </div>
   
  <br/>

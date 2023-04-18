@@ -3,8 +3,7 @@
       placeholder="" value={{readonly @inputContent}} {{on 'keyup' @onContentChange}}>
     <span class="invalid-hex{{if @isInvalidInput ' active'}}">{{#if
       @isInvalidInput}}{{@invalidMessage}}{{/if}}</span>
-    <button class="btn-clear-input{{if this.hasValueInserted ' active'}}" type="button" {{on 'click' (fn
-      @clearInput)}}>X</button>
+    <button class="btn-clear-input{{if this.hasValueInserted ' active'}}" type="button" {{on 'click' @clearInput}}>X</button>
     
     <label for="{{@id}}" class="{{if this.hasValueInserted 'active'}}">{{yield to='labelContent'}}</label>
   </div>
