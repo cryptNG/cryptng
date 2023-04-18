@@ -349,3 +349,5 @@ ASALocalRun/
 /lib/*.jar
 /lib.zip
 /sources/dev_server/service_api/service_api/cache
+/sources/dev_server/smart_contract/yarn.lock
+*.Identifier

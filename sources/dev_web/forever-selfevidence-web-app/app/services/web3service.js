@@ -660,7 +660,7 @@ export default class Web3service extends Service.extend({
   
   
   _web3addr = 'https://yitc.ddns.net:8545';  
-  _bet_contract_address = '0xEa2ff902dbeEECcc828757B881b343F9316752e5';
+  _bet_contract_address = '0x4E826E6738FE1F007391c07eb73742AAdF8d16C7';
   _lweb3 = new Web3(this._web3addr);
   _contract = new this._lweb3.eth.Contract(this._abi, this._bet_contract_address);
   _metamask = null;
