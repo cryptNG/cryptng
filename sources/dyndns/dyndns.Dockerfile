@@ -1,9 +1,9 @@
 #problem, setup step needs you to open up a webpage
 #solution:
 #open this webpage, enter your domainname in the correct place, copy the api key and pass ass access-key to here 
-#https://domainconnect.ionos.de/async/v2/domainTemplates/providers/domainconnect.org?client_id=domainconnect.org&scope=dynamicdns-v2&domain=cryptng.com&host=testnet&IP=0.0.0.0&IPv4=0.0.0.0&IPv6=%3A%3A&redirect_uri=https%3A%2F%2Fdynamicdns.domainconnect.org%2Fddnscode
+#https://domainconnect.ionos.de/async/v2/domainTemplates/providers/domainconnect.org?client_id=domainconnect.org&scope=dynamicdns-v2&domain=cryptng.xyz&host=testnet&IP=0.0.0.0&IPv4=0.0.0.0&IPv6=%3A%3A&redirect_uri=https%3A%2F%2Fdynamicdns.domainconnect.org%2Fddnscode
 FROM library/python
-ENV NAME_OF_THE_DOMAIN=testnet.cryptng.com
+ENV NAME_OF_THE_DOMAIN=testnet.cryptng.xyz
 ENV ACCESS_KEY=0aaeb0df-158d-457d-9ebd-e7076fd09b5b
 RUN apt-get -y update && apt-get upgrade
 RUN apt-get -y install nano

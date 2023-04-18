@@ -45,6 +45,7 @@ OpenSea
 
 Bought domains:
 CryptNG.eth
+cryptng.xyz
 cryptng.com
 crypt-ng.com
 cryptng.app
