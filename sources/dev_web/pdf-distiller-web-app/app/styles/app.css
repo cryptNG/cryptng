@@ -720,20 +720,22 @@ html:not([data-scroll='0']) .card {
 .card {
   width: 100vw;
   color: black;
-  font-size: 1em;
+  font-size: 1.2em;
   padding: 0 40px 40px 40px;
   border-radius: 10px;
   background-image: linear-gradient( #aadfec00 0px, #aadfec77 30px, #ffffffaa);
 }
 
 .card .card-title {
-  backdrop-filter: blur(2px);
   padding-top: 20px;
   color: #2d2d2d;
   text-shadow: 0px 0px 0px #d2edf6, 0 0 1px #d2edf6, 0 0 1px #d2edf6;
-  font-size: 1.5em;
-  letter-spacing: 1px;
-  word-spacing: 4px;
+
+  font-size: 1.8rem;
+    letter-spacing: 0px;
+    word-spacing: 4px;
+    font-variant: small-caps;
+
 }
 
 @media (min-width: 800px)
@@ -743,7 +745,7 @@ html:not([data-scroll='0']) .card {
     width: 60%;
     padding-right: 0.8em;
     border-right: 1px solid #164e60d4;
-    font-size: 1.5em;
+    font-size: 1.4em;
     line-height: 1.5rem;
 }
 }

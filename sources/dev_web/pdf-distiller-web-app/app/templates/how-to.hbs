@@ -31,13 +31,80 @@
     </div>
     <div class="page-content">
         <div class="card wide-card">
-            <h3 class="card-title">
-                Weaving your PDF with XSL FO
-            </h3>
-            <p class="card-content">
-            
-                Goto Apache FO
-            </p>
+            <h3>Getting Started with XSL-FO</h3>
+    <p>
+      XSL-FO (Extensible Stylesheet Language-Formatting Objects) is an XML-based language used to define the visual appearance of XML documents when they are transformed into other formats, such as PDF. XSL-FO provides a powerful way to create visually appealing documents while preserving the structure and semantics of the XML data.
+    </p>
+    <h4>1. Basic Structure</h4>
+    <p>
+      An XSL-FO document consists of a root element &lt;fo:root&gt; containing layout master sets and page sequences. The layout master set defines the page templates, and the page sequences contain the actual content.
+    </p>
+    <pre>
+&lt;fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format"&gt;
+  &lt;fo:layout-master-set&gt;
+    &lt;!-- Page templates --&gt;
+  &lt;/fo:layout-master-set&gt;
+  &lt;fo:page-sequence master-reference="..."&gt;
+    &lt;!-- Content --&gt;
+  &lt;/fo:page-sequence&gt;
+&lt;/fo:root&gt;
+    </pre>
+    <h4>2. Page Templates</h4>
+    <p>
+      Page templates are defined using &lt;fo:simple-page-master&gt; elements. You can specify the dimensions, margins, and regions of the page.
+    </p>
+    <pre>
+&lt;fo:simple-page-master master-name="A4" page-height="29.7cm" page-width="21cm" margin-top="1cm" margin-bottom="1cm" margin-left="1cm" margin-right="1cm"&gt;
+  &lt;fo:region-body margin-top="1cm" margin-bottom="1cm"/&gt;
+  &lt;fo:region-before extent="1cm"/&gt;
+  &lt;fo:region-after extent="1cm"/&gt;
+&lt;/fo:simple-page-master&gt;
+    </pre>
+    <h4>3. Content and Formatting</h4>
+    <p>
+      Content is added within &lt;fo:page-sequence&gt; elements using &lt;fo:flow&gt; and various formatting objects like &lt;fo:block&gt; for text blocks, &lt;fo:table&gt; for tables, and &lt;fo:list-block&gt; for lists.
+    </p>
+    <pre>
+&lt;fo:flow flow-name="xsl-region-body"&gt;
+  &lt;fo:block font-size="14pt" font-weight="bold" space-after="0.5cm"&gt;
+    Document Title
+  &lt;/fo:block&gt;
+  &lt;fo:block font-size="12pt" text-align="justify"&gt;
+    This is a paragraph of text that will be formatted with justified alignment.
+  &lt;/fo:block&gt;
+&lt;/fo:flow&gt;
+    </pre>
+    <h4>4. Transforming XML with XSL-FO</h4>
+    <p>
+      To transform XML data into a PDF document using XSL-FO, you'll need an XSLT stylesheet that maps the XML elements to the appropriate XSL-FO formatting objects.
+    </p>
+    <pre>
+&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" version="1.0"&gt;
+  &lt;xsl:template match="/"&gt;
+    &lt;fo:root&gt;
+      &lt;!-- XSL-FO structure and content --&gt;
+    &lt;/fo:root&gt;
+  &lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;
+    </pre>
+    <h4>Further Resources</h4>
+    <p>
+      For more in-depth information and tutorials, refer to the following resources:
+    </p>
+    <ul>
+      <li>
+        <a href="https://www.w3schools.com/xml/xsl_fo_intro.asp" target="_blank" rel="noopener noreferrer">W3Schools XSL-FO Tutorial</a>
+      </li>
+      <li>
+        <a href="https://www.antennahouse.com/xsl-fo-tutorial" target="_blank" rel="noopener noreferrer">XSL-FO Tutorial by Antenna House</a>
+      </li>
+      <li>
+        <a href="https://www.renderx.com/tutorial.html" target="_blank" rel="noopener noreferrer">Formatting Objects (XSL-FO) by RenderX</a>
+      </li>
+    </ul>
+    <p>
+      These resources provide a more comprehensive understanding of XSL-FO and its capabilities, allowing you to create complex and visually appealing documents using XML data.
+    </p>
             <div class="card-spotlight">
         
             <b>Contact</b> <br>
