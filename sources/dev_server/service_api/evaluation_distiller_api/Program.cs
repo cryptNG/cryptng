@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
                       builder =>
                       {
                           builder
-                            .WithOrigins("http://localhost:4200") // specifying the allowed origin
+                            .WithOrigins("http://localhost:4200", "https://king-prawn-app-vqnhj.ondigitalocean.app", "https://pdf-weaver.io") // specifying the allowed origin
                             .WithMethods("GET", "OPTION") // defining the allowed HTTP method
                             .WithHeaders("authorization", "accept", "content-type", "origin")
                             .AllowCredentials();
