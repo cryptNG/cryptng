@@ -100,28 +100,28 @@
             </label>
 
             <ul class="menu__box">
-                <li><LinkTo class="menu__item" @route="application">Home</LinkTo></li>
-                <li><LinkTo class="menu__item" @route="usecases">Use Cases</LinkTo></li>
-                <li><LinkTo class="menu__item" @route="features">Features</LinkTo></li>
-                <li><LinkTo class="menu__item" @route="app">Live App</LinkTo></li>
-                <li><LinkTo class="menu__item" @route="samples">Samples</LinkTo></li>
-                <li><LinkTo class="menu__item" @route="how-to">How-To</LinkTo></li>
-                <li><LinkTo class="menu__item" @route="doc">Documentation</LinkTo></li>
-                <li><LinkTo class="menu__item" @route="api">API</LinkTo></li>
-                <li><LinkTo class="menu__item" @route="buy">Buy</LinkTo></li>
+                <li><LinkTo class="menu__item {{if (eq @route 'application') 'active'}}" @route="application">Home</LinkTo></li>
+                <li><LinkTo class="menu__item {{if (eq @route 'usecases') 'active'}}" @route="usecases">Use Cases</LinkTo></li>
+                <li><LinkTo class="menu__item {{if (eq @route 'features') 'active'}}" @route="features">Features</LinkTo></li>
+                <li><LinkTo class="menu__item {{if (eq @route 'live-pp') 'active'}} live-app" @route="app">Live App</LinkTo></li>
+                <li><LinkTo class="menu__item {{if (eq @route 'samples') 'active'}}" @route="samples">Samples</LinkTo></li>
+                <li><LinkTo class="menu__item {{if (eq @route 'how-to') 'active'}}" @route="how-to">How-To</LinkTo></li>
+                <li><LinkTo class="menu__item {{if (eq @route 'doc') 'active'}}" @route="doc">Information</LinkTo></li>
+                <li><LinkTo class="menu__item {{if (eq @route 'api') 'active'}}" @route="api">API</LinkTo></li>
+                <li><LinkTo class="menu__item {{if (eq @route 'buy') 'active'}}" @route="buy">Buy</LinkTo></li>
             </ul>
         </div>
         <CryptngLogo @project="Pdf Weaver"></CryptngLogo>
         <div class="classic-menu">
-            <div class="small-caps"><LinkTo @route="application">Home</LinkTo></div>|
-            <div class="small-caps"><LinkTo @route="usecases">Use Cases</LinkTo></div>|
-            <div class="small-caps"><LinkTo @route="features">Features</LinkTo></div>|
-            <div class="small-caps"><LinkTo @route="app"><b>Live App</b></LinkTo></div>|
-            <div class="small-caps"><LinkTo @route="samples">Samples</LinkTo></div>|
-            <div class="small-caps"><LinkTo @route="how-to">How-To</LinkTo></div>|
-            <div class="small-caps"><LinkTo @route="doc">Documentation</LinkTo></div>|
-            <div class="small-caps"><LinkTo @route="api">API</LinkTo></div>|
-            <div class="small-caps"><LinkTo @route="buy">Buy</LinkTo></div>
+            <div class="small-caps {{if (eq @route 'application') 'active'}}"><LinkTo @route="application">Home</LinkTo></div>|
+            <div class="small-caps {{if (eq @route 'usecases') 'active'}}"><LinkTo @route="usecases">Use Cases</LinkTo></div>|
+            <div class="small-caps {{if (eq @route 'features') 'active'}}"><LinkTo @route="features">Features</LinkTo></div>|
+            <div class="small-caps {{if (eq @route 'live-app') 'active'}} live-app"><LinkTo @route="app">Live App</LinkTo></div>|
+            <div class="small-caps {{if (eq @route 'samples') 'active'}}"><LinkTo @route="samples">Samples</LinkTo></div>|
+            <div class="small-caps {{if (eq @route 'how-to') 'active'}}"><LinkTo @route="how-to">How-To</LinkTo></div>|
+            <div class="small-caps {{if (eq @route 'doc') 'active'}}"><LinkTo @route="doc">Information</LinkTo></div>|
+            <div class="small-caps {{if (eq @route 'api') 'active'}}"><LinkTo @route="api">API</LinkTo></div>|
+            <div class="small-caps {{if (eq @route 'buy') 'active'}}"><LinkTo @route="buy">Buy</LinkTo></div>
         </div>
     </nav>
     {{yield}}

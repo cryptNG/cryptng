@@ -22,7 +22,7 @@
     display: flex;
     font-family: 'Quicksand';
     text-align: center;
-    width: calc(60% - 10px);
+    width: 100%;
     flex-wrap: nowrap;
     justify-content: space-between;
     position: relative;
@@ -119,7 +119,7 @@
   }
 </style>
 
-<DashBar>
+<DashBar @route="live-app">
   <TokenDashBar
   @showRequestTokenModal={{this.showRequestTokenModal}} 
   @showSignInTokenModal={{this.showSignInTokenModal}}
@@ -132,77 +132,101 @@
 </DashBar> 
 
 <div class="is-preload page centered">
+  <div class="page-content">
+        
+        <div class="card">
+            <h3 class="card-title">
+                Explore Pdf Weaver Live: Try Our Interactive Demo
+            </h3>
+            <p class="card-content">
+                Experience Pdf Weaver's powerful transformation capabilities firsthand with our live demo. This interactive tool allows you to see the seamless conversion process in action.
+               <br><br>
+               <b>How it Works:</b>
+<ul>
+<li><b>XML File Content:</b> In the first input field, paste or upload the content of your XML file. This file represents the data you wish to transform into a PDF.</li>
+<li><b>XSL File Content:</b> In the second field, provide the content of your XSL file. The XSL file contains the styling and layout instructions for how your PDF should be formatted.</li>
+<li><b>Weave PDF:</b> Once both fields are filled, click the "Weave PDF" button. Our system will process the input and generate a PDF using the provided XML and XSL contents.</li>
+</ul>
+This live app is a practical way to understand how Pdf Weaver integrates into your workflow and transforms your data into professionally formatted PDF documents. Test different XML and XSL combinations to explore the versatility and efficiency of Pdf Weaver.
+               
+                </p>
+           
+        </div>
+        <div class="card app-card">
+          <h3>Pdf Weaver App</h3>
+          <EnterOrUploadInput 
+            @isWorking={{this.isWorking}} 
+            @onContentChange={{this.updateEnteredXmlContent}} 
+            @onUploadedContent={{this.updateXmlFileContent}} 
+            @invalidFileMessage={{this.invalidXmlFileMessage}}
+            @inputContent={{this.enteredDataOrXmlFileContent}}
+            @clearInput={{this.clearXmlInputContent}}>
+            <:labelContent>Enter XML plaintext</:labelContent>
+          </EnterOrUploadInput>
+            
+            <br/>
+          <EnterOrUploadInput 
+            @isWorking={{this.isWorking}} 
+            @onContentChange={{this.updateEnteredXslContent}} 
+            @onUploadedContent={{this.updateXslFileContent}} 
+            @invalidFileMessage={{this.invalidXslFileMessage}}
+            @inputContent={{this.enteredDataOrXslFileContent}}
+            @clearInput={{this.clearXslInputContent}}>
+            <:labelContent>Enter XSL plaintext</:labelContent>
+          </EnterOrUploadInput>
+            
+            
+          <div class="middle">to</div>
+          <div class="together">
+            <button class="btn verify" disabled={{if this.hasValidData '' 'disabled' }} type="button" {{on 'click'
+              this.executeOrderRetrieveResult}}><span>
+                <Ux::InlineLoader @active={{this.isWorking}} />WEAVE PDF
+              </span></button>
+          </div>
+            
 
- <EnterOrUploadInput 
-  @isWorking={{this.isWorking}} 
-  @onContentChange={{this.updateEnteredXmlContent}} 
-  @onUploadedContent={{this.updateXmlFileContent}} 
-  @invalidFileMessage={{this.invalidXmlFileMessage}}
-  @inputContent={{this.enteredDataOrXmlFileContent}}
-  @clearInput={{this.clearXmlInputContent}}>
-   <:labelContent>Enter XML plaintext</:labelContent>
- </EnterOrUploadInput>
-  
-  <br/>
- <EnterOrUploadInput 
-  @isWorking={{this.isWorking}} 
-  @onContentChange={{this.updateEnteredXslContent}} 
-  @onUploadedContent={{this.updateXslFileContent}} 
-  @invalidFileMessage={{this.invalidXslFileMessage}}
-  @inputContent={{this.enteredDataOrXslFileContent}}
-  @clearInput={{this.clearXslInputContent}}>
-   <:labelContent>Enter XSL plaintext</:labelContent>
- </EnterOrUploadInput>
-  
-  
-  <div class="middle">to</div>
-  <div class="together">
-    <button class="btn verify" disabled={{if this.hasValidData '' 'disabled' }} type="button" {{on 'click'
-      this.executeOrderRetrieveResult}}><span>
-        <Ux::InlineLoader @active={{this.isWorking}} />WEAVE PDF
-      </span></button>
-  </div>
-  
-
-<div class="globalerror">
-{{this.globalError}}
+          <div class="globalerror">
+          {{this.globalError}}
+          </div>
+        </div>
+    </div>
 </div>
-</div>
-{{#if this.isShowingRequestModal}}
-  <RequestTokenModal
-    @close={{this.closeRequestModal}}
-    @updateSignIn={{this.updateSignIn}}
-  />
-  
-{{/if}}
+          {{#if this.isShowingRequestModal}}
+            <RequestTokenModal
+              @close={{this.closeRequestModal}}
+              @updateSignIn={{this.updateSignIn}}
+            />
+            
+          {{/if}}
 
-{{#if this.isShowingSignInModal}}
-  <SignInModal
-    @close={{this.closeSignInModal}}
-    @updateSignIn={{this.updateSignIn}}
-  />
-  
-{{/if}}
+          {{#if this.isShowingSignInModal}}
+            <SignInModal
+              @close={{this.closeSignInModal}}
+              @updateSignIn={{this.updateSignIn}}
+            />
+            
+          {{/if}}
 
-{{#if (not (or this.isShowingRequestModal this.isSignedIn this.isShowingSignInModal))}}
-<style>
-  .modal .cryptng-logo{
-    margin-top: 40px;
-    margin-left:calc(50% - 140px);
-  }
-  .modal .cryptng-logo svg path {
-    fill: #07689c !important;
-    stroke: #07689c !important;
-}
- .modal .cryptng-logo svg text ,
- .modal .cryptng-logo svg text tspan{
-    fill: #07689c !important;
-}
-.modal .cryptng-logo svg circle {
-  
-    stroke: #07689c !important;
-}
-</style>
+          {{#if (not (or this.isShowingRequestModal this.isSignedIn this.isShowingSignInModal))}}
+          <style>
+            .modal .cryptng-logo{
+              margin-top: 40px;
+              margin-left:calc(50% - 140px);
+            }
+            .modal .cryptng-logo svg path {
+              fill: #07689c !important;
+              stroke: #07689c !important;
+          }
+          .modal .cryptng-logo svg text ,
+          .modal .cryptng-logo svg text tspan{
+              fill: #07689c !important;
+          }
+          .modal .cryptng-logo svg circle {
+            
+              stroke: #07689c !important;
+          }
+          </style>
+     
 <div class="modal" >
     <div class="title" >Please Sign In with Token or Request a Token</div>
     <div class="content">

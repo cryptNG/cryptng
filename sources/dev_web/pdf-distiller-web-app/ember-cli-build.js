@@ -10,6 +10,10 @@ module.exports = function (defaults) {
         '/samples',
         '/how-to',
         '/buy',
+        '/doc',
+        '/features',
+        '/api',
+        '/usecases',
       ]
     }
   });
